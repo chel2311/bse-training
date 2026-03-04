@@ -1,0 +1,58 @@
+diff --git a/FormMain.cs b/FormMain.cs
+index abc1234..def5678 100644
+--- a/FormMain.cs
++++ b/FormMain.cs
+@@ -1,5 +1,6 @@
+ using System;
+ using System.Collections.Generic;
++using System.IO;
+ using System.Windows.Forms;
+
+ namespace CustomerManager
+@@ -80,6 +81,43 @@ namespace CustomerManager
+             }
+         }
+
++        /// <summary>
++        /// 顧客一覧をCSVファイルにエクスポートする
++        /// </summary>
++        private void btnExportCsv_Click(object sender, EventArgs e)
++        {
++            if (customers.Count == 0)
++            {
++                MessageBox.Show("エクスポートする顧客データがありません", "警告",
++                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
++                return;
++            }
++
++            try
++            {
++                // CSVファイルに出力
++                string filePath = @"C:\export\customers.csv";
++
++                StreamWriter writer = new StreamWriter(filePath);
++
++                // ヘッダー行
++                writer.WriteLine("顧客ID,顧客名,年齢,電話番号,メールアドレス");
++
++                // データ行
++                foreach (var customer in customers)
++                {
++                    writer.WriteLine($"{customer.Id},{customer.Name},{customer.Age},{customer.Phone},{customer.Email}");
++                }
++
++                writer.Close();
++
++                MessageBox.Show($"CSVファイルを出力しました\n{filePath}", "完了",
++                    MessageBoxButtons.OK, MessageBoxIcon.Information);
++            }
++            catch (Exception ex)
++            {
++                MessageBox.Show($"CSV出力中にエラーが発生しました: {ex.Message}", "エラー",
++                    MessageBoxButtons.OK, MessageBoxIcon.Error);
++            }
++        }
++
+         private void LoadCustomers()
+         {
+             // サンプルデータの読み込み
