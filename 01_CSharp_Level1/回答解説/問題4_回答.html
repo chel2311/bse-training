@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題4 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 01_CSharp_Level1 / 回答解説 / 問題4_回答
+</div>
+<div class="content">
+<h1>練習問題4 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: SQLインジェクション脆弱性</h3>
+<p><strong>該当仕様</strong>: 設計仕様書 3.4 SQL実装規約</p>
+<blockquote>
+<p><strong>SQLはパラメータ化クエリを使用すること（SQLインジェクション対策）</strong><br />
+文字列結合によるSQL構築は禁止<br />
+<code>SqlCommand.Parameters.AddWithValue()</code> でパラメータを設定する</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>DatabaseHelper.cs</code> AddCustomer メソッド 69行目付近</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+string sql = &quot;INSERT INTO Customers (Name, Phone, Age, Email) VALUES ('&quot; + name + &quot;', '&quot; + phone + &quot;', &quot; + age + &quot;, '&quot; + email + &quot;')&quot;;
+SqlCommand cmd = new SqlCommand(sql, conn);
+cmd.ExecuteNonQuery();
+// → 文字列結合でSQLを構築している。パラメータ化されていない
+// → name に「'; DROP TABLE Customers; --」のような値を入力されると
+//    テーブルが削除される（SQLインジェクション攻撃）
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">string sql = &quot;INSERT INTO Customers (Name, Phone, Age, Email) VALUES (@Name, @Phone, @Age, @Email)&quot;;
+using (SqlCommand cmd = new SqlCommand(sql, conn))
+{
+    cmd.Parameters.AddWithValue(&quot;@Name&quot;, name);
+    cmd.Parameters.AddWithValue(&quot;@Phone&quot;, (object?)phone ?? DBNull.Value);
+    cmd.Parameters.AddWithValue(&quot;@Age&quot;, age);
+    cmd.Parameters.AddWithValue(&quot;@Email&quot;, (object?)email ?? DBNull.Value);
+
+    cmd.ExecuteNonQuery();
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】DatabaseHelper.cs: AddCustomer メソッド内 INSERT文の構築処理
+【分類】セキュリティ
+【重要度】高
+【内容】設計仕様書 3.4「SQL実装規約」では「SQLはパラメータ化クエリを使用すること」
+        「文字列結合によるSQL構築は禁止」と定義されているが、
+        実装ではINSERT文を文字列結合で構築しており、パラメータ化されていない。
+        SQLインジェクション攻撃により、データの漏洩・改ざん・削除が可能な状態。
+        同クラスの UpdateCustomer, DeleteCustomer, SearchCustomers メソッドでは
+        正しくパラメータ化されているため、AddCustomer のみ対応漏れと思われる。
+【修正案】INSERT文のVALUES句をプレースホルダ（@Name, @Phone, @Age, @Email）に変更し、
+        SqlCommand.Parameters.AddWithValue() でパラメータを設定してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: DB接続が閉じられない（usingなし）</h3>
+<p><strong>該当仕様</strong>: 設計仕様書 3.4 SQL実装規約</p>
+<blockquote>
+<p><strong>SqlConnection, SqlCommand, SqlDataReader は必ず using で囲むこと</strong><br />
+リソースリーク防止のため、IDisposable を実装するオブジェクトは確実に Dispose する</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>DatabaseHelper.cs</code> GetAllCustomers メソッド 27-46行目付近、AddCustomer メソッド 65-70行目付近</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ） - GetAllCustomers
+SqlConnection conn = new SqlConnection(connectionString);
+conn.Open();
+
+SqlCommand cmd = new SqlCommand(&quot;SELECT ...&quot;, conn);
+SqlDataReader reader = cmd.ExecuteReader();
+
+while (reader.Read())
+{
+    // ... データ読み取り ...
+}
+// reader.Close() なし
+// conn.Close() なし
+// conn.Dispose() なし
+// → usingで囲んでいないため、メソッド終了後もDB接続が閉じられない
+// → 呼び出すたびに接続が残り続け、接続プールが枯渇する
+
+// 現在の実装（バグ） - AddCustomer も同様
+SqlConnection conn = new SqlConnection(connectionString);
+conn.Open();
+// ... 処理 ...
+// → Close/Dispose なし
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">public List&lt;Customer&gt; GetAllCustomers()
+{
+    var customers = new List&lt;Customer&gt;();
+
+    using (SqlConnection conn = new SqlConnection(connectionString))
+    {
+        conn.Open();
+
+        using (SqlCommand cmd = new SqlCommand(&quot;SELECT Id, Name, Phone, Age, Email FROM Customers&quot;, conn))
+        using (SqlDataReader reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var customer = new Customer(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.IsDBNull(2) ? &quot;&quot; : reader.GetString(2),
+                    reader.GetInt32(3),
+                    reader.IsDBNull(4) ? &quot;&quot; : reader.GetString(4)
+                );
+                customers.Add(customer);
+            }
+        }
+    }
+
+    return customers;
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】DatabaseHelper.cs: GetAllCustomers メソッド および AddCustomer メソッド
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 3.4「SQL実装規約」では「SqlConnection, SqlCommand, SqlDataReader は
+        必ず using で囲むこと」と定義されているが、
+        GetAllCustomers と AddCustomer の2メソッドでは using を使用せずに
+        SqlConnection, SqlCommand, SqlDataReader を生成しており、
+        Close() も Dispose() も呼ばれていない。
+        アプリケーション使用中にDB接続が蓄積し、接続プール（既定100接続）が
+        枯渇するとDB操作が一切できなくなる。
+        UpdateCustomer, DeleteCustomer, SearchCustomers では正しく using が
+        使用されているため、この2メソッドのみ対応漏れと思われる。
+【修正案】SqlConnection, SqlCommand, SqlDataReader のすべてを using 文で囲み、
+        スコープ終了時に確実に Dispose されるよう修正してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: 例外処理なし（try-catchなし）</h3>
+<p><strong>該当仕様</strong>: 設計仕様書 3.4 SQL実装規約</p>
+<blockquote>
+<p><strong>DB接続時は必ず try-catch で例外処理を行い、ユーザーにエラーメッセージを表示すること</strong><br />
+<code>SqlException</code> をキャッチし、ユーザーにわかりやすいメッセージを表示する<br />
+アプリケーションがクラッシュしないよう例外を適切にハンドリングする</p>
+</blockquote>
+<p>設計仕様書 7. 非機能要件</p>
+<blockquote>
+<p><strong>DB接続エラー時は適切なメッセージを表示し、アプリがクラッシュしないこと</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>DatabaseHelper.cs</code> GetAllCustomers メソッド 27-46行目、AddCustomer メソッド 63-70行目</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ） - GetAllCustomers
+SqlConnection conn = new SqlConnection(connectionString);
+conn.Open();                  // ← DB接続失敗で SqlException がスローされる
+// ...
+SqlDataReader reader = cmd.ExecuteReader();  // ← SQL実行エラーで SqlException がスローされる
+// → try-catch が一切ないため、例外がそのまま呼び出し元に伝搬する
+
+// 現在の実装（バグ） - AddCustomer
+SqlConnection conn = new SqlConnection(connectionString);
+conn.Open();                  // ← try-catch なし
+cmd.ExecuteNonQuery();        // ← try-catch なし
+// → SQL Server が停止している場合やネットワーク障害時にアプリがクラッシュする
+</code></pre>
+
+<p><strong>注記</strong>: FormMain.cs 側ではDBHelper呼び出しを try-catch で囲んでいるため、<br />
+実際にはアプリの即座のクラッシュは防がれています。しかし、設計仕様書では<br />
+DatabaseHelper クラス自体に try-catch を実装する方針が示されています。<br />
+DatabaseHelper 側でも適切な例外処理を行うことで、より堅牢な設計になります。</p>
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">public List&lt;Customer&gt; GetAllCustomers()
+{
+    var customers = new List&lt;Customer&gt;();
+
+    try
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            conn.Open();
+
+            using (SqlCommand cmd = new SqlCommand(&quot;SELECT Id, Name, Phone, Age, Email FROM Customers&quot;, conn))
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var customer = new Customer(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.IsDBNull(2) ? &quot;&quot; : reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.IsDBNull(4) ? &quot;&quot; : reader.GetString(4)
+                    );
+                    customers.Add(customer);
+                }
+            }
+        }
+    }
+    catch (SqlException ex)
+    {
+        MessageBox.Show($&quot;データベースエラー: {ex.Message}&quot;, &quot;エラー&quot;, MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
+    return customers;
+}
+
+public void AddCustomer(string name, string phone, int age, string email)
+{
+    try
+    {
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            conn.Open();
+
+            string sql = &quot;INSERT INTO Customers (Name, Phone, Age, Email) VALUES (@Name, @Phone, @Age, @Email)&quot;;
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue(&quot;@Name&quot;, name);
+                cmd.Parameters.AddWithValue(&quot;@Phone&quot;, (object?)phone ?? DBNull.Value);
+                cmd.Parameters.AddWithValue(&quot;@Age&quot;, age);
+                cmd.Parameters.AddWithValue(&quot;@Email&quot;, (object?)email ?? DBNull.Value);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (SqlException ex)
+    {
+        MessageBox.Show($&quot;データベースエラー: {ex.Message}&quot;, &quot;エラー&quot;, MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】DatabaseHelper.cs: GetAllCustomers メソッド および AddCustomer メソッド
+【分類】仕様不一致
+【重要度】中
+【内容】設計仕様書 3.4「SQL実装規約」では「DB接続時は必ず try-catch で例外処理を行い、
+        ユーザーにエラーメッセージを表示すること」と定義されているが、
+        GetAllCustomers と AddCustomer の2メソッドでは try-catch が実装されていない。
+        DB接続失敗やSQL実行エラー時に SqlException が未処理のまま伝搬する。
+        現状は呼び出し元の FormMain.cs で例外をキャッチしているが、
+        設計方針としては DatabaseHelper 側でも例外を処理すべきである。
+        UpdateCustomer, DeleteCustomer, SearchCustomers との一貫性もない。
+【修正案】GetAllCustomers と AddCustomer の DB操作処理全体を try-catch(SqlException) で
+        囲み、エラー時は MessageBox.Show でユーザーにエラーメッセージを表示してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>設計仕様書の「SQL実装規約」を熟読する</strong><br />
+   - 今回のバグ3件はすべて設計仕様書 3.4 に太字で記載されたルールへの違反<br />
+   - 「禁止」「必ず」「すること」と書かれた項目は特に重点チェック対象</p>
+</li>
+<li>
+<p><strong>メソッド間の一貫性をチェックする</strong><br />
+   - 同じクラス内でも、あるメソッドでは正しく実装されているのに別のメソッドでは漏れている<br />
+   - UpdateCustomer / DeleteCustomer / SearchCustomers は正しいのに GetAllCustomers / AddCustomer だけバグがある<br />
+   - このパターンは実務でも非常に多い（コピー&amp;ペーストの修正漏れ）</p>
+</li>
+<li>
+<p><strong>セキュリティ観点を忘れない</strong><br />
+   - BSEレビューでは機能面のバグだけでなく、セキュリティ脆弱性の検出も重要<br />
+   - SQLインジェクションはOWASP Top 10に含まれる代表的な脆弱性<br />
+   - 文字列結合でSQLを構築しているコードは即座にNGと判断できるようにする</p>
+</li>
+<li>
+<p><strong>リソース管理パターンを確認する</strong><br />
+   - C# では IDisposable を実装するオブジェクト（DB接続、ファイルハンドル等）は using 必須<br />
+   - using がないコードを見つけたらリソースリークの可能性を疑う</p>
+</li>
+</ol>
+<h2>実務での影響度</h2>
+<table>
+<thead>
+<tr>
+<th>バグ</th>
+<th>影響</th>
+<th>発生タイミング</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQLインジェクション</td>
+<td>データ漏洩・改ざん・削除。最悪の場合サーバー乗っ取り</td>
+<td>悪意あるユーザーが入力した瞬間</td>
+</tr>
+<tr>
+<td>接続プール枯渇</td>
+<td>全ユーザーのDB操作が不能になる</td>
+<td>長時間運用後に徐々に発生</td>
+</tr>
+<tr>
+<td>例外処理なし</td>
+<td>アプリが強制終了し、ユーザーの作業が失われる</td>
+<td>DB停止・ネットワーク障害時</td>
+</tr>
+</tbody>
+</table>
+<h2>次の問題</h2>
+<p>この問題が解けたら次の問題に進んでください。<br />
+DB接続周りのレビュー力を身につけることは、BSEとして非常に重要なスキルです。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

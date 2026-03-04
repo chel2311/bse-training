@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習3 回答・解説: コンフリクト解消 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 06_Git / 演習 / 演習3_コンフリクト解消 / 回答解説
+</div>
+<div class="content">
+<h1>演習3 回答・解説: コンフリクト解消</h1>
+<h2>コンフリクトの原因</h2>
+<hr />
+<h3>なぜコンフリクトが発生したか</h3>
+<p>mainブランチとfeatureブランチで <strong>同じメソッド（Divide）を異なる内容に変更</strong> したため。</p>
+<table>
+<thead>
+<tr>
+<th>ブランチ</th>
+<th>変更内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>エラーメッセージを詳細な日本語に変更（<code>DivideByZeroException</code> → <code>ArgumentException</code>）</td>
+</tr>
+<tr>
+<td>feature/divide-validation</td>
+<td>整数除算で余りが出る場合の警告メッセージを追加</td>
+</tr>
+</tbody>
+</table>
+<p>Gitは「どちらの変更を採用すべきか」を自動的に判断できないため、人間の判断が必要になる。</p>
+<hr />
+<h2>コンフリクト解消の手順</h2>
+<h3>Step 1: コンフリクトマーカーを理解する</h3>
+<pre class="codehilite"><code class="language-csharp">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+// ここから: 現在のブランチ（main）の変更
+// ...
+=======
+// ここから: マージしようとしたブランチ（feature）の変更
+// ...
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/divide-validation
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>マーカー</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code></td>
+<td>現在のブランチの変更の開始</td>
+</tr>
+<tr>
+<td><code>=======</code></td>
+<td>2つの変更の区切り</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; ブランチ名</code></td>
+<td>マージしようとしたブランチの変更の終了</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 2: 両方の変更内容を比較する</h3>
+<p><strong>mainブランチの変更（開発者A）</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">public int Divide(int a, int b)
+{
+    if (b == 0)
+    {
+        throw new ArgumentException(&quot;エラー: 除数に0は指定できません。正の整数を入力してください。&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<ul>
+<li>変更点: エラーメッセージを詳細化</li>
+<li>意図: ユーザーにわかりやすいエラーメッセージにする</li>
+<li>採用すべきか: <strong>はい</strong>（ユーザビリティの向上）</li>
+</ul>
+<p><strong>featureブランチの変更（開発者B）</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">public int Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException(&quot;0で割ることはできません&quot;);
+
+    if (a % b != 0)
+    {
+        Console.WriteLine($&quot;警告: {a} / {b} の結果は切り捨てられます&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<ul>
+<li>変更点: 整数除算の切り捨て警告を追加</li>
+<li>意図: 開発者が意図しない切り捨てに気付けるようにする</li>
+<li>採用すべきか: <strong>はい</strong>（品質向上のための警告機能）</li>
+</ul>
+<h3>Step 3: 最終的なコードを決定する</h3>
+<p>両方の変更を統合する場合の判断:</p>
+<ol>
+<li>エラーメッセージの詳細化 → <strong>採用</strong></li>
+<li>例外の型（<code>ArgumentException</code> vs <code>DivideByZeroException</code>）→ mainの <code>ArgumentException</code> を<strong>採用</strong></li>
+<li>整数除算の警告 → <strong>採用</strong></li>
+</ol>
+<h3>Step 4: 解消後のコード</h3>
+<pre class="codehilite"><code class="language-csharp">/// &lt;summary&gt;
+/// 除算（エラーメッセージ統一 + 引数チェック強化）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+    {
+        throw new ArgumentException(&quot;エラー: 除数に0は指定できません。正の整数を入力してください。&quot;);
+    }
+
+    // 結果が整数にならない場合の警告
+    if (a % b != 0)
+    {
+        Console.WriteLine($&quot;警告: {a} / {b} の結果は切り捨てられます&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<hr />
+<h2>コンフリクト解消の3つのパターン</h2>
+<p>実際のプロジェクトでは、以下のいずれかの判断をする:</p>
+<h3>パターン1: 自分の変更（HEAD）を採用</h3>
+<pre class="codehilite"><code>相手の変更が不要な場合。
+→ &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 以下のコードだけ残し、======= 以下を削除
+</code></pre>
+
+<h3>パターン2: 相手の変更を採用</h3>
+<pre class="codehilite"><code>自分の変更が不要な場合。
+→ ======= 以下のコードだけ残し、&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 以下を削除
+</code></pre>
+
+<h3>パターン3: 両方を統合（今回の例）</h3>
+<pre class="codehilite"><code>両方の変更を取り入れる場合。
+→ マーカーを削除し、両方の変更を手動で組み合わせる
+</code></pre>
+
+<hr />
+<h2>BSEとしてのコンフリクト解消の注意点</h2>
+<ol>
+<li><strong>仕様書を確認する</strong>: どちらの変更が仕様に合っているか判断する</li>
+<li><strong>両方の開発者に確認する</strong>: 判断に迷う場合は、変更した本人に意図を確認する</li>
+<li><strong>テストする</strong>: 解消後のコードが正しく動作するか必ずテストする</li>
+<li><strong>コミットメッセージに記録する</strong>: 何をどう判断して解消したかを記録する</li>
+</ol>
+<hr />
+<h2>よくある間違い</h2>
+<h3>間違い1: マーカーを残したままコミットする</h3>
+<pre class="codehilite"><code class="language-csharp">// これはNG: コンパイルエラーになる
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+throw new ArgumentException(...);
+=======
+throw new DivideByZeroException(...);
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/divide-validation
+</code></pre>
+
+<p>→ マーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）は必ずすべて削除する。</p>
+<h3>間違い2: 片方の変更を見落とす</h3>
+<p>→ <code>=======</code> の上下両方の変更内容を必ず確認する。</p>
+<h3>間違い3: 解消せずにマージを中止する</h3>
+<pre class="codehilite"><code class="language-bash">git merge --abort  # マージをなかったことにする
+</code></pre>
+
+<p>→ 問題の先送りにしかならない。根本的にはコンフリクトを解消する必要がある。</p>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

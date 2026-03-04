@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コードリーディングガイド（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / コードリーディングガイド
+</div>
+<div class="content">
+<h1>コードリーディングガイド（BSE向け）</h1>
+<blockquote>
+<p>FormMain.csを開いたが「何が書いてあるか分からない」状態を脱出するためのガイド</p>
+</blockquote>
+<hr />
+<h2>1. コードを読む前に知っておくこと</h2>
+<h3>コードは「上から下に順番に読む」ものではない</h3>
+<p>本や文書は1ページ目から順に読む。しかしWinFormsアプリのコードは違う。</p>
+<p>WinFormsアプリは<strong>イベント駆動</strong>で動く。つまり「ユーザーがボタンを押す」「フォームが開く」といった<strong>イベント（出来事）が起きた時に、対応する処理が実行される</strong>仕組みになっている。したがって、コードを読むときは<strong>「どのイベントで、どの処理が動くか」</strong>を追いかける。</p>
+<pre class="codehilite"><code>上から下に読む（間違い）:
+  1行目 → 2行目 → 3行目 → ... → 最終行
+
+イベントから追う（正しい）:
+  「追加ボタンをクリック」→ btnAdd_Click メソッドを読む
+  「削除ボタンをクリック」→ btnDelete_Click メソッドを読む
+  「フォームが開かれた」  → FormMain_Load メソッドを読む
+</code></pre>
+
+<h3>メソッド名を見れば何の処理か分かる</h3>
+<p>WinFormsには命名規則がある。メソッド名は「<strong>コントロール名_イベント名</strong>」の形式になっている。</p>
+<pre class="codehilite"><code>btnAdd_Click       → 追加ボタン（btnAdd）がクリック（Click）された時の処理
+btnDelete_Click    → 削除ボタン（btnDelete）がクリック（Click）された時の処理
+btnSearch_Click    → 検索ボタン（btnSearch）がクリック（Click）された時の処理
+FormMain_Load      → メインフォーム（FormMain）が読み込み（Load）された時の処理
+dgvCustomers_SelectionChanged → 一覧（dgvCustomers）の選択が変わった（SelectionChanged）時の処理
+</code></pre>
+
+<h3>コントロール名のプレフィックス（接頭辞）一覧</h3>
+<p>コントロール名の先頭2〜3文字を見れば、それが画面上のどの部品かが分かる。</p>
+<table>
+<thead>
+<tr>
+<th>プレフィックス</th>
+<th>正式名称</th>
+<th>画面上の部品</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>btn</td>
+<td>Button</td>
+<td>ボタン</td>
+<td>btnAdd（追加ボタン）、btnDelete（削除ボタン）</td>
+</tr>
+<tr>
+<td>txt</td>
+<td>TextBox</td>
+<td>テキスト入力欄</td>
+<td>txtName（氏名入力欄）、txtAge（年齢入力欄）</td>
+</tr>
+<tr>
+<td>dgv</td>
+<td>DataGridView</td>
+<td>一覧表（表形式のデータ表示）</td>
+<td>dgvCustomers（顧客一覧）</td>
+</tr>
+<tr>
+<td>lbl</td>
+<td>Label</td>
+<td>ラベル（表示専用の文字）</td>
+<td>lblStatus（ステータス表示）、lblName（「氏名:」の文字）</td>
+</tr>
+<tr>
+<td>cmb</td>
+<td>ComboBox</td>
+<td>ドロップダウン選択リスト</td>
+<td>cmbDepartment（部署選択）</td>
+</tr>
+<tr>
+<td>chk</td>
+<td>CheckBox</td>
+<td>チェックボックス</td>
+<td>chkIsActive（有効フラグ）</td>
+</tr>
+<tr>
+<td>rdo / rb</td>
+<td>RadioButton</td>
+<td>ラジオボタン（択一選択）</td>
+<td>rdoMale（男性）</td>
+</tr>
+<tr>
+<td>lst</td>
+<td>ListBox</td>
+<td>リストボックス</td>
+<td>lstItems（項目一覧）</td>
+</tr>
+<tr>
+<td>mnu</td>
+<td>MenuStrip / MenuItem</td>
+<td>メニュー</td>
+<td>mnuFile（ファイルメニュー）</td>
+</tr>
+</tbody>
+</table>
+<h3>イベント名の一覧</h3>
+<table>
+<thead>
+<tr>
+<th>イベント名</th>
+<th>いつ発生するか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_Click</td>
+<td>ボタンなどがクリックされた時</td>
+</tr>
+<tr>
+<td>_Load</td>
+<td>フォームが開かれて読み込まれた時</td>
+</tr>
+<tr>
+<td>_SelectionChanged</td>
+<td>一覧の選択行が変わった時</td>
+</tr>
+<tr>
+<td>_TextChanged</td>
+<td>テキストボックスの内容が変わった時</td>
+</tr>
+<tr>
+<td>_SelectedIndexChanged</td>
+<td>コンボボックスやリストの選択が変わった時</td>
+</tr>
+<tr>
+<td>_FormClosing</td>
+<td>フォームが閉じられようとする時</td>
+</tr>
+<tr>
+<td>_CellClick</td>
+<td>一覧のセルがクリックされた時</td>
+</tr>
+<tr>
+<td>_KeyDown / _KeyPress</td>
+<td>キーボードのキーが押された時</td>
+</tr>
+</tbody>
+</table>
+<h3>つまり、メソッド名だけで処理の目的が分かる</h3>
+<pre class="codehilite"><code>btnDelete_Click           → 「削除ボタンがクリックされた時の処理」
+dgvCustomers_CellClick    → 「顧客一覧のセルがクリックされた時の処理」
+FormMain_FormClosing      → 「メインフォームが閉じられる時の処理」
+cmbDepartment_SelectedIndexChanged → 「部署コンボボックスの選択が変わった時の処理」
+</code></pre>
+
+<hr />
+<h2>2. コードの読み方 5ステップ</h2>
+<p>FormMain.csを開いた時、全部読もうとしてはいけない。以下の5ステップで<strong>必要な部分だけ</strong>を読む。</p>
+<h3>Step 1: メソッド一覧を見る</h3>
+<p>まずメソッド名だけを拾い読みして、「このファイルにはどんな処理があるのか」を把握する。</p>
+<p>問題1のFormMain.csのメソッド一覧:</p>
+<pre class="codehilite"><code>FormMain_Load                    ← フォーム読み込み時
+btnAdd_Click                     ← 追加ボタン
+btnEdit_Click                    ← 編集ボタン
+btnDelete_Click                  ← 削除ボタン
+btnSearch_Click                  ← 検索ボタン
+btnShowAll_Click                 ← 全件表示ボタン
+dgvCustomers_SelectionChanged    ← 一覧の選択変更時
+RefreshGrid                      ← 一覧を更新する内部処理
+UpdateStatus                     ← ステータスバーを更新する内部処理
+</code></pre>
+
+<p>この時点で「追加・編集・削除・検索・全件表示の5つのボタン処理がある」と分かる。コードの中身はまだ読まなくてよい。</p>
+<h3>Step 2: 仕様書の機能と対応づける</h3>
+<p>設計仕様書の各機能要件（FR-001, FR-002...）が、どのメソッドに対応するかを整理する。</p>
+<table>
+<thead>
+<tr>
+<th>仕様書の機能</th>
+<th>機能番号</th>
+<th>対応するメソッド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客追加</td>
+<td>FR-001</td>
+<td>btnAdd_Click</td>
+</tr>
+<tr>
+<td>顧客編集</td>
+<td>FR-002</td>
+<td>btnEdit_Click</td>
+</tr>
+<tr>
+<td>顧客削除</td>
+<td>FR-003</td>
+<td>btnDelete_Click</td>
+</tr>
+<tr>
+<td>検索</td>
+<td>FR-004</td>
+<td>btnSearch_Click</td>
+</tr>
+<tr>
+<td>入力バリデーション</td>
+<td>FR-005</td>
+<td>btnAdd_Click内のチェック処理</td>
+</tr>
+<tr>
+<td>ステータス表示</td>
+<td>FR-006</td>
+<td>UpdateStatus</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 3: 該当メソッドだけ読む</h3>
+<p>バグを探す時は<strong>全部を読む必要はない</strong>。仕様書で気になった機能のメソッドだけを集中して読む。</p>
+<p>例えば「追加機能にバグがありそうだ」と思ったら、<code>btnAdd_Click</code> だけを読む。他のメソッドは後回しでよい。</p>
+<h3>Step 4: 日本語に翻訳しながら読む</h3>
+<p>1行ずつ「この行は何をしているか」を自分の言葉で日本語にする。</p>
+<pre class="codehilite"><code class="language-csharp">// btnAdd_Click メソッドの中身を1行ずつ翻訳する
+if (string.IsNullOrWhiteSpace(txtName.Text))        // 「もし氏名欄が空なら」
+{
+    MessageBox.Show(&quot;氏名を入力してください&quot;, ...);   // 「エラーメッセージを表示して」
+    return;                                           // 「処理を中断する」
+}
+
+if (!int.TryParse(txtAge.Text, out int age))         // 「もし年齢欄が整数でなければ」
+{
+    MessageBox.Show(&quot;年齢は整数で入力してください&quot;,...); // 「エラーメッセージを表示して」
+    return;                                           // 「処理を中断する」
+}
+
+var customer = new Customer(nextId++, ...);           // 「新しい顧客データを作って」
+customers.Add(customer);                              // 「顧客リストに追加して」
+RefreshGrid(customers);                               // 「一覧を更新する」
+</code></pre>
+
+<h3>Step 5: 仕様書と突き合わせる</h3>
+<p>翻訳した内容を仕様書と1つずつ比較する。「仕様に書いてあるのに実装にない」ものがバグ。</p>
+<pre class="codehilite"><code>仕様FR-005: 「年齢は0以上150以下の整数」
+  → 翻訳: 「もし年齢欄が整数でなければ」 ... 範囲チェックがない!
+  → バグ: 年齢の範囲チェック（0〜150）が実装されていない
+
+仕様FR-001: 「追加後、入力欄をクリアする」
+  → 翻訳: 「リストに追加して」→「一覧を更新する」... クリア処理がない!
+  → バグ: 追加後に入力欄をクリアする処理がない
+</code></pre>
+
+<hr />
+<h2>3. C#コードの「翻訳辞書」（頻出パターン）</h2>
+<p>FormMain.csに出てくるコードパターンを日本語に翻訳する辞書。コードを読む時にこの辞書を横に置いて参照する。</p>
+<h3>3.1 入力チェック系</h3>
+<pre class="codehilite"><code class="language-csharp">if (string.IsNullOrWhiteSpace(txtName.Text))
+</code></pre>
+
+<p><strong>翻訳</strong>: 「もし 氏名テキストボックス が 空欄（または空白だけ） なら」</p>
+<pre class="codehilite"><code class="language-csharp">if (!int.TryParse(txtAge.Text, out int age))
+</code></pre>
+
+<p><strong>翻訳</strong>: 「年齢テキストボックスの文字を整数に変換してみる。変換できなかったら（!がついているので条件が反転）」</p>
+<pre class="codehilite"><code class="language-csharp">if (age &lt; 0 || age &gt; 150)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「もし 年齢が0未満 または 年齢が150超 なら」（<code>||</code> は「または」の意味）</p>
+<pre class="codehilite"><code class="language-csharp">if (age &gt;= 0 &amp;&amp; age &lt;= 150)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「もし 年齢が0以上 かつ 年齢が150以下 なら」（<code>&amp;&amp;</code> は「かつ」の意味）</p>
+<pre class="codehilite"><code class="language-csharp">if (string.IsNullOrEmpty(txtEmail.Text))
+</code></pre>
+
+<p><strong>翻訳</strong>: 「もし メールテキストボックス が 空（null または空文字""） なら」<br />
+  - <code>IsNullOrEmpty</code>: nullか空文字をチェック<br />
+  - <code>IsNullOrWhiteSpace</code>: nullか空文字か空白だけをチェック（こちらの方が厳しい）</p>
+<h3>3.2 メッセージ表示系</h3>
+<pre class="codehilite"><code class="language-csharp">MessageBox.Show(&quot;エラーです&quot;, &quot;警告&quot;, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「"エラーです"というメッセージを、タイトル"警告"、OKボタン、警告アイコン付きのダイアログで表示する」</p>
+<pre class="codehilite"><code class="language-csharp">var result = MessageBox.Show(&quot;削除しますか？&quot;, &quot;確認&quot;,
+    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+if (result == DialogResult.Yes)
+{
+    // 削除処理
+}
+</code></pre>
+
+<p><strong>翻訳</strong>: 「"削除しますか？"と、はい/いいえの確認ダイアログを表示する。はいが押されたら中の処理を実行する」</p>
+<pre class="codehilite"><code class="language-csharp">return;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「ここで処理を中断して戻る（この行より下は実行されない）」</p>
+<h3>3.3 オブジェクト作成・リスト操作系</h3>
+<pre class="codehilite"><code class="language-csharp">var customer = new Customer(nextId++, txtName.Text, txtPhone.Text, age, txtEmail.Text);
+</code></pre>
+
+<p><strong>翻訳</strong>: 「新しい顧客オブジェクトを作る。IDは自動採番（nextIdを使って1増やす）、氏名・電話・年齢・メールは入力欄の値を使う」</p>
+<pre class="codehilite"><code class="language-csharp">customers.Add(customer);
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客リストに、今作った顧客を追加する」</p>
+<pre class="codehilite"><code class="language-csharp">customers.Remove(customer);
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客リストから、指定した顧客を削除する」</p>
+<pre class="codehilite"><code class="language-csharp">customers.Find(c =&gt; c.Id == selectedId)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客リストから、IDが selectedId と一致するものを1件探す」<br />
+  - <code>c =&gt;</code> の部分は「リストの各要素を c という名前で1つずつ見て」という意味<br />
+  - 見つからない場合は <code>null</code>（何もない）が返る</p>
+<pre class="codehilite"><code class="language-csharp">customers.FindAll(c =&gt; c.Name.Contains(keyword))
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客リストから、名前にキーワードを含むものを全部探す（結果は複数件）」</p>
+<pre class="codehilite"><code class="language-csharp">customers.FindAll(c =&gt;
+    c.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+    c.Email.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客リストから、名前またはメールにキーワードを含むものを全部探す（大文字小文字を区別しない）」</p>
+<h3>3.4 一覧表（DataGridView）操作系</h3>
+<pre class="codehilite"><code class="language-csharp">dgvCustomers.DataSource = null;
+dgvCustomers.DataSource = list;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「一覧表のデータを一度クリアして、新しいデータ（list）で表示し直す」<br />
+  - 一度 <code>null</code> にしないと画面が更新されない場合がある</p>
+<pre class="codehilite"><code class="language-csharp">dgvCustomers.SelectedRows.Count == 0
+</code></pre>
+
+<p><strong>翻訳</strong>: 「一覧で何も行が選択されていない」</p>
+<pre class="codehilite"><code class="language-csharp">dgvCustomers.SelectedRows[0].Cells[&quot;Name&quot;].Value
+</code></pre>
+
+<p><strong>翻訳</strong>: 「一覧で選択中の行（1行目）の"Name"列の値を取得する」<br />
+  - <code>[0]</code> は「最初の」という意味（プログラムでは番号を0から数える）</p>
+<pre class="codehilite"><code class="language-csharp">(int)dgvCustomers.SelectedRows[0].Cells[&quot;Id&quot;].Value
+</code></pre>
+
+<p><strong>翻訳</strong>: 「選択行のId列の値を整数（int）として取得する」<br />
+  - <code>(int)</code> は型変換（キャスト）。値を整数型として扱うよう指定する</p>
+<h3>3.5 テキストボックス操作系</h3>
+<pre class="codehilite"><code class="language-csharp">txtName.Text = &quot;&quot;;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「氏名テキストボックスを空にする（クリアする）」</p>
+<pre class="codehilite"><code class="language-csharp">txtName.Text = row.Cells[&quot;Name&quot;].Value?.ToString() ?? &quot;&quot;;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「選択行のName列の値を文字列にして氏名テキストボックスにセットする。値がnullなら空文字にする」<br />
+  - <code>?.</code> は「もし null でなければ」（null安全呼び出し）<br />
+  - <code>??</code> は「もし左側が null なら右側の値を使う」（null合体演算子）</p>
+<h3>3.6 計算・集計系</h3>
+<pre class="codehilite"><code class="language-csharp">displayList.Sum(c =&gt; c.Age)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「リスト内の全顧客の年齢を合計する」</p>
+<pre class="codehilite"><code class="language-csharp">(double)totalAge / count
+</code></pre>
+
+<p><strong>翻訳</strong>: 「合計年齢を小数型に変換してから件数で割る（小数の結果が得られる）」<br />
+  - <code>(double)</code> をつけないと整数同士の割り算になり、小数部分が切り捨てられる<br />
+  - 例: <code>63 / 2</code> → <code>31</code>（整数割り算）、<code>(double)63 / 2</code> → <code>31.5</code>（小数割り算）</p>
+<pre class="codehilite"><code class="language-csharp">count &gt; 0 ? (double)totalAge / count : 0
+</code></pre>
+
+<p><strong>翻訳</strong>: 「もし件数が0より大きければ平均を計算する。0件なら結果は0にする」<br />
+  - <code>条件 ? 値A : 値B</code> は「条件が真なら値A、偽なら値B」の省略記法（三項演算子）<br />
+  - 0で割る（ゼロ除算）エラーを防ぐためのガード処理</p>
+<h3>3.7 文字列操作系</h3>
+<pre class="codehilite"><code class="language-csharp">$&quot;件数: {count}件  合計年齢: {totalAge}&quot;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「文字列の中に変数の値を埋め込む。{count} の部分が実際の値に置き換わる」<br />
+  - 先頭の <code>$</code> が目印。文字列補間（String Interpolation）と呼ぶ<br />
+  - 例: countが3なら → <code>"件数: 3件  合計年齢: 105"</code></p>
+<pre class="codehilite"><code class="language-csharp">$&quot;{avgAge:F1}&quot;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「avgAgeの値を小数第1位まで表示する」<br />
+  - <code>:F1</code> は書式指定。F1=小数1桁、F2=小数2桁</p>
+<pre class="codehilite"><code class="language-csharp">keyword.Contains(&quot;検索文字&quot;)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「keywordの中に"検索文字"が含まれているか」</p>
+<pre class="codehilite"><code class="language-csharp">StringComparison.OrdinalIgnoreCase
+</code></pre>
+
+<p><strong>翻訳</strong>: 「大文字小文字を区別しないで比較する設定」<br />
+  - <code>Contains(keyword)</code> だけだと大文字小文字を区別する<br />
+  - <code>Contains(keyword, StringComparison.OrdinalIgnoreCase)</code> で区別しなくなる</p>
+<h3>3.8 クラス・宣言系</h3>
+<pre class="codehilite"><code class="language-csharp">private List&lt;Customer&gt; customers = new List&lt;Customer&gt;();
+</code></pre>
+
+<p><strong>翻訳</strong>: 「顧客データのリスト（一覧）を作成する。最初は空のリスト」<br />
+  - <code>List&lt;Customer&gt;</code> は「Customer型のリスト」<br />
+  - <code>private</code> は「このクラスの中だけで使える」という意味</p>
+<pre class="codehilite"><code class="language-csharp">private int nextId = 1;
+</code></pre>
+
+<p><strong>翻訳</strong>: 「次に使うIDを保持する変数。初期値は1」</p>
+<pre class="codehilite"><code class="language-csharp">public partial class FormMain : Form
+</code></pre>
+
+<p><strong>翻訳</strong>: 「FormMainというフォームクラスの定義。partialは複数ファイルに分かれていることを示す」<br />
+  - FormMain.cs（手書きのコード）とFormMain.Designer.cs（自動生成）に分かれている</p>
+<pre class="codehilite"><code class="language-csharp">private void btnAdd_Click(object sender, EventArgs e)
+</code></pre>
+
+<p><strong>翻訳</strong>: 「追加ボタンがクリックされた時に実行されるメソッド」<br />
+  - <code>private</code> = このクラスの中だけで使える<br />
+  - <code>void</code> = 戻り値なし（結果を返さない処理）<br />
+  - <code>object sender</code> = イベントを発生させたオブジェクト（この場合はボタン）<br />
+  - <code>EventArgs e</code> = イベントの追加情報（通常は使わない）</p>
+<h3>3.9 LINQ式（ラムダ式を使ったデータ操作）</h3>
+<pre class="codehilite"><code class="language-csharp">displayList.Select(c =&gt; new { c.Id, c.Name, c.Phone, c.Age, c.Email }).ToList()
+</code></pre>
+
+<p><strong>翻訳</strong>: 「リストの各顧客から、Id・Name・Phone・Age・Emailだけを取り出して新しいリストにする」<br />
+  - <code>Select</code> はリストの各要素を変換する操作<br />
+  - <code>c =&gt;</code> は「各要素をcという名前で扱って」の意味<br />
+  - <code>.ToList()</code> は結果をリスト型に変換</p>
+<pre class="codehilite"><code class="language-csharp">displayList.Where(c =&gt; c.Age &gt;= 20).ToList()
+</code></pre>
+
+<p><strong>翻訳</strong>: 「リストから年齢が20以上のものだけを抽出してリストにする」</p>
+<pre class="codehilite"><code class="language-csharp">displayList.Count
+</code></pre>
+
+<p><strong>翻訳</strong>: 「リストの件数」</p>
+<hr />
+<h2>4. Designer.csの読み方</h2>
+<h3>Designer.csとは何か</h3>
+<p>Visual Studioでフォームにボタンやテキストボックスを配置すると、その情報が<strong>FormMain.Designer.cs</strong>に自動生成される。</p>
+<ul>
+<li><strong>FormMain.cs</strong>: 自分で書くコード（ボタンをクリックした時の処理など）</li>
+<li><strong>FormMain.Designer.cs</strong>: VSが自動生成するコード（画面部品の配置・設定）</li>
+</ul>
+<p>基本的にDesigner.csは<strong>手で編集しない</strong>。しかしレビューでは<strong>イベントの接続確認</strong>に使う。</p>
+<h3>イベント接続とは</h3>
+<p>ボタンを画面に置いただけでは、クリックしても何も起きない。<strong>「このボタンをクリックしたら、このメソッドを実行する」という接続</strong>がDesigner.csに書かれている。</p>
+<pre class="codehilite"><code class="language-csharp">// Designer.cs内の記述
+this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+</code></pre>
+
+<p><strong>翻訳</strong>: 「追加ボタン（btnAdd）のクリックイベント（Click）に、btnAdd_Clickメソッドを接続する」</p>
+<h3>レビューで確認すること</h3>
+<p>Designer.csを開いて、各ボタンに対する <code>Click +=</code> の行があるか確認する。</p>
+<pre class="codehilite"><code class="language-csharp">// 問題1のDesigner.csから抜粋:
+this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);        // 追加ボタン → 接続あり
+this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);      // 編集ボタン → 接続あり
+this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);  // 削除ボタン → 接続あり
+this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);  // 検索ボタン → 接続あり
+this.btnShowAll.Click += new System.EventHandler(this.btnShowAll_Click);// 全件表示   → 接続あり
+this.Load += new System.EventHandler(this.FormMain_Load);               // フォーム読み込み → 接続あり
+this.dgvCustomers.SelectionChanged += new System.EventHandler(this.dgvCustomers_SelectionChanged); // 選択変更 → 接続あり
+</code></pre>
+
+<p><strong>この行がなければ</strong>、ボタンを押しても何も起きない。これは典型的なバグの原因になる。</p>
+<h3>Designer.csでもう1つ確認できること: コントロールの種類</h3>
+<p>Designer.csの先頭付近に、画面部品の宣言がある。</p>
+<pre class="codehilite"><code class="language-csharp">private System.Windows.Forms.TextBox txtName;       // txtName はテキストボックス
+private System.Windows.Forms.Button btnAdd;          // btnAdd はボタン
+private System.Windows.Forms.DataGridView dgvCustomers; // dgvCustomers はデータグリッド
+private System.Windows.Forms.Label lblStatus;        // lblStatus はラベル
+</code></pre>
+
+<p>設計仕様書の「画面構成要素」と突き合わせて、必要なコントロールがすべて存在するか確認できる。</p>
+<hr />
+<h2>5. 「処理の流れ」の追い方</h2>
+<p>設計仕様書の「顧客追加（FR-001）」を例に、実際にコードで処理の流れを追う方法を示す。</p>
+<h3>追跡対象: 仕様FR-001「顧客追加」</h3>
+<p>仕様書の記述:<br />
+- 「追加」ボタン押下で入力欄の値を顧客リストに追加する<br />
+- IDは自動採番<br />
+- <strong>追加後、入力欄をクリアする</strong><br />
+- <strong>追加後、一覧を更新して新しい顧客が表示されること</strong></p>
+<h3>追跡の流れ</h3>
+<pre class="codehilite"><code>ユーザーが「追加」ボタンをクリック
+  |
+  v
+【Designer.cs で接続を確認】
+  this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+  → 接続あり。btnAdd_Click メソッドが呼ばれる
+  |
+  v
+【FormMain.cs: btnAdd_Click メソッドに入る】
+  |
+  +-- 28行目: if (string.IsNullOrWhiteSpace(txtName.Text))
+  |           → 氏名が空かチェック
+  |           → 空なら「氏名を入力してください」と表示して return（処理中断）
+  |           → 仕様FR-005「氏名: 必須」 ... OK、チェックされている
+  |
+  +-- 35行目: if (!int.TryParse(txtAge.Text, out int age))
+  |           → 年齢が整数かチェック
+  |           → 整数でなければ「年齢は整数で入力してください」と表示して return
+  |           → 仕様FR-005「年齢: 0以上150以下の整数」
+  |           → 整数チェックはあるが... 範囲チェック（0〜150）がない!
+  |           ========================================
+  |           ★ バグ発見: 年齢の範囲チェックが未実装
+  |           ========================================
+  |
+  +-- 46行目: var customer = new Customer(nextId++, ...)
+  |           → 顧客オブジェクトを作成（ID自動採番）
+  |           → 仕様FR-001「IDは自動採番」 ... OK
+  |
+  +-- 47行目: customers.Add(customer)
+  |           → 顧客リストに追加
+  |
+  +-- ここで仕様を確認: 「追加後、入力欄をクリアする」
+  |           → txtName.Text = &quot;&quot; のような行がない!
+  |           ========================================
+  |           ★ バグ発見: 追加後の入力欄クリアが未実装
+  |           ========================================
+  |
+  +-- 54行目: RefreshGrid(customers)
+              → 一覧を更新
+              → 仕様FR-001「追加後、一覧を更新」 ... OK
+</code></pre>
+
+<h3>追跡のコツ</h3>
+<ol>
+<li><strong>仕様書を横に開いておく</strong>: コードの各行が仕様のどの項目に対応するかを常に意識する</li>
+<li><strong>仕様に書いてあるのに、対応するコードがない</strong>: これがバグ（実装漏れ）</li>
+<li><strong>コードに書いてあるが、仕様の記述と一致しない</strong>: これもバグ（実装ミス）</li>
+<li><strong>「この処理の次に何があるべきか」を仕様書で確認する</strong>: 上の例では「追加後のクリア」がこのパターン</li>
+</ol>
+<hr />
+<h2>6. VB6経験者向けの対応表</h2>
+<p>VB6を少し独学した経験があれば、以下の対応表でC#のコードが読みやすくなる。</p>
+<h3>基本構文の対応</h3>
+<table>
+<thead>
+<tr>
+<th>VB6</th>
+<th>C#</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dim x As Integer</code></td>
+<td><code>int x;</code></td>
+<td>整数変数の宣言</td>
+</tr>
+<tr>
+<td><code>Dim s As String</code></td>
+<td><code>string s;</code></td>
+<td>文字列変数の宣言</td>
+</tr>
+<tr>
+<td><code>Dim flag As Boolean</code></td>
+<td><code>bool flag;</code></td>
+<td>真偽値変数の宣言</td>
+</tr>
+<tr>
+<td><code>x = 10</code></td>
+<td><code>x = 10;</code></td>
+<td>値の代入（C#は末尾に<code>;</code>が必要）</td>
+</tr>
+<tr>
+<td><code>If x &gt; 0 Then ... End If</code></td>
+<td><code>if (x &gt; 0) { ... }</code></td>
+<td>条件分岐（C#は<code>{}</code>で囲む）</td>
+</tr>
+<tr>
+<td><code>If x &gt; 0 Then ... Else ... End If</code></td>
+<td><code>if (x &gt; 0) { ... } else { ... }</code></td>
+<td>条件分岐（else付き）</td>
+</tr>
+<tr>
+<td><code>For i = 0 To 9 ... Next i</code></td>
+<td><code>for (int i = 0; i &lt; 10; i++) { ... }</code></td>
+<td>繰り返し</td>
+</tr>
+<tr>
+<td><code>MsgBox "hello"</code></td>
+<td><code>MessageBox.Show("hello")</code></td>
+<td>メッセージ表示</td>
+</tr>
+<tr>
+<td><code>MsgBox "確認", vbYesNo</code></td>
+<td><code>MessageBox.Show("確認", ..., MessageBoxButtons.YesNo)</code></td>
+<td>はい/いいえダイアログ</td>
+</tr>
+</tbody>
+</table>
+<h3>イベント処理の対応</h3>
+<table>
+<thead>
+<tr>
+<th>VB6</th>
+<th>C#</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Private Sub cmdAdd_Click()</code></td>
+<td><code>private void btnAdd_Click(object sender, EventArgs e)</code></td>
+<td>ボタンクリック処理</td>
+</tr>
+<tr>
+<td><code>Private Sub Form_Load()</code></td>
+<td><code>private void FormMain_Load(object sender, EventArgs e)</code></td>
+<td>フォーム読み込み処理</td>
+</tr>
+<tr>
+<td>コントロール名直結で自動接続</td>
+<td>Designer.csで <code>Click +=</code> で接続</td>
+<td>イベントの接続方法</td>
+</tr>
+</tbody>
+</table>
+<h3>画面部品の対応</h3>
+<table>
+<thead>
+<tr>
+<th>VB6</th>
+<th>C# (WinForms)</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Me.txtName.Text</code></td>
+<td><code>txtName.Text</code></td>
+<td>テキストボックスの値（C#では<code>Me.</code>不要）</td>
+</tr>
+<tr>
+<td><code>cmdAdd</code> (CommandButton)</td>
+<td><code>btnAdd</code> (Button)</td>
+<td>ボタン</td>
+</tr>
+<tr>
+<td><code>txtName</code> (TextBox)</td>
+<td><code>txtName</code> (TextBox)</td>
+<td>テキストボックス</td>
+</tr>
+<tr>
+<td><code>lstItems</code> (ListView)</td>
+<td><code>dgvCustomers</code> (DataGridView)</td>
+<td>一覧表示</td>
+</tr>
+<tr>
+<td><code>lblStatus</code> (Label)</td>
+<td><code>lblStatus</code> (Label)</td>
+<td>ラベル</td>
+</tr>
+</tbody>
+</table>
+<h3>その他の対応</h3>
+<table>
+<thead>
+<tr>
+<th>VB6</th>
+<th>C#</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>' コメント</code></td>
+<td><code>// コメント</code></td>
+<td>コメント記号が違う</td>
+</tr>
+<tr>
+<td><code>&amp;</code> (文字列結合)</td>
+<td><code>+</code> または <code>$"...{変数}"</code></td>
+<td>文字列の連結方法</td>
+</tr>
+<tr>
+<td><code>Sub</code>（戻り値なし）</td>
+<td><code>void</code>（戻り値なし）</td>
+<td>戻り値がない処理</td>
+</tr>
+<tr>
+<td><code>Function ... As Integer</code></td>
+<td><code>int メソッド名(...)</code></td>
+<td>戻り値がある処理</td>
+</tr>
+<tr>
+<td><code>Nothing</code></td>
+<td><code>null</code></td>
+<td>「何もない」を表す値</td>
+</tr>
+<tr>
+<td><code>On Error GoTo</code></td>
+<td><code>try { ... } catch { ... }</code></td>
+<td>エラー処理</td>
+</tr>
+<tr>
+<td><code>Set obj = New Class1</code></td>
+<td><code>var obj = new Class1()</code></td>
+<td>オブジェクトの作成</td>
+</tr>
+<tr>
+<td>行末に記号不要</td>
+<td>行末に <code>;</code> が必要</td>
+<td>文の終わりの書き方</td>
+</tr>
+<tr>
+<td><code>And</code> / <code>Or</code></td>
+<td><code>&amp;&amp;</code> / <code>||</code></td>
+<td>論理演算子</td>
+</tr>
+<tr>
+<td><code>Not</code></td>
+<td><code>!</code></td>
+<td>否定</td>
+</tr>
+</tbody>
+</table>
+<h3>最大の違い: 波括弧 <code>{ }</code></h3>
+<p>VB6は <code>If...Then...End If</code> のように開始と終了を言葉で書く。C#は <code>{ }</code> で囲む。</p>
+<pre class="codehilite"><code>VB6:                              C#:
+If age &gt;= 18 Then                 if (age &gt;= 18)
+    MsgBox &quot;成人です&quot;              {
+End If                                MessageBox.Show(&quot;成人です&quot;);
+                                  }
+</code></pre>
+
+<p>波括弧の対応関係に慣れれば、C#のコードはVB6の知識でかなり読めるようになる。</p>
+<hr />
+<h2>次のステップ</h2>
+<p>このガイドを読んだら、もう一度 <code>01_CSharp_Level1/練習問題/問題1_顧客追加バグ/</code> のFormMain.csを開いてみる。</p>
+<ol>
+<li><strong>Step 1</strong>: メソッド名だけ拾い読みする</li>
+<li><strong>Step 2</strong>: 設計仕様書の機能と対応づける</li>
+<li><strong>Step 3</strong>: 仕様書の太字部分（バグのヒント）に対応するメソッドだけを読む</li>
+<li><strong>Step 4</strong>: このガイドの「翻訳辞書」を横に置いて、1行ずつ日本語にする</li>
+<li><strong>Step 5</strong>: 仕様書と突き合わせて、差異（バグ）を見つける</li>
+</ol>
+<p>最初は時間がかかるが、5ステップを繰り返すうちに「パッと見て分かる」ようになる。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

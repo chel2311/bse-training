@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C# プログラミング基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / CSharp基礎概念
+</div>
+<div class="content">
+<h1>C# プログラミング基礎概念（BSE向け）</h1>
+<blockquote>
+<p>コードを「書く」のではなく「読んでレビューできる」ことが目標</p>
+</blockquote>
+<hr />
+<h2>1. 変数と型</h2>
+<p>プログラムはデータを「変数」という箱に入れて処理する。箱には種類（型）がある。</p>
+<pre class="codehilite"><code class="language-csharp">// 整数
+int age = 30;
+
+// 文字列
+string name = &quot;田中太郎&quot;;
+
+// 小数（金額計算に使う）
+decimal price = 1980.50m;
+
+// 真偽値（はい/いいえ）
+bool isActive = true;
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>金額に <code>float</code> や <code>double</code> を使っていないか？ → 誤差が出る。<code>decimal</code> が正しい</li>
+<li><code>int</code> に入りきらない大きな数を扱っていないか？ → <code>long</code> を使うべき</li>
+<li>文字列が <code>null</code> になる可能性を考慮しているか？</li>
+</ul>
+<hr />
+<h2>2. 制御構造</h2>
+<h3>if/else - 条件分岐</h3>
+<pre class="codehilite"><code class="language-csharp">if (age &gt;= 18)
+{
+    // 成人の処理
+    Console.WriteLine(&quot;成人です&quot;);
+}
+else
+{
+    // 未成年の処理
+    Console.WriteLine(&quot;未成年です&quot;);
+}
+</code></pre>
+
+<h3>for - 繰り返し</h3>
+<pre class="codehilite"><code class="language-csharp">// 0から9まで10回繰り返す
+for (int i = 0; i &lt; 10; i++)
+{
+    Console.WriteLine(i);
+}
+</code></pre>
+
+<h3>foreach - コレクションの走査</h3>
+<pre class="codehilite"><code class="language-csharp">List&lt;string&gt; names = new List&lt;string&gt; { &quot;田中&quot;, &quot;鈴木&quot;, &quot;佐藤&quot; };
+foreach (string name in names)
+{
+    Console.WriteLine(name);
+}
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>if</code> の条件が仕様通りか？（<code>&gt;=</code> と <code>&gt;</code> の違い = 境界値）</li>
+<li>ループの回数は正しいか？（Off-by-oneエラー）</li>
+<li><code>else</code> の処理漏れはないか？</li>
+</ul>
+<hr />
+<h2>3. メソッド（関数）</h2>
+<p>処理をまとめて名前を付けたもの。入力（引数）を受け取り、結果（戻り値）を返す。</p>
+<pre class="codehilite"><code class="language-csharp">// 税込金額を計算するメソッド
+// 引数: price（税抜価格）, taxRate（税率）
+// 戻り値: decimal（税込価格）
+private decimal CalculateTaxIncluded(decimal price, decimal taxRate)
+{
+    return price * (1 + taxRate);
+}
+
+// 使い方
+decimal total = CalculateTaxIncluded(1000m, 0.10m); // 1100
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>引数の型は適切か？</li>
+<li>戻り値の型は呼び出し元で期待する型と一致しているか？</li>
+<li>メソッド名が処理内容を正しく表しているか？</li>
+</ul>
+<hr />
+<h2>4. クラスとオブジェクト</h2>
+<p>関連するデータと処理をまとめたもの。設計書の「エンティティ」に対応する。</p>
+<pre class="codehilite"><code class="language-csharp">// 顧客クラス
+public class Customer
+{
+    // プロパティ（データ）
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Phone { get; set; }
+    public DateTime RegisterDate { get; set; }
+
+    // コンストラクタ（初期化処理）
+    public Customer(int id, string name, string phone)
+    {
+        Id = id;
+        Name = name;
+        Phone = phone;
+        RegisterDate = DateTime.Now;
+    }
+
+    // メソッド（処理）
+    public string GetDisplayName()
+    {
+        return $&quot;[{Id}] {Name}&quot;;
+    }
+}
+
+// 使い方
+Customer customer = new Customer(1, &quot;田中太郎&quot;, &quot;090-1234-5678&quot;);
+string display = customer.GetDisplayName(); // &quot;[1] 田中太郎&quot;
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>プロパティの型は設計書のデータ型定義と一致しているか？</li>
+<li>必須項目が <code>null</code> になれる状態になっていないか？</li>
+</ul>
+<hr />
+<h2>5. イベント駆動プログラミング（WinForms）</h2>
+<p>GUIアプリは「ユーザーの操作（イベント）」に応じて処理が実行される。</p>
+<pre class="codehilite"><code class="language-csharp">public partial class Form1 : Form
+{
+    public Form1()
+    {
+        InitializeComponent();
+    }
+
+    // フォームが読み込まれた時に実行される
+    private void Form1_Load(object sender, EventArgs e)
+    {
+        LoadCustomerList();
+    }
+
+    // 「追加」ボタンがクリックされた時に実行される
+    private void btnAdd_Click(object sender, EventArgs e)
+    {
+        AddCustomer();
+    }
+
+    // 「削除」ボタンがクリックされた時に実行される
+    private void btnDelete_Click(object sender, EventArgs e)
+    {
+        DeleteCustomer();
+    }
+}
+</code></pre>
+
+<h3>イベントの仕組み</h3>
+<ol>
+<li>ユーザーがボタンをクリック</li>
+<li>Windowsが「クリックイベント」を発火</li>
+<li>対応するイベントハンドラ（メソッド）が実行される</li>
+</ol>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>ボタンにイベントハンドラが正しく接続されているか？（Designer.csを確認）</li>
+<li>フォームロード時の初期化処理は適切か？</li>
+<li>イベントの実行順序は正しいか？</li>
+</ul>
+<hr />
+<h2>6. DB接続基礎（SQL Server）</h2>
+<p>C#からSQL Serverに接続してデータを読み書きする。</p>
+<pre class="codehilite"><code class="language-csharp">// 接続文字列
+string connectionString = &quot;Server=localhost;Database=CustomerDB;Trusted_Connection=True;&quot;;
+
+// データの取得（SELECT）
+using (SqlConnection conn = new SqlConnection(connectionString))
+{
+    conn.Open();
+    string sql = &quot;SELECT Id, Name, Phone FROM Customers WHERE IsActive = @IsActive&quot;;
+
+    using (SqlCommand cmd = new SqlCommand(sql, conn))
+    {
+        cmd.Parameters.AddWithValue(&quot;@IsActive&quot;, true);
+
+        using (SqlDataReader reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                string phone = reader.GetString(2);
+            }
+        }
+    }
+}
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>using</code> でリソースが正しく解放されているか？（接続の閉じ忘れ）</li>
+<li>SQLにパラメータを使っているか？（文字列結合はSQLインジェクションの危険）</li>
+<li>接続文字列のサーバー名やDB名は正しいか？</li>
+<li><code>conn.Open()</code> 周辺にtry-catchがあるか？</li>
+</ul>
+<hr />
+<h2>7. 例外処理</h2>
+<p>想定外のエラーが発生した時の対処。</p>
+<pre class="codehilite"><code class="language-csharp">try
+{
+    // エラーが起きるかもしれない処理
+    conn.Open();
+    // DB操作...
+}
+catch (SqlException ex)
+{
+    // DB関連のエラー
+    MessageBox.Show($&quot;データベースエラー: {ex.Message}&quot;);
+}
+catch (Exception ex)
+{
+    // その他のエラー
+    MessageBox.Show($&quot;エラーが発生しました: {ex.Message}&quot;);
+}
+finally
+{
+    // エラーが起きても起きなくても必ず実行される
+    conn.Close();
+}
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>try-catch</code> が適切な範囲で使われているか？（広すぎ/狭すぎ）</li>
+<li><code>catch</code> でエラーを握りつぶしていないか？（空のcatchブロック）</li>
+<li>ユーザーに適切なエラーメッセージが表示されるか？</li>
+<li><code>finally</code> でリソース解放が確実に行われるか？</li>
+</ul>
+<hr />
+<h2>8. Visual Studio デバッグの基本操作</h2>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブレークポイント設置</td>
+<td>F9</td>
+<td>実行を止めたい行に設置</td>
+</tr>
+<tr>
+<td>デバッグ実行</td>
+<td>F5</td>
+<td>ブレークポイントで止まる</td>
+</tr>
+<tr>
+<td>ステップオーバー</td>
+<td>F10</td>
+<td>次の行へ（メソッド内に入らない）</td>
+</tr>
+<tr>
+<td>ステップイン</td>
+<td>F11</td>
+<td>メソッドの中に入る</td>
+</tr>
+<tr>
+<td>変数の値確認</td>
+<td>マウスホバー</td>
+<td>変数にカーソルを合わせると値が見える</td>
+</tr>
+<tr>
+<td>ウォッチウィンドウ</td>
+<td>-</td>
+<td>監視したい変数を登録して値を追跡</td>
+</tr>
+</tbody>
+</table>
+<h3>デバッグの手順</h3>
+<ol>
+<li>「おかしい」と思う処理の手前にブレークポイント（F9）</li>
+<li>デバッグ実行（F5）</li>
+<li>止まったら変数の値を確認</li>
+<li>F10で1行ずつ進めながら、値の変化を追う</li>
+<li>期待と違う値になる行がバグの原因</li>
+</ol>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>01_CSharp_Level1/</code> の練習問題に進んでください。<br />
+実際のGUIアプリのコードを読み、設計仕様書と照らし合わせてバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

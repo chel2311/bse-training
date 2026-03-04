@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSEコードレビュー訓練カリキュラム - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="index.html">ポータル</a> / カリキュラム
+</div>
+<div class="content">
+<h1>BSEコードレビュー訓練カリキュラム</h1>
+<h2>対象者</h2>
+<ul>
+<li>ブリッジSE（コーディング経験少、VB6を少し独学した程度）</li>
+<li>オフショア開発（ベトナム）のコードレビューが主な業務</li>
+</ul>
+<h2>環境</h2>
+<ul>
+<li>OS: Windows</li>
+<li>IDE: Visual Studio</li>
+<li>DB: SQL Server</li>
+<li>バージョン管理: Git</li>
+</ul>
+<hr />
+<h2>Phase 0: プログラミング基礎概念</h2>
+<blockquote>
+<p>コードを「読める」ようになるための最低限の知識</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>テーマ</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-1</td>
+<td>変数と型</td>
+<td>int, string, bool, decimal等。型の違いが起こすバグ</td>
+</tr>
+<tr>
+<td>0-2</td>
+<td>制御構造</td>
+<td>if/else, for, while, switch。条件分岐の読み方</td>
+</tr>
+<tr>
+<td>0-3</td>
+<td>メソッド</td>
+<td>引数・戻り値・スコープ。処理の流れの追い方</td>
+</tr>
+<tr>
+<td>0-4</td>
+<td>クラスとオブジェクト</td>
+<td>プロパティ、コンストラクタ、インスタンス</td>
+</tr>
+<tr>
+<td>0-5</td>
+<td>イベント駆動</td>
+<td>ボタンクリック、フォームロード等GUI動作の仕組み</td>
+</tr>
+<tr>
+<td>0-6</td>
+<td>DB接続基礎</td>
+<td>SQL Server接続、SELECT/INSERT/UPDATE/DELETE</td>
+</tr>
+<tr>
+<td>0-7</td>
+<td>例外処理</td>
+<td>try-catch、エラーハンドリングの基本</td>
+</tr>
+</tbody>
+</table>
+<h2>Phase 1: C# WinForms（Level 1 - 単一バグ）</h2>
+<blockquote>
+<p>GUI付き顧客管理アプリで「仕様との差異」を見つける訓練</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>問題テーマ</th>
+<th>仕込むバグ</th>
+<th>難易度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>顧客追加が反映されない</td>
+<td>イベントハンドラ未接続</td>
+<td>★☆☆</td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>検索が一致しない</td>
+<td>大文字小文字の未考慮</td>
+<td>★☆☆</td>
+</tr>
+<tr>
+<td>1-3</td>
+<td>削除確認が出ない</td>
+<td>確認ダイアログ未実装</td>
+<td>★☆☆</td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>不正な値が入力できる</td>
+<td>入力バリデーション不足</td>
+<td>★★☆</td>
+</tr>
+<tr>
+<td>1-5</td>
+<td>金額計算が合わない</td>
+<td>税込計算ロジックミス</td>
+<td>★★☆</td>
+</tr>
+<tr>
+<td>1-6</td>
+<td>DB接続エラー</td>
+<td>接続文字列の誤り/例外未処理</td>
+<td>★★☆</td>
+</tr>
+<tr>
+<td>1-7</td>
+<td>データが保存されない</td>
+<td>INSERT文のパラメータミス</td>
+<td>★★☆</td>
+</tr>
+</tbody>
+</table>
+<h3>各問題のセット内容</h3>
+<ol>
+<li><strong>設計仕様書</strong> - アプリの要件・画面設計・処理フロー</li>
+<li><strong>バグ入りソースコード</strong> - Visual Studioで開いてデバッグ可能</li>
+<li><strong>レビューチェックリスト</strong> - 何を確認すべきかのガイド</li>
+<li><strong>回答・解説</strong> - バグ箇所、原因、修正コード、レビュー指摘例文</li>
+</ol>
+<h2>Phase 2: C# WinForms（Level 2 - 複数バグ）</h2>
+<blockquote>
+<p>複数のバグが絡み合うケース。実務レビューに近い</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>問題テーマ</th>
+<th>バグ数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-1</td>
+<td>在庫管理画面の不具合</td>
+<td>3個</td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>帳票出力の問題</td>
+<td>3個</td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>DB CRUD操作の複合バグ</td>
+<td>4個</td>
+</tr>
+</tbody>
+</table>
+<h2>Phase 3: VB.NET 管理表アプリ（Level 1-2）</h2>
+<blockquote>
+<p>DataGridViewを使った管理表。C#との類似点・相違点を学ぶ</p>
+</blockquote>
+<h2>Phase 4: VBA Excel帳票（Level 1-2）</h2>
+<blockquote>
+<p>月次売上帳票マクロ。Excelがあればすぐ試せる</p>
+</blockquote>
+<h2>Phase 5: VB6 レガシーアプリ（Level 1-2）</h2>
+<blockquote>
+<p>既存アプリの保守を想定したレビュー訓練</p>
+</blockquote>
+<h2>Phase 6: C++ 図形描画（Level 1-2）</h2>
+<blockquote>
+<p>CAD関連の基礎。ポインタ、メモリ管理のバグ</p>
+</blockquote>
+<h2>Phase 7: Git バージョン管理</h2>
+<blockquote>
+<p>上記プロジェクトを使ったGit操作演習</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>テーマ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7-1</td>
+<td>clone, add, commit, push の基本操作</td>
+</tr>
+<tr>
+<td>7-2</td>
+<td>branch, merge, コンフリクト解消</td>
+</tr>
+<tr>
+<td>7-3</td>
+<td>Pull Request レビューの方法</td>
+</tr>
+<tr>
+<td>7-4</td>
+<td>git log, diff でコード変更を追う</td>
+</tr>
+</tbody>
+</table>
+<h2>Phase 8: SQL Server</h2>
+<blockquote>
+<p>DB設計レビュー、クエリレビューの訓練</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>テーマ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8-1</td>
+<td>テーブル設計の問題を見つける</td>
+</tr>
+<tr>
+<td>8-2</td>
+<td>SQLクエリのバグ（JOIN、GROUP BY等）</td>
+</tr>
+<tr>
+<td>8-3</td>
+<td>パフォーマンス問題（インデックス、N+1）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>学習の進め方</h2>
+<ol>
+<li>まず <strong>Phase 0</strong> で基礎概念を理解</li>
+<li><strong>Phase 1</strong> の問題1から順にバグ探し</li>
+<li>各問題で「設計仕様書を読む → コードを読む → バグを見つける → 修正案を書く」のサイクルを回す</li>
+<li>回答解説で答え合わせ、レビュー指摘例文を参考に指摘の書き方を学ぶ</li>
+<li>Level 1をクリアしたらLevel 2へ</li>
+<li>C#が終わったら他の言語へ横展開</li>
+</ol>
+<h2>レビュー指摘の書き方テンプレート</h2>
+<pre class="codehilite"><code>【指摘箇所】ファイル名: 行番号付近
+【分類】バグ / 仕様不一致 / 改善提案
+【重要度】高 / 中 / 低
+【内容】○○の処理で△△となっているが、設計仕様書では□□と定義されている。
+【修正案】△△を□□に変更してください。
+</code></pre>
+<div class="nav-links">
+    <a href="index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

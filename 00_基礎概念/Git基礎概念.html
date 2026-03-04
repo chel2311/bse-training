@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git バージョン管理 基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / Git基礎概念
+</div>
+<div class="content">
+<h1>Git バージョン管理 基礎概念（BSE向け）</h1>
+<blockquote>
+<p>コードの変更履歴を管理し、Pull Requestをレビューできることが目標</p>
+</blockquote>
+<hr />
+<h2>1. Gitとは</h2>
+<h3>バージョン管理とは何か</h3>
+<p>ソースコードの「変更履歴」を記録・管理する仕組み。<br />
+誰が、いつ、どのファイルを、どう変更したかを追跡できる。</p>
+<pre class="codehilite"><code>なぜ必要か:
+- 「昨日動いていたコードに戻したい」 → 過去のバージョンに戻せる
+- 「誰がこのバグを入れたか知りたい」 → 変更履歴を辿れる
+- 「複数人で同じファイルを編集したい」 → 変更を統合（マージ）できる
+- 「この変更は正しいかレビューしたい」 → Pull Requestで差分を確認できる
+</code></pre>
+
+<h3>Gitの基本用語</h3>
+<table>
+<thead>
+<tr>
+<th>用語</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>リポジトリ（Repository）</td>
+<td>プロジェクト全体の保管庫。変更履歴も含む</td>
+</tr>
+<tr>
+<td>ローカルリポジトリ</td>
+<td>自分のPCにあるリポジトリ</td>
+</tr>
+<tr>
+<td>リモートリポジトリ</td>
+<td>サーバー上（GitHub、Azure DevOps等）にあるリポジトリ</td>
+</tr>
+<tr>
+<td>コミット（Commit）</td>
+<td>変更内容を履歴として記録すること。「セーブポイント」のようなもの</td>
+</tr>
+<tr>
+<td>ブランチ（Branch）</td>
+<td>作業を分岐させる機能。本流に影響せず開発できる</td>
+</tr>
+<tr>
+<td>マージ（Merge）</td>
+<td>分岐した作業を本流に統合すること</td>
+</tr>
+<tr>
+<td>プル（Pull）</td>
+<td>リモートの最新状態をローカルに取り込む</td>
+</tr>
+<tr>
+<td>プッシュ（Push）</td>
+<td>ローカルの変更をリモートに送る</td>
+</tr>
+<tr>
+<td>クローン（Clone）</td>
+<td>リモートリポジトリを丸ごとローカルにコピーする</td>
+</tr>
+<tr>
+<td>ステージング（Staging）</td>
+<td>コミットする変更を選択する中間領域</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 基本コマンド一覧</h2>
+<h3>リポジトリの取得・確認</h3>
+<pre class="codehilite"><code class="language-bash"># リモートリポジトリをローカルにコピー（最初に1回だけ実行）
+git clone https://github.com/company/project.git
+
+# 現在の状態を確認（変更したファイル、ステージング状態）
+git status
+</code></pre>
+
+<p><code>git status</code> の出力例:</p>
+<pre class="codehilite"><code>On branch main
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+        modified:   FormMain.cs        ← 変更したがまだステージングしていない
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+        NewFile.cs                     ← 新規ファイル（まだGit管理外）
+</code></pre>
+
+<h3>変更の記録（コミットの流れ）</h3>
+<pre class="codehilite"><code class="language-bash"># 1. 変更したファイルをステージング（コミット対象に選択）
+git add FormMain.cs
+
+# 全ファイルをまとめてステージング
+git add .
+
+# 2. コミット（変更を履歴として記録）
+git commit -m &quot;顧客追加時のバリデーションを修正&quot;
+
+# 3. リモートに送信
+git push
+</code></pre>
+
+<h3>最新の取得</h3>
+<pre class="codehilite"><code class="language-bash"># リモートの最新状態をローカルに反映
+git pull
+</code></pre>
+
+<p><strong>作業前に必ず <code>git pull</code> を実行する習慣をつける。</strong><br />
+他の人の変更を取り込まずに作業すると、後でコンフリクトが発生しやすい。</p>
+<h3>ブランチ操作</h3>
+<pre class="codehilite"><code class="language-bash"># ブランチ一覧を表示（*が現在のブランチ）
+git branch
+
+# 新しいブランチを作成
+git branch feature/csv-export
+
+# ブランチを切り替える
+git checkout feature/csv-export
+
+# ブランチの作成と切り替えを同時に行う
+git checkout -b feature/csv-export
+
+# mainブランチにfeatureブランチの変更を統合
+git checkout main
+git merge feature/csv-export
+</code></pre>
+
+<h3>履歴の確認</h3>
+<pre class="codehilite"><code class="language-bash"># コミット履歴を表示
+git log
+
+# コミット履歴を1行ずつ簡潔に表示
+git log --oneline
+
+# 特定ファイルの変更履歴
+git log FormMain.cs
+
+# 変更内容の差分を表示
+git diff
+
+# ステージング済みの差分を表示
+git diff --staged
+
+# 2つのブランチ間の差分
+git diff main..feature/csv-export
+</code></pre>
+
+<p><code>git log --oneline</code> の出力例:</p>
+<pre class="codehilite"><code>a3f7b2c 顧客削除時の確認ダイアログを追加
+b8e1d4f 年齢バリデーションの範囲チェックを追加
+c5a9e3g 顧客追加機能の初期実装
+d2b6f1h プロジェクトの初期セットアップ
+</code></pre>
+
+<h3>レビューで使うコマンドまとめ</h3>
+<table>
+<thead>
+<tr>
+<th>よく使う場面</th>
+<th>コマンド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最新のコードを取得したい</td>
+<td><code>git pull</code></td>
+</tr>
+<tr>
+<td>誰が何を変更したか確認したい</td>
+<td><code>git log</code></td>
+</tr>
+<tr>
+<td>変更内容の詳細を見たい</td>
+<td><code>git diff</code></td>
+</tr>
+<tr>
+<td>今の作業状態を確認したい</td>
+<td><code>git status</code></td>
+</tr>
+<tr>
+<td>特定のブランチに切り替えたい</td>
+<td><code>git checkout ブランチ名</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. ブランチ戦略の基本</h2>
+<p>チーム開発では、ブランチの使い方にルールを設ける。<br />
+以下は最も一般的な3層構造。</p>
+<pre class="codehilite"><code>main（本番環境）
+  │
+  ├── develop（開発の統合ブランチ）
+  │     │
+  │     ├── feature/customer-add（顧客追加機能）
+  │     ├── feature/csv-export（CSVエクスポート機能）
+  │     └── feature/search-fix（検索バグ修正）
+  │
+  └── hotfix/urgent-fix（緊急バグ修正）
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>ブランチ</th>
+<th>目的</th>
+<th>マージ先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>本番環境のコード。直接変更しない</td>
+<td>-</td>
+</tr>
+<tr>
+<td>develop</td>
+<td>開発中のコードを統合するブランチ</td>
+<td>main</td>
+</tr>
+<tr>
+<td>feature/*</td>
+<td>個別の機能開発やバグ修正</td>
+<td>develop</td>
+</tr>
+<tr>
+<td>hotfix/*</td>
+<td>本番の緊急バグ修正</td>
+<td>main, develop</td>
+</tr>
+</tbody>
+</table>
+<h3>ブランチのイメージ図</h3>
+<pre class="codehilite"><code>時間の流れ →
+
+main:     o───────o──────────────────────o───── (本番リリース)
+          │       ↑                      ↑
+develop:  o───o───o───o───o───o───o──────o───── (開発統合)
+              │       ↑   │       ↑
+feature/A:    o───o───o   │       │        (機能Aの開発)
+                          │       │
+feature/B:                o───o───o        (機能Bの開発)
+
+o = コミット
+│ = ブランチの分岐
+↑ = マージ（統合）
+</code></pre>
+
+<h3>BSEが知っておくべきこと</h3>
+<ul>
+<li>開発者は <code>feature/</code> ブランチで作業し、<code>develop</code> へのマージ前にPull Requestを出す</li>
+<li>BSEはPull Requestでコードレビューを行い、承認（Approve）または差し戻し（Request Changes）する</li>
+<li><code>main</code> への直接コミットは禁止が基本</li>
+</ul>
+<hr />
+<h2>4. コンフリクトとは</h2>
+<p>2人が<strong>同じファイルの同じ箇所</strong>を別々に変更した場合、Gitはどちらを採用すべきか判断できない。<br />
+これが「コンフリクト（競合）」。</p>
+<h3>コンフリクトが発生する例</h3>
+<pre class="codehilite"><code>開発者A: GetTaxRate メソッドの税率を 0.08 → 0.10 に変更
+開発者B: GetTaxRate メソッドの税率を 0.08 → 0.08（軽減税率の分岐を追加）
+
+→ 同じ行を異なる内容に変更 → マージ時にコンフリクト発生
+</code></pre>
+
+<h3>コンフリクト発生時のファイル表示</h3>
+<pre class="codehilite"><code class="language-csharp">public decimal GetTaxRate()
+{
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+    return 0.10m;  // 開発者Aの変更（現在のブランチ）
+=======
+    // 軽減税率対応
+    if (IsReducedTaxRate)
+        return 0.08m;
+    return 0.10m;  // 開発者Bの変更（マージしようとしたブランチ）
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/reduced-tax
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>マーカー</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code></td>
+<td>現在のブランチ（自分）の変更の開始</td>
+</tr>
+<tr>
+<td><code>=======</code></td>
+<td>区切り線</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; ブランチ名</code></td>
+<td>マージしようとしたブランチの変更の終了</td>
+</tr>
+</tbody>
+</table>
+<h3>コンフリクトの解消手順</h3>
+<ol>
+<li>コンフリクトマーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）を削除する</li>
+<li>正しいコードになるよう手動で編集する</li>
+<li><code>git add</code> でステージングし、<code>git commit</code> で解消を確定する</li>
+</ol>
+<hr />
+<h2>5. Pull Request（PR）の概念と流れ</h2>
+<p>Pull Requestとは、「自分の変更を本流ブランチに統合（マージ）してほしい」というリクエスト。<br />
+GitHub、Azure DevOps、GitLab等のWebサービス上で行う。</p>
+<h3>PRの流れ</h3>
+<pre class="codehilite"><code>1. 開発者がfeatureブランチで作業・コミット
+2. 開発者がリモートにpush
+3. 開発者がPull Requestを作成（変更内容の説明を記載）
+4. レビュアー（BSE等）が差分を確認
+5. 問題があれば指摘コメントを記入 → 開発者が修正
+6. 問題なければ「承認（Approve）」
+7. マージ実行 → developブランチに統合
+</code></pre>
+
+<h3>PRに含まれる情報</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>タイトル</td>
+<td>変更内容の要約（例: 「CSVエクスポート機能の追加」）</td>
+</tr>
+<tr>
+<td>説明</td>
+<td>何を変更したか、なぜ変更したかの詳細</td>
+</tr>
+<tr>
+<td>差分（Diff）</td>
+<td>変更前と変更後のコードの違い</td>
+</tr>
+<tr>
+<td>コミット一覧</td>
+<td>このPRに含まれる全コミット</td>
+</tr>
+<tr>
+<td>レビューコメント</td>
+<td>レビュアーの指摘やフィードバック</td>
+</tr>
+</tbody>
+</table>
+<h3>diffの読み方</h3>
+<pre class="codehilite"><code class="language-diff">@@ -15,7 +15,10 @@ public class CustomerManager
+     public void AddCustomer(string name, string phone)
+     {
+-        // 古いコード（削除された行）
+-        customers.Add(new Customer(name, phone));
++        // 新しいコード（追加された行）
++        if (string.IsNullOrEmpty(name))
++            throw new ArgumentException(&quot;名前は必須です&quot;);
++        customers.Add(new Customer(name, phone));
+     }
+ }
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>記号</th>
+<th>意味</th>
+<th>色（GitHub等）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-</code></td>
+<td>削除された行</td>
+<td>赤</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>追加された行</td>
+<td>緑</td>
+</tr>
+<tr>
+<td>（空白）</td>
+<td>変更なしの行（前後の文脈）</td>
+<td>白</td>
+</tr>
+<tr>
+<td><code>@@</code></td>
+<td>変更箇所の位置情報</td>
+<td>紫</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. BSEとしてGitで何をするか</h2>
+<p>BSEの主な役割は「コードを書く」ことではなく「レビュー」すること。<br />
+Gitに関しては以下のスキルが必要。</p>
+<h3>必須スキル</h3>
+<table>
+<thead>
+<tr>
+<th>スキル</th>
+<th>具体的な内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRレビュー</td>
+<td>Pull Requestの差分を読み、問題点を指摘する</td>
+</tr>
+<tr>
+<td>変更履歴の確認</td>
+<td><code>git log</code> で誰がいつ何を変更したかを追跡する</td>
+</tr>
+<tr>
+<td>差分の読み方</td>
+<td><code>git diff</code> やPR画面で変更内容を正確に理解する</td>
+</tr>
+<tr>
+<td>ブランチの理解</td>
+<td>どのブランチで何の作業が行われているか把握する</td>
+</tr>
+</tbody>
+</table>
+<h3>PRレビューで確認すること</h3>
+<ol>
+<li><strong>仕様との整合性</strong>: 変更内容が設計仕様書の要件を満たしているか</li>
+<li><strong>既存コードへの影響</strong>: 変更が他の機能を壊していないか</li>
+<li><strong>コード品質</strong>: usingの使用、エラー処理、バリデーション等</li>
+<li><strong>セキュリティ</strong>: SQLインジェクション、ハードコーディングされた機密情報等</li>
+<li><strong>コミットメッセージ</strong>: 変更内容を適切に説明しているか</li>
+</ol>
+<hr />
+<h2>7. Visual StudioでのGit操作</h2>
+<p>Visual Studioには「Git Changes」ウィンドウが統合されており、コマンドを使わずにGit操作が可能。</p>
+<h3>Git Changesウィンドウ（Visual Studio 2019以降）</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>Visual Studioでの手順</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clone</td>
+<td>ファイル → リポジトリのクローン → URLを入力</td>
+</tr>
+<tr>
+<td>Status確認</td>
+<td>Git Changes ウィンドウで変更ファイル一覧を確認</td>
+</tr>
+<tr>
+<td>Add（ステージング）</td>
+<td>変更ファイルの横の「+」ボタンをクリック</td>
+</tr>
+<tr>
+<td>Commit</td>
+<td>メッセージを入力して「コミット」ボタン</td>
+</tr>
+<tr>
+<td>Push</td>
+<td>Git Changes 上部の「↑ プッシュ」ボタン</td>
+</tr>
+<tr>
+<td>Pull</td>
+<td>Git Changes 上部の「↓ プル」ボタン</td>
+</tr>
+<tr>
+<td>Branch作成</td>
+<td>右下のブランチ名をクリック → 「新しいブランチ」</td>
+</tr>
+<tr>
+<td>Branch切り替え</td>
+<td>右下のブランチ名をクリック → 切り替え先を選択</td>
+</tr>
+<tr>
+<td>差分の確認</td>
+<td>変更ファイルをダブルクリック → 差分表示</td>
+</tr>
+<tr>
+<td>履歴の確認</td>
+<td>Git → コミット履歴の表示</td>
+</tr>
+</tbody>
+</table>
+<h3>チーム エクスプローラー（Visual Studio 2017以前）</h3>
+<p>古いバージョンのVisual Studioでは「チーム エクスプローラー」を使用する。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>手順</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表示</td>
+<td>表示メニュー → チーム エクスプローラー</td>
+</tr>
+<tr>
+<td>Clone</td>
+<td>接続 → リポジトリのクローン</td>
+</tr>
+<tr>
+<td>変更の確認</td>
+<td>ホーム → 変更</td>
+</tr>
+<tr>
+<td>ブランチ操作</td>
+<td>ホーム → ブランチ</td>
+</tr>
+<tr>
+<td>同期（Push/Pull）</td>
+<td>ホーム → 同期</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. Gitの作業フロー図</h2>
+<h3>日常の作業フロー</h3>
+<pre class="codehilite"><code>[リモートリポジトリ]
+       │
+       │ git clone（初回のみ）
+       ↓
+[ローカルリポジトリ]
+       │
+       │ git pull（作業開始前に最新化）
+       ↓
+[ファイルを編集]
+       │
+       │ git add（変更をステージング）
+       ↓
+[ステージングエリア]
+       │
+       │ git commit（履歴として記録）
+       ↓
+[ローカルリポジトリ]
+       │
+       │ git push（リモートに送信）
+       ↓
+[リモートリポジトリ]
+       │
+       │ Pull Request作成
+       ↓
+[レビュー → 承認 → マージ]
+</code></pre>
+
+<h3>3つの領域</h3>
+<pre class="codehilite"><code>作業ディレクトリ          ステージング           ローカルリポジトリ
+（実際のファイル）     （コミット準備領域）      （変更履歴の保管庫）
+      │                     │                       │
+      │── git add ──→       │                       │
+      │                     │── git commit ──→      │
+      │                     │                       │── git push ──→ リモート
+      │←────────── git pull ─────────────────────────│
+</code></pre>
+
+<hr />
+<h2>レビューで見るポイント（まとめ）</h2>
+<ul>
+<li>コミットメッセージは変更内容を正しく説明しているか？</li>
+<li>1つのコミットに複数の無関係な変更が混在していないか？</li>
+<li>featureブランチ名は機能内容を反映しているか？</li>
+<li>Pull Requestの説明に「何を」「なぜ」変更したかが書かれているか？</li>
+<li>マージ先のブランチは正しいか？（feature → develop、hotfix → main）</li>
+<li>コンフリクトが未解消のままマージされていないか？</li>
+</ul>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>06_Git/演習/</code> の演習問題に進んでください。<br />
+実際のGitコマンドを使った操作演習と、PRレビューの実践訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

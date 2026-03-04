@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>デバッグガイド（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / デバッグガイド
+</div>
+<div class="content">
+<h1>デバッグガイド（BSE向け）</h1>
+<blockquote>
+<p>プログラムを1行ずつ実行して変数の値を確認する。仕様通りに動いているか確かめる最も確実な手段。</p>
+</blockquote>
+<hr />
+<h2>1. デバッグとは何か</h2>
+<p>デバッグとは、プログラムを1行ずつ実行しながら、変数の値や処理の流れを確認する作業のこと。</p>
+<h3>なぜBSEにデバッグが必要か</h3>
+<ul>
+<li>コードを読むだけでは、実際にどんな値が変数に入っているかわからない</li>
+<li>デバッグを使えば「仕様書の期待値」と「実際の値」を直接比較できる</li>
+<li>バグの原因を「ここがおかしい気がする」ではなく「この行で値が期待と異なる」と特定できる</li>
+</ul>
+<p><strong>一言で言えば</strong>: デバッグは「仕様通りに動いているか確認する手段」。コードを書く能力がなくても使える。</p>
+<hr />
+<h2>2. ブレークポイント</h2>
+<h3>ブレークポイントとは</h3>
+<p>プログラムの実行を「ここで止めてほしい」と指定するマーク。ブレークポイントを置いた行でプログラムが一時停止し、その時点の変数の値を確認できる。</p>
+<h3>設置方法</h3>
+<p><strong>方法1</strong>: 止めたい行にカーソルを置いて <strong>F9</strong> キーを押す（もう一度押すと解除）</p>
+<p><strong>方法2</strong>: コードエディタの行番号の左側（余白部分）をクリックする → 赤い丸が表示される</p>
+<pre class="codehilite"><code>設置後のイメージ:
+
+    43      private void btnAdd_Click(object sender, EventArgs e)
+    44      {
+  ● 45          string name = txtName.Text;     ← ここで止まる（●が赤い丸）
+    46          string phone = txtPhone.Text;
+    47          AddCustomer(name, phone);
+</code></pre>
+
+<h3>条件付きブレークポイント</h3>
+<p>特定の条件を満たすときだけ止めたい場合に使う。</p>
+<ol>
+<li>ブレークポイント（赤い丸）を右クリックする</li>
+<li>「条件」を選択する</li>
+<li>条件式を入力する（例: <code>i == 5</code>、<code>name == "田中"</code>）</li>
+</ol>
+<p><strong>使いどころ</strong>: ループの中で100回繰り返す処理があるが、5回目だけ確認したい場合など。</p>
+<h3>ブレークポイントの一覧管理</h3>
+<p>メニューの「デバッグ」→「ウィンドウ」→「ブレークポイント」で一覧を表示できる。<br />
+設置した全ブレークポイントの有効/無効を切り替えたり、一括削除したりできる。</p>
+<h3>ブレークポイントを置くべき場所のコツ</h3>
+<table>
+<thead>
+<tr>
+<th>場所</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ボタンクリックのイベントハンドラの先頭</td>
+<td>ボタンを押したとき、このメソッドが呼ばれるか確認できる</td>
+</tr>
+<tr>
+<td>if文の直前</td>
+<td>条件式の値が期待通りか確認できる</td>
+</tr>
+<tr>
+<td>計算処理の前後</td>
+<td>計算の入力値と結果が正しいか確認できる</td>
+</tr>
+<tr>
+<td>DB操作の前後</td>
+<td>SQLのパラメータ値と取得結果を確認できる</td>
+</tr>
+<tr>
+<td>メソッド呼び出しの前後</td>
+<td>メソッドに渡す引数と返ってくる値を確認できる</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. ステップ実行</h2>
+<p>ブレークポイントで止まった後、1行ずつ実行を進める操作。</p>
+<h3>3つのステップ操作</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>キー</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ステップオーバー</td>
+<td><strong>F10</strong></td>
+<td>次の行に進む。メソッド呼び出しがあっても中には入らない</td>
+</tr>
+<tr>
+<td>ステップイン</td>
+<td><strong>F11</strong></td>
+<td>次の行に進む。メソッド呼び出しがあれば中に入る</td>
+</tr>
+<tr>
+<td>ステップアウト</td>
+<td><strong>Shift+F11</strong></td>
+<td>今いるメソッドの残りを一気に実行して、呼び出し元に戻る</td>
+</tr>
+</tbody>
+</table>
+<h3>実行続行</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>キー</th>
+<th>動作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>続行</td>
+<td><strong>F5</strong></td>
+<td>次のブレークポイントまで一気に実行する</td>
+</tr>
+<tr>
+<td>停止</td>
+<td><strong>Shift+F5</strong></td>
+<td>デバッグを終了する</td>
+</tr>
+</tbody>
+</table>
+<h3>F10とF11の違い（図解）</h3>
+<pre class="codehilite"><code>コード:
+    45  string name = txtName.Text;
+    46  string phone = txtPhone.Text;
+    47  AddCustomer(name, phone);        ← 今ここで止まっている
+    48  RefreshGrid();
+
+    AddCustomer メソッドの中身:
+        60  var customer = new Customer(name, phone);
+        61  customers.Add(customer);
+        62  return;
+
+
+【F10（ステップオーバー）を押した場合】
+
+    47  AddCustomer(name, phone);        ← AddCustomerの中身は実行されるが
+    48  RefreshGrid();                   ← 止まるのはここ（次の行）
+
+    → メソッドの中身には入らず、結果だけ得て次へ進む
+
+
+【F11（ステップイン）を押した場合】
+
+    47  AddCustomer(name, phone);        ← ここから
+        60  var customer = new ...        ← AddCustomerの中のここに入る
+
+    → メソッドの中身に入って、1行目で止まる
+</code></pre>
+
+<p><strong>使い分けの目安</strong>:<br />
+- まず <strong>F10</strong> で全体の流れを確認する<br />
+- 怪しいメソッドが見つかったら、もう一度実行して今度は <strong>F11</strong> で中に入る<br />
+- 興味のないメソッドの中に入ってしまったら <strong>Shift+F11</strong> で抜ける</p>
+<hr />
+<h2>4. 変数の値を確認する方法</h2>
+<h3>方法1: マウスホバー（最も手軽）</h3>
+<p>デバッグ中に停止した状態で、変数にマウスカーソルを合わせるとツールチップで値が表示される。</p>
+<pre class="codehilite"><code>    45  string name = txtName.Text;
+                     ↑ カーソルを合わせると &quot;田中太郎&quot; と表示される
+</code></pre>
+
+<p>オブジェクトの場合は展開できる。<code>customer</code> にホバーすると、<code>Id</code>, <code>Name</code>, <code>Phone</code> 等の各プロパティの値を確認できる。</p>
+<h3>方法2: ローカルウィンドウ</h3>
+<p>メニューの「デバッグ」→「ウィンドウ」→「ローカル」で開く。<br />
+現在のスコープにあるすべての変数とその値が一覧表示される。</p>
+<pre class="codehilite"><code>ローカルウィンドウ:
+  名前          値                型
+  name          &quot;田中太郎&quot;        string
+  phone         &quot;090-1234-5678&quot;  string
+  customers     Count = 3        List&lt;Customer&gt;
+</code></pre>
+
+<p><strong>利点</strong>: いちいちマウスを合わせなくても、すべての変数が見える。</p>
+<h3>方法3: ウォッチウィンドウ</h3>
+<p>メニューの「デバッグ」→「ウィンドウ」→「ウォッチ」→「ウォッチ 1」で開く。<br />
+監視したい変数や式を登録しておくと、ステップ実行のたびに値が更新される。</p>
+<pre class="codehilite"><code>ウォッチウィンドウ:
+  名前                  値        型
+  customers.Count       3         int
+  txtName.Text          &quot;田中&quot;    string
+  price * taxRate       198.0     decimal
+</code></pre>
+
+<p><strong>利点</strong>: 特定の変数だけを継続的に監視できる。式（計算結果）も登録できる。</p>
+<h3>方法4: イミディエイトウィンドウ</h3>
+<p>メニューの「デバッグ」→「ウィンドウ」→「イミディエイト」で開く。<br />
+C#の式を直接入力して、その場で評価（実行）できる。</p>
+<pre class="codehilite"><code>イミディエイトウィンドウ:
+&gt; customers.Count
+3
+&gt; name.ToUpper()
+&quot;田中太郎&quot;
+&gt; price * 1.10m
+2178.55
+&gt; customers[0].Name
+&quot;鈴木一郎&quot;
+</code></pre>
+
+<p><strong>利点</strong>: 変数の値だけでなく、メソッドの呼び出し結果や計算結果をその場で確認できる。「この式の結果はどうなるか」を試すのに最適。</p>
+<h3>方法5: DataTips</h3>
+<p>マウスホバーで表示されるツールチップの右側にあるピンアイコンをクリックすると、DataTipが固定表示される。コードの横に値が常に表示された状態で、ステップ実行するたびにリアルタイムで更新される。</p>
+<hr />
+<h2>5. デバッグの実践例</h2>
+<h3>例1: 「追加ボタンを押してもリストに反映されない」</h3>
+<p>この教材の問題1に近いパターン。</p>
+<p><strong>手順</strong>:</p>
+<ol>
+<li><code>btnAdd_Click</code> メソッドの先頭にブレークポイントを設置する（F9）</li>
+</ol>
+<pre class="codehilite"><code class="language-csharp">  ● private void btnAdd_Click(object sender, EventArgs e)
+    {
+        string name = txtName.Text;
+</code></pre>
+
+<ol start="2">
+<li>F5でデバッグ実行する</li>
+<li>アプリが起動したら、名前と電話番号を入力して「追加」ボタンを押す</li>
+<li>ブレークポイントで止まるか確認する<br />
+   - <strong>止まらない場合</strong>: イベントハンドラが接続されていない（Designer.csを確認）<br />
+   - <strong>止まった場合</strong>: 次のステップへ</li>
+<li>F10でステップ実行しながら、<code>customers.Count</code> の値を確認する<br />
+   - <code>customers.Add(customer)</code> の前後で Count が増えているか</li>
+<li><code>RefreshGrid()</code> メソッドの中に入り（F11）、<code>dgvCustomers.DataSource</code> に正しいデータが設定されているか確認する</li>
+</ol>
+<h3>例2: 「計算結果が合わない」</h3>
+<p>この教材の問題3に近いパターン。</p>
+<p><strong>手順</strong>:</p>
+<ol>
+<li>計算メソッドにブレークポイントを設置する</li>
+</ol>
+<pre class="codehilite"><code class="language-csharp">  ● private decimal CalculateTotal(decimal price, int quantity, decimal taxRate)
+    {
+        decimal subtotal = price * quantity;
+        decimal tax = subtotal * taxRate;
+        decimal total = subtotal + tax;
+        return total;
+    }
+</code></pre>
+
+<ol start="2">
+<li>F5でデバッグ実行し、計算が実行される操作を行う</li>
+<li>F10で1行ずつ進めながら、各変数の値を確認する</li>
+</ol>
+<pre class="codehilite"><code>ステップ実行での値の変化:
+
+  行    変数           期待値     実際の値     判定
+  ---   subtotal       1000       1000         OK
+  ---   tax            100        100          OK
+  ---   total          1100       1100         OK（ここまではOK）
+</code></pre>
+
+<ol start="4">
+<li>期待値と実際の値が異なる行がバグの原因</li>
+<li>式の各部分をイミディエイトウィンドウで確認する</li>
+</ol>
+<pre class="codehilite"><code>イミディエイトウィンドウ:
+&gt; price
+1000
+&gt; quantity
+1
+&gt; taxRate
+0.10
+&gt; price * quantity
+1000
+&gt; subtotal * taxRate
+100
+</code></pre>
+
+<h3>例3: 「検索結果がおかしい」</h3>
+<p>この教材の問題2に近いパターン。</p>
+<p><strong>手順</strong>:</p>
+<ol>
+<li><code>btnSearch_Click</code> にブレークポイントを設置する</li>
+<li>F5で実行し、検索キーワードを入力して検索ボタンを押す</li>
+<li>ブレークポイントで止まったら、keyword変数の値を確認する</li>
+</ol>
+<pre class="codehilite"><code>&gt; keyword
+&quot;tanaka&quot;
+</code></pre>
+
+<ol start="4">
+<li>検索処理（FindAll等）の結果をウォッチウィンドウで確認する</li>
+</ol>
+<pre class="codehilite"><code>ウォッチ:
+  customers.FindAll(c =&gt; c.Name.Contains(keyword))    Count = 0
+</code></pre>
+
+<ol start="5">
+<li>Count が 0 なら「見つからない」ということ。データ内の名前を確認する</li>
+</ol>
+<pre class="codehilite"><code>&gt; customers[0].Name
+&quot;Tanaka&quot;
+</code></pre>
+
+<ol start="6">
+<li>"tanaka" と "Tanaka" → 大文字小文字の違いが原因とわかる</li>
+<li><code>Contains</code> の引数に <code>StringComparison.OrdinalIgnoreCase</code> が必要</li>
+</ol>
+<hr />
+<h2>6. よくあるデバッグのパターン</h2>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>確認すべきこと</th>
+<th>確認方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ボタンが反応しない</td>
+<td>イベントハンドラが接続されているか</td>
+<td>Designer.csで <code>+=</code> の行を検索。ブレークポイントが止まるか確認</td>
+</tr>
+<tr>
+<td>値が入力と違う</td>
+<td>型変換が正しいか</td>
+<td>変換前後の値をウォッチで確認。<code>int.TryParse</code> の戻り値を確認</td>
+</tr>
+<tr>
+<td>計算が合わない</td>
+<td>演算子と型が正しいか</td>
+<td>イミディエイトウィンドウで式の各部分を計算。整数除算（5/2=2）に注意</td>
+</tr>
+<tr>
+<td>一覧が更新されない</td>
+<td>DataSourceの再設定があるか</td>
+<td>RefreshGrid系メソッドにF11で入り、DataSource設定を確認</td>
+</tr>
+<tr>
+<td>エラーで落ちる</td>
+<td>try-catchがあるか、null参照がないか</td>
+<td>例外が発生する行にブレークポイント。変数がnullでないか確認</td>
+</tr>
+<tr>
+<td>検索でヒットしない</td>
+<td>比較方法が正しいか</td>
+<td>検索キーワードとデータの値をウォッチで並べて比較</td>
+</tr>
+<tr>
+<td>削除しても消えない</td>
+<td>リストから実際に削除されているか</td>
+<td>Remove/RemoveAtの前後でCount確認。画面更新処理の有無確認</td>
+</tr>
+<tr>
+<td>保存されない</td>
+<td>SQLのパラメータが正しいか</td>
+<td>SqlCommandのParameters内の値をウォッチで確認</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. デバッグなしでのレビュー（VB6やコードだけのレビュー用）</h2>
+<p>Visual Studioが使えない環境や、VB6などデバッグ環境の構築が難しい場合、コードを読むだけでレビューする必要がある。</p>
+<h3>コードを読みながら脳内で値をトレースする方法</h3>
+<ol>
+<li>メソッドの入口で、引数にどんな値が入るか想定する</li>
+<li>1行ずつ読み、変数の値がどう変わるか頭の中で追う</li>
+<li>if文では「この条件は真か偽か」を判断して、どちらの分岐に進むか追う</li>
+<li>仕様書の期待値と、追跡した値が異なる箇所を探す</li>
+</ol>
+<h3>紙とペンで変数の値を追跡するテクニック</h3>
+<p>複雑な処理や、ループがある場合は紙に書くのが確実。</p>
+<pre class="codehilite"><code>追跡例: 合計金額の計算
+
+変数追跡表:
+  行   |  i  |  price[i]  |  total
+  -----|-----|------------|--------
+  初期 |  -  |     -      |    0
+  1周目|  0  |   1000     |  1000
+  2周目|  1  |   2000     |  3000
+  3周目|  2  |    500     |  3500
+  ←ここで期待値は3500。仕様書と一致するか？
+</code></pre>
+
+<h3>条件分岐表を書いて網羅的に確認する方法</h3>
+<p>if-elseやswitch文が多い処理では、すべての条件パターンを洗い出して表にする。</p>
+<pre class="codehilite"><code>条件分岐表: 割引率の計算
+
+  会員ランク | 購入金額    | 期待する割引率 | コードの結果 | 一致？
+  -----------|------------|---------------|-------------|-------
+  ゴールド   | 10000以上  | 20%           | 20%         | OK
+  ゴールド   | 10000未満  | 10%           | 10%         | OK
+  シルバー   | 10000以上  | 10%           | 10%         | OK
+  シルバー   | 10000未満  | 5%            | 0%          | NG ← バグ発見
+  一般       | 金額問わず | 0%            | 0%          | OK
+</code></pre>
+
+<p>この方法を使えば、デバッグ実行なしでも論理的にバグを見つけられる。特に境界値（ちょうど10000、0、マイナス値等）を漏れなく確認することが重要。</p>
+<hr />
+<h2>8. デバッグのまとめ</h2>
+<h3>基本の流れ</h3>
+<pre class="codehilite"><code>1. 仕様書を読んで「期待する動作」を把握する
+            ↓
+2. 怪しい箇所にブレークポイントを置く（F9）
+            ↓
+3. デバッグ実行する（F5）
+            ↓
+4. アプリを操作してブレークポイントで止める
+            ↓
+5. 変数の値を確認する（ホバー/ローカル/ウォッチ）
+            ↓
+6. ステップ実行で1行ずつ進める（F10/F11）
+            ↓
+7. 「期待値」と「実際の値」が異なる行を見つける
+            ↓
+8. バグの原因を特定し、レビュー指摘を書く
+</code></pre>
+
+<h3>覚えるべきキー（最低限これだけ）</h3>
+<table>
+<thead>
+<tr>
+<th>キー</th>
+<th>操作</th>
+<th>一言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F9</td>
+<td>ブレークポイント</td>
+<td>止めたい行に赤丸を置く</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>デバッグ実行/続行</td>
+<td>走らせる。赤丸で止まる</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>ステップオーバー</td>
+<td>次の行へ。メソッドには入らない</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>ステップイン</td>
+<td>次の行へ。メソッドの中に入る</td>
+</tr>
+<tr>
+<td>Shift+F5</td>
+<td>デバッグ停止</td>
+<td>デバッグを終了する</td>
+</tr>
+</tbody>
+</table>
+<p>この5つのキーを使いこなせれば、この教材の全問題に対応できる。</p>
+<hr />
+<h2>次のステップ</h2>
+<p>デバッグ操作を理解したら、<code>01_CSharp_Level1/練習問題/問題1_顧客追加バグ/</code> に進む。<br />
+実際にデバッグを使いながらバグを見つける訓練を始める。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

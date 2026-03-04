@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習1: Git基本操作 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 06_Git / 演習 / 演習1_基本操作 / 手順書
+</div>
+<div class="content">
+<h1>演習1: Git基本操作</h1>
+<h2>状況設定</h2>
+<p>あなたはBSEとして、オフショア開発チームが使用しているGitリポジトリに参加することになりました。<br />
+まずはGitの基本操作（clone → 編集 → add → commit → push）の一連の流れを練習します。</p>
+<h2>前提条件</h2>
+<ul>
+<li>GitがPCにインストールされていること</li>
+<li>GitHubまたはAzure DevOpsのアカウントがあること</li>
+<li>Visual Studioがインストールされていること</li>
+</ul>
+<hr />
+<h2>手順</h2>
+<h3>Step 1: リポジトリの準備</h3>
+<p><strong>GitHubで練習用リポジトリを作成する場合:</strong></p>
+<ol>
+<li>GitHub（https://github.com）にログイン</li>
+<li>右上の「+」→「New repository」</li>
+<li>Repository name: <code>git-training</code></li>
+<li>「Add a README file」にチェック</li>
+<li>「Create repository」をクリック</li>
+</ol>
+<h3>Step 2: リポジトリをクローン</h3>
+<p>コマンドプロンプトまたはGit Bashで以下を実行:</p>
+<pre class="codehilite"><code class="language-bash"># 作業用フォルダに移動
+cd C:\work
+
+# リポジトリをクローン（URLは自分のリポジトリのURL）
+git clone https://github.com/あなたのユーザー名/git-training.git
+
+# クローンしたフォルダに移動
+cd git-training
+</code></pre>
+
+<p><strong>Visual Studioで行う場合:</strong><br />
+1. ファイル → リポジトリのクローン<br />
+2. リポジトリURLを入力<br />
+3. ローカルパスを指定（例: <code>C:\work\git-training</code>）<br />
+4. 「クローン」をクリック</p>
+<h3>Step 3: 現在の状態を確認</h3>
+<pre class="codehilite"><code class="language-bash"># 状態を確認
+git status
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>On branch main
+nothing to commit, working tree clean
+</code></pre>
+
+<p>→ まだ何も変更していないので「clean（きれい）」と表示される。</p>
+<h3>Step 4: ファイルを追加</h3>
+<p><code>練習用ファイル/Sample.cs</code> をリポジトリのフォルダにコピーする。</p>
+<pre class="codehilite"><code class="language-bash"># 状態を確認
+git status
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>On branch main
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+        Sample.cs
+
+nothing added to commit but untracked files present
+</code></pre>
+
+<p>→ <code>Sample.cs</code> が「Untracked（未追跡）」として検出される。</p>
+<h3>Step 5: ファイルをステージング</h3>
+<pre class="codehilite"><code class="language-bash"># Sample.cs をステージングに追加
+git add Sample.cs
+
+# 状態を確認
+git status
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>On branch main
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+        new file:   Sample.cs
+</code></pre>
+
+<p>→ <code>Sample.cs</code> がコミット対象になった。</p>
+<h3>Step 6: コミット</h3>
+<pre class="codehilite"><code class="language-bash"># コミットメッセージ付きでコミット
+git commit -m &quot;顧客クラスのサンプルファイルを追加&quot;
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>[main abc1234] 顧客クラスのサンプルファイルを追加
+ 1 file changed, 35 insertions(+)
+ create mode 100644 Sample.cs
+</code></pre>
+
+<h3>Step 7: ファイルを編集</h3>
+<p>Sample.cs をテキストエディタまたはVisual Studioで開き、以下の変更を加える:</p>
+<p><strong>変更内容</strong>: <code>GetDisplayInfo</code> メソッドに電話番号を追加表示する</p>
+<pre class="codehilite"><code class="language-csharp">// 変更前
+public string GetDisplayInfo()
+{
+    return $&quot;[{Id}] {Name}（{Age}歳）&quot;;
+}
+
+// 変更後
+public string GetDisplayInfo()
+{
+    return $&quot;[{Id}] {Name}（{Age}歳）TEL: {Phone}&quot;;
+}
+</code></pre>
+
+<h3>Step 8: 差分を確認</h3>
+<pre class="codehilite"><code class="language-bash"># 変更内容を確認
+git diff
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code class="language-diff">diff --git a/Sample.cs b/Sample.cs
+--- a/Sample.cs
++++ b/Sample.cs
+@@ -25,7 +25,7 @@ public class Customer
+     public string GetDisplayInfo()
+     {
+-        return $&quot;[{Id}] {Name}（{Age}歳）&quot;;
++        return $&quot;[{Id}] {Name}（{Age}歳）TEL: {Phone}&quot;;
+     }
+</code></pre>
+
+<h3>Step 9: 変更をコミット</h3>
+<pre class="codehilite"><code class="language-bash"># 変更をステージング
+git add Sample.cs
+
+# コミット
+git commit -m &quot;GetDisplayInfoメソッドに電話番号の表示を追加&quot;
+</code></pre>
+
+<h3>Step 10: リモートに送信</h3>
+<pre class="codehilite"><code class="language-bash"># リモートリポジトリにプッシュ
+git push
+</code></pre>
+
+<h3>Step 11: 履歴を確認</h3>
+<pre class="codehilite"><code class="language-bash"># コミット履歴を確認
+git log --oneline
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>def5678 GetDisplayInfoメソッドに電話番号の表示を追加
+abc1234 顧客クラスのサンプルファイルを追加
+xyz9876 Initial commit
+</code></pre>
+
+<hr />
+<h2>確認ポイント</h2>
+<p>以下の内容が理解できていれば、この演習はクリアです:</p>
+<ul>
+<li>[ ] <code>git clone</code> でリポジトリを取得できた</li>
+<li>[ ] <code>git status</code> で現在の状態を確認する習慣がついた</li>
+<li>[ ] <code>git add</code> → <code>git commit</code> → <code>git push</code> の流れが理解できた</li>
+<li>[ ] <code>git diff</code> で変更内容を確認できた</li>
+<li>[ ] <code>git log</code> でコミット履歴を確認できた</li>
+<li>[ ] コミットメッセージに「何を変更したか」を書く重要性が理解できた</li>
+</ul>
+<hr />
+<h2>Visual Studioでの同等操作</h2>
+<p>コマンドラインが苦手な場合、Visual Studioで同じ操作が可能です:</p>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>Visual Studio操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git clone</td>
+<td>ファイル → リポジトリのクローン</td>
+</tr>
+<tr>
+<td>git status</td>
+<td>Git Changes ウィンドウで確認</td>
+</tr>
+<tr>
+<td>git add</td>
+<td>変更ファイルの「+」ボタン</td>
+</tr>
+<tr>
+<td>git commit</td>
+<td>メッセージ入力 →「コミット」ボタン</td>
+</tr>
+<tr>
+<td>git push</td>
+<td>「プッシュ」ボタン（↑アイコン）</td>
+</tr>
+<tr>
+<td>git diff</td>
+<td>変更ファイルをダブルクリック</td>
+</tr>
+<tr>
+<td>git log</td>
+<td>Git → コミット履歴の表示</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>次の演習</h2>
+<p>基本操作が理解できたら <code>演習2_ブランチとマージ</code> に進んでください。</p>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

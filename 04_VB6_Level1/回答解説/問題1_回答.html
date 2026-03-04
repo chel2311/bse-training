@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題1 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 04_VB6_Level1 / 回答解説 / 問題1_回答
+</div>
+<div class="content">
+<h1>練習問題1 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 勤続年数の計算が逆（マイナスの勤続年数が表示される）</h3>
+<p><strong>該当仕様</strong>: FR-006 勤続年数計算</p>
+<blockquote>
+<p><strong>入社日から現在日までの年数をDateDiff関数で計算する</strong><br />
+計算式: <code>DateDiff("yyyy", 入社日, Now)</code> で年数を取得</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>modEmployee.bas</code> CalcYearsOfService関数</p>
+<pre class="codehilite"><code class="language-vb">' 現在の実装（バグ）
+Public Function CalcYearsOfService(dtHireDate As Date) As Long
+    CalcYearsOfService = DateDiff(&quot;yyyy&quot;, Now, dtHireDate)
+End Function
+' → DateDiffの第2引数（開始日）と第3引数（終了日）が逆
+' → 結果がマイナスになる（例: 2015年入社 → -11年）
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vb">Public Function CalcYearsOfService(dtHireDate As Date) As Long
+    CalcYearsOfService = DateDiff(&quot;yyyy&quot;, dtHireDate, Now)
+End Function
+</code></pre>
+
+<p><strong>DateDiff関数の構文</strong>:</p>
+<pre class="codehilite"><code>DateDiff(interval, date1, date2)
+  interval: &quot;yyyy&quot;（年）, &quot;m&quot;（月）, &quot;d&quot;（日）
+  date1: 開始日（古い日付）
+  date2: 終了日（新しい日付）
+  戻り値: date2 - date1 の差分
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】modEmployee.bas: CalcYearsOfService関数
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 FR-006 では「DateDiff(&quot;yyyy&quot;, 入社日, Now)」で
+        勤続年数を計算すると定義されているが、
+        実装では DateDiff(&quot;yyyy&quot;, Now, dtHireDate) となっており、
+        引数の順序（開始日と終了日）が逆になっている。
+        結果としてマイナスの勤続年数が表示される。
+【修正案】DateDiff(&quot;yyyy&quot;, Now, dtHireDate) を
+        DateDiff(&quot;yyyy&quot;, dtHireDate, Now) に修正してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: 社員番号の重複チェックがない</h3>
+<p><strong>該当仕様</strong>: FR-001 社員追加</p>
+<blockquote>
+<p><strong>社員番号は重複不可。既に登録済みの社員番号の場合はエラー「この社員番号は既に登録されています」を表示する</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>frmMain.frm</code> cmdAdd_Clickプロシージャ</p>
+<pre class="codehilite"><code class="language-vb">' 現在の実装（バグ）
+' 社員番号: 数字チェック
+If Not IsValidEmpNo(Trim$(txtEmpNo.Text)) Then
+    MsgBox &quot;社員番号は数字で入力してください&quot;, vbExclamation, &quot;入力エラー&quot;
+    txtEmpNo.SetFocus
+    Exit Sub
+End If
+
+' ← ここに重複チェック処理がない
+
+' 氏名: 必須チェック
+If Len(Trim$(txtName.Text)) = 0 Then
+' → 同じ社員番号で何人でも登録できてしまう
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vb">' 社員番号: 数字チェック
+If Not IsValidEmpNo(Trim$(txtEmpNo.Text)) Then
+    MsgBox &quot;社員番号は数字で入力してください&quot;, vbExclamation, &quot;入力エラー&quot;
+    txtEmpNo.SetFocus
+    Exit Sub
+End If
+
+' 社員番号: 重複チェック
+If FindEmployeeIndex(Trim$(txtEmpNo.Text)) &gt; 0 Then
+    MsgBox &quot;この社員番号は既に登録されています&quot;, vbExclamation, &quot;入力エラー&quot;
+    txtEmpNo.SetFocus
+    Exit Sub
+End If
+
+' 氏名: 必須チェック
+</code></pre>
+
+<p><strong>ポイント</strong>: <code>modEmployee.bas</code> に <code>FindEmployeeIndex</code> 関数が既に用意されている。この関数は社員番号で配列を検索し、見つかればインデックス（1以上）、見つからなければ0を返す。重複チェックに活用できる関数があるのに使われていないことに気づけるかがポイント。</p>
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】frmMain.frm: cmdAdd_Click 社員番号バリデーション部分
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-001 では「社員番号は重複不可。既に登録済みの
+        社員番号の場合はエラーを表示する」と定義されているが、
+        実装では社員番号の重複チェック処理が欠落している。
+        同じ社員番号で複数の社員を登録できてしまい、
+        データの一意性が保証されない。
+【修正案】社員番号の数字チェック後に、FindEmployeeIndex関数を使用して
+        既存データとの重複チェックを追加してください。
+        重複時は「この社員番号は既に登録されています」のエラーメッセージを表示してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: 入社日のバリデーションでIsDate関数を使っていない</h3>
+<p><strong>該当仕様</strong>: FR-004 入力バリデーション</p>
+<blockquote>
+<p><strong>IsDate関数を使用して日付形式チェックを行う。不正な場合はエラー「入社日を正しい日付形式(yyyy/mm/dd)で入力してください」</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>frmMain.frm</code> cmdAdd_Clickプロシージャ</p>
+<pre class="codehilite"><code class="language-vb">' 現在の実装（バグ）
+If Len(txtHireDate.Text) &lt;&gt; 10 Then
+    MsgBox &quot;入社日を正しい日付形式(yyyy/mm/dd)で入力してください&quot;, vbExclamation, &quot;入力エラー&quot;
+    txtHireDate.SetFocus
+    Exit Sub
+End If
+' → 文字列の長さが10文字かどうかだけチェックしている
+' → &quot;aaaa/bb/cc&quot; や &quot;1234567890&quot; のような不正な値が通ってしまう
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vb">If Not IsDate(txtHireDate.Text) Then
+    MsgBox &quot;入社日を正しい日付形式(yyyy/mm/dd)で入力してください&quot;, vbExclamation, &quot;入力エラー&quot;
+    txtHireDate.SetFocus
+    Exit Sub
+End If
+</code></pre>
+
+<p><strong>IsDate関数について</strong>:</p>
+<pre class="codehilite"><code>IsDate(expression)
+  引数: 判定対象の式（文字列や変数）
+  戻り値: True（有効な日付として認識できる）/ False（認識できない）
+  例:
+    IsDate(&quot;2024/04/01&quot;)  → True
+    IsDate(&quot;aaaa/bb/cc&quot;)  → False
+    IsDate(&quot;1234567890&quot;)  → False
+    IsDate(&quot;2024/13/01&quot;)  → False（13月は存在しない）
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】frmMain.frm: cmdAdd_Click 入社日バリデーション部分
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-004 では「IsDate関数を使用して日付形式チェックを行う」
+        と定義されているが、実装では Len(txtHireDate.Text) &lt;&gt; 10 による
+        文字列長チェックのみで判定している。
+        &quot;aaaa/bb/cc&quot; や &quot;1234567890&quot; などの10文字の不正な値が
+        日付として通過してしまい、後続の CDate() でエラーが発生するか、
+        不正なデータが登録されてしまう。
+【修正案】Len() による文字列長チェックを IsDate(txtHireDate.Text) による
+        日付妥当性チェックに変更してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>仕様書の太字や強調部分は特に注意して確認する</strong><br />
+   - 今回のバグはすべて仕様書で太字になっていた箇所に対応する</p>
+</li>
+<li>
+<p><strong>ユーティリティ関数の中身も必ず確認する</strong><br />
+   - バグ1はフォーム（frmMain.frm）ではなくモジュール（modEmployee.bas）にある<br />
+   - 呼び出し元だけでなく、呼び出し先の実装も確認することが重要</p>
+</li>
+<li>
+<p><strong>既に用意されている関数が使われているかを確認する</strong><br />
+   - バグ2では <code>FindEmployeeIndex</code> 関数が用意されているのに重複チェックで使われていない<br />
+   - バグ3では VB6の標準関数 <code>IsDate</code> が使われていない</p>
+</li>
+<li>
+<p><strong>VB6特有の関数は引数の順序に注意する</strong><br />
+   - <code>DateDiff(interval, date1, date2)</code> は date2 - date1 の差分を返す<br />
+   - date1（開始日）とdate2（終了日）を逆にするとマイナスの値になる</p>
+</li>
+<li>
+<p><strong>「動いている」ことと「正しい」ことは違う</strong><br />
+   - バグ3の <code>Len() = 10</code> チェックは動作はするが、仕様で求められるチェックではない<br />
+   - エラーハンドラが不正値を拾っているように見えても、それはバリデーションではない</p>
+</li>
+</ol>
+<h2>次の問題</h2>
+<p>この問題が解けたら、別の練習問題に進んでください。<br />
+VB6レガシーコードの特有の問題パターンを意識してレビュースキルを高めましょう。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

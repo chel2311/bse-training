@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題3 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 07_SQLServer_Level1 / 回答解説 / 問題3_回答
+</div>
+<div class="content">
+<h1>練習問題3 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 在庫チェックがない（BR-003違反）</h3>
+<p><strong>該当仕様</strong>: BR-003 在庫チェック</p>
+<blockquote>
+<p><strong>受注登録時に在庫数が注文数量を下回る場合はエラーとする。</strong><br />
+条件: Products.StockQuantity &gt;= OrderDetails.Quantity<br />
+違反時: エラーを返し、受注登録を行わない</p>
+</blockquote>
+<p>また、ストアドプロシージャ仕様「6.1 sp_CreateOrder」処理フロー:</p>
+<blockquote>
+<ol>
+<li><strong>在庫チェック</strong>（BR-003）: StockQuantity &gt;= @Quantity を確認</li>
+</ol>
+</blockquote>
+<p><strong>該当コード</strong>: <code>sp_CreateOrder.sql</code> 在庫減算処理の前</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+
+-- 商品の単価を取得
+SELECT @UnitPrice = UnitPrice
+FROM Products
+WHERE ProductID = @ProductID;
+
+-- 商品が存在しない場合のチェックのみ
+IF @UnitPrice IS NULL
+BEGIN
+    RAISERROR(...);
+    RETURN;
+END
+
+-- ← ここに在庫チェックがない。すぐに小計計算・INSERT処理に進んでいる
+
+SET @Subtotal = @Quantity * @UnitPrice;
+
+-- ... INSERT処理 ...
+
+-- 在庫を減算（在庫数が足りなくてもそのまま実行される）
+UPDATE Products
+SET StockQuantity = StockQuantity - @Quantity
+WHERE ProductID = @ProductID;
+</code></pre>
+
+<p><strong>修正コード</strong>（商品存在チェックの後に追加）:</p>
+<pre class="codehilite"><code class="language-sql">-- 商品が存在しない場合
+IF @UnitPrice IS NULL
+BEGIN
+    RAISERROR(N'指定された商品が存在しません。ProductID: %d', 16, 1, @ProductID);
+    RETURN;
+END
+
+-- 在庫チェック（BR-003）
+DECLARE @CurrentStock INT;
+SELECT @CurrentStock = StockQuantity
+FROM Products
+WHERE ProductID = @ProductID;
+
+IF @CurrentStock &lt; @Quantity
+BEGIN
+    RAISERROR(N'在庫が不足しています。商品ID: %d, 在庫数: %d, 注文数量: %d',
+              16, 1, @ProductID, @CurrentStock, @Quantity);
+    RETURN;
+END
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】sp_CreateOrder.sql: 商品存在チェック後～INSERT処理前
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 BR-003 では「在庫数が注文数量を下回る場合はエラー」と
+        定義されており、ストアドプロシージャ仕様の処理フロー第1ステップでも
+        「在庫チェック」が明記されているが、実装では在庫数の確認処理がない。
+        在庫数が不足していてもそのまま減算が実行され、
+        マイナス在庫が発生する。CHECK制約がある場合はSQLエラーになるが、
+        適切なエラーメッセージが返されない。
+【修正案】商品存在チェックの後に、StockQuantity &gt;= @Quantity の判定を追加し、
+        不足時はRAISERRORで在庫不足エラーメッセージを返してRETURNしてください。
+</code></pre>
+
+<hr />
+<h3>バグ2: トランザクション制御がない</h3>
+<p><strong>該当仕様</strong>: ストアドプロシージャ仕様「6.1 sp_CreateOrder」</p>
+<blockquote>
+<p>上記の処理は<strong>すべてトランザクション内で実行</strong>すること</p>
+</blockquote>
+<p>エラー処理:</p>
+<blockquote>
+<p>その他のエラー: <strong>ロールバック</strong>してエラーメッセージを返す</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>sp_CreateOrder.sql</code> 全体</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+
+-- ← BEGIN TRANSACTION がない
+
+-- Ordersテーブルに受注ヘッダを挿入
+INSERT INTO Orders (...) VALUES (...);
+
+SET @NewOrderID = SCOPE_IDENTITY();
+
+-- OrderDetailsテーブルに受注明細を挿入
+INSERT INTO OrderDetails (...) VALUES (...);
+
+-- 在庫を減算
+UPDATE Products SET StockQuantity = StockQuantity - @Quantity ...;
+
+-- ← COMMIT TRANSACTION がない
+-- ← TRY-CATCH による ROLLBACK がない
+</code></pre>
+
+<p><strong>問題点</strong>:<br />
+- Orders INSERT成功後、OrderDetails INSERTでエラーが発生した場合、<br />
+  Ordersにだけレコードが残り、明細のない不整合な受注データになる<br />
+- OrderDetails INSERT成功後、在庫UPDATE でエラーが発生した場合、<br />
+  受注は登録されたが在庫が減っていない状態になる</p>
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-sql">BEGIN TRY
+    BEGIN TRANSACTION;
+
+    -- Ordersテーブルに受注ヘッダを挿入
+    INSERT INTO Orders (CustomerID, OrderDate, TotalAmount, Status)
+    VALUES (@CustomerID, GETDATE(), 0, N'未処理');
+
+    SET @NewOrderID = SCOPE_IDENTITY();
+
+    -- OrderDetailsテーブルに受注明細を挿入
+    INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice, Subtotal)
+    VALUES (@NewOrderID, @ProductID, @Quantity, @UnitPrice, @Subtotal);
+
+    -- 在庫を減算（BR-002）
+    UPDATE Products
+    SET StockQuantity = StockQuantity - @Quantity
+    WHERE ProductID = @ProductID;
+
+    -- TotalAmountを更新（BR-001）
+    UPDATE Orders
+    SET TotalAmount = (
+        SELECT SUM(Subtotal) FROM OrderDetails WHERE OrderID = @NewOrderID
+    )
+    WHERE OrderID = @NewOrderID;
+
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    IF @@TRANCOUNT &gt; 0
+        ROLLBACK TRANSACTION;
+
+    DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+    RAISERROR(@ErrorMessage, 16, 1);
+END CATCH
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】sp_CreateOrder.sql: ストアドプロシージャ全体
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書では「すべてトランザクション内で実行すること」と
+        定義されているが、実装ではBEGIN TRANSACTION / COMMIT / ROLLBACK が
+        一切記述されていない。
+        Orders INSERT → OrderDetails INSERT → 在庫UPDATE の途中で
+        エラーが発生した場合、処理が中途半端な状態で停止し、
+        データの整合性が破壊される。
+        例: OrdersにレコードがあるがOrderDetailsが空、
+            受注は登録されたが在庫が減っていない、など。
+【修正案】INSERT/UPDATE処理全体をBEGIN TRY / BEGIN TRANSACTIONで囲み、
+        正常時はCOMMIT、エラー時はCATCHブロックでROLLBACKしてください。
+</code></pre>
+
+<hr />
+<h3>バグ3: TotalAmount の更新漏れ（BR-001違反）</h3>
+<p><strong>該当仕様</strong>: BR-001 受注合計金額の計算</p>
+<blockquote>
+<p><strong>Orders.TotalAmount = 該当OrderIDのOrderDetails.Subtotalの合計（SUM）</strong><br />
+受注明細が追加・変更・削除されるたびに、OrdersのTotalAmountを再計算して更新すること。</p>
+</blockquote>
+<p>また、ストアドプロシージャ仕様「6.1 sp_CreateOrder」処理フロー:</p>
+<blockquote>
+<ol start="5">
+<li><strong>TotalAmountを更新</strong>（BR-001）</li>
+</ol>
+</blockquote>
+<p><strong>該当コード</strong>: <code>sp_CreateOrder.sql</code> 在庫減算処理の後</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+
+-- 在庫を減算（BR-002）
+UPDATE Products
+SET StockQuantity = StockQuantity - @Quantity
+WHERE ProductID = @ProductID;
+
+-- ← ここでOrdersのTotalAmountを更新する処理がない
+-- TotalAmountは INSERT時に 0 で登録されたまま
+
+PRINT N'受注を登録しました。OrderID: ' + CAST(@NewOrderID AS NVARCHAR(10));
+</code></pre>
+
+<p><strong>修正コード</strong>（在庫減算の後に追加）:</p>
+<pre class="codehilite"><code class="language-sql">-- 在庫を減算（BR-002）
+UPDATE Products
+SET StockQuantity = StockQuantity - @Quantity
+WHERE ProductID = @ProductID;
+
+-- TotalAmountを更新（BR-001）
+UPDATE Orders
+SET TotalAmount = (
+    SELECT ISNULL(SUM(Subtotal), 0)
+    FROM OrderDetails
+    WHERE OrderID = @NewOrderID
+)
+WHERE OrderID = @NewOrderID;
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】sp_CreateOrder.sql: 在庫減算処理後（ストアドプロシージャ末尾）
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 BR-001 では「TotalAmount = OrderDetailsのSubtotalの合計」と
+        定義されており、ストアドプロシージャ仕様の処理フロー第5ステップでも
+        「TotalAmountを更新」と明記されているが、
+        実装ではOrderDetails挿入後にOrdersのTotalAmountを更新する処理がない。
+        TotalAmountはINSERT時に0で登録されたまま残り、
+        帳票やクエリでの金額集計が正しく行われない。
+【修正案】在庫減算処理の後に、OrderDetailsのSubtotalをSUMして
+        OrdersのTotalAmountを更新するUPDATE文を追加してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>ビジネスルールを1つずつ照合する</strong><br />
+   - 仕様書のBR-001〜BR-005を順番にチェック<br />
+   - 各ビジネスルールに対応する実装があるか確認<br />
+   - 今回のバグ1（BR-003）とバグ3（BR-001）はこの照合で発見できる</p>
+</li>
+<li>
+<p><strong>処理フローを仕様書と突き合わせる</strong><br />
+   - 仕様書の「処理フロー」を上から順に実装と比較<br />
+   - 抜けている手順がないか確認<br />
+   - 手順の実行順序が正しいか確認</p>
+</li>
+<li>
+<p><strong>トランザクション制御は最重要チェック項目</strong><br />
+   - 複数テーブルを更新するストアドプロシージャには必ずトランザクションが必要<br />
+   - 「途中で失敗したらどうなるか」をシミュレーションする<br />
+   - バグ2はこの観点で発見できる</p>
+</li>
+<li>
+<p><strong>「初期値のまま残る」パターンに注意</strong><br />
+   - INSERT時にデフォルト値を入れた後、正しい値に更新する処理が漏れていないか<br />
+   - 今回のTotalAmount = 0 のまま残るバグ3がこのパターン</p>
+</li>
+<li>
+<p><strong>修正後の完全なストアドプロシージャ</strong><br />
+   3つのバグをすべて修正した完全版は以下の流れになる:<br />
+   ```</p>
+</li>
+<li>商品存在チェック</li>
+<li>在庫チェック（BR-003）       ← バグ1の修正</li>
+<li>BEGIN TRANSACTION            ← バグ2の修正</li>
+<li>Orders INSERT</li>
+<li>OrderDetails INSERT</li>
+<li>在庫減算（BR-002）</li>
+<li>TotalAmount更新（BR-001）    ← バグ3の修正</li>
+<li>COMMIT（エラー時はROLLBACK）  ← バグ2の修正<br />
+   ```</li>
+</ol>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

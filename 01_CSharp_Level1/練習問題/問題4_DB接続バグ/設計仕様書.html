@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>顧客管理アプリケーション（DB版） 設計仕様書 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 01_CSharp_Level1 / 練習問題 / 問題4_DB接続バグ / 設計仕様書
+</div>
+<div class="content">
+<h1>顧客管理アプリケーション（DB版） 設計仕様書</h1>
+<h2>1. 概要</h2>
+<p>顧客情報の登録・表示・検索・削除を行うWindowsデスクトップアプリケーション。<br />
+データストアとしてSQL Serverを使用し、永続化されたデータに対してCRUD操作を行う。</p>
+<h2>2. 開発環境</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>言語</td>
+<td>C#</td>
+</tr>
+<tr>
+<td>フレームワーク</td>
+<td>.NET 8</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>Windows Forms</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>SQL Server (localhost)</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>なし（ADO.NET直接使用）</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>Visual Studio 2022</td>
+</tr>
+</tbody>
+</table>
+<h2>3. データベース仕様</h2>
+<h3>3.1 接続情報</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サーバー</td>
+<td>localhost</td>
+</tr>
+<tr>
+<td>データベース名</td>
+<td>CustomerDB</td>
+</tr>
+<tr>
+<td>認証方式</td>
+<td>Windows認証</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 接続文字列管理</h3>
+<ul>
+<li><strong>接続文字列は app.config で管理すること（ハードコーディング禁止）</strong></li>
+<li>app.config の <code>&lt;connectionStrings&gt;</code> セクションに定義する</li>
+<li>コード側は <code>ConfigurationManager.ConnectionStrings</code> で取得する</li>
+</ul>
+<h3>3.3 テーブル定義</h3>
+<h4>Customers テーブル</h4>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Id</td>
+<td>INT</td>
+<td>PRIMARY KEY, IDENTITY(1,1)</td>
+<td>顧客ID（自動採番）</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>NVARCHAR(100)</td>
+<td>NOT NULL</td>
+<td>氏名</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>NVARCHAR(20)</td>
+<td>NULL許可</td>
+<td>電話番号</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>INT</td>
+<td>NOT NULL</td>
+<td>年齢</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>NVARCHAR(200)</td>
+<td>NULL許可</td>
+<td>メールアドレス</td>
+</tr>
+</tbody>
+</table>
+<h3>3.4 SQL実装規約</h3>
+<ul>
+<li><strong>SQLはパラメータ化クエリを使用すること（SQLインジェクション対策）</strong></li>
+<li>文字列結合によるSQL構築は禁止</li>
+<li><code>SqlCommand.Parameters.AddWithValue()</code> でパラメータを設定する</li>
+<li><strong>SqlConnection, SqlCommand, SqlDataReader は必ず using で囲むこと</strong></li>
+<li>リソースリーク防止のため、IDisposable を実装するオブジェクトは確実に Dispose する</li>
+<li><strong>DB接続時は必ず try-catch で例外処理を行い、ユーザーにエラーメッセージを表示すること</strong></li>
+<li><code>SqlException</code> をキャッチし、ユーザーにわかりやすいメッセージを表示する</li>
+<li>アプリケーションがクラッシュしないよう例外を適切にハンドリングする</li>
+</ul>
+<h2>4. 画面設計</h2>
+<h3>4.1 メイン画面（FormMain）</h3>
+<pre class="codehilite"><code>+--------------------------------------------------+
+| 顧客管理システム（DB版）                    [_][□][X] |
++--------------------------------------------------+
+| 氏名:  [_______________]                          |
+| 電話:  [_______________]                          |
+| 年齢:  [_______________]                          |
+| メール:[_______________]                          |
+|                                                    |
+| [追加] [編集] [削除]                               |
++--------------------------------------------------+
+| 検索:  [_______________] [検索] [全件表示]         |
++--------------------------------------------------+
+| ID | 氏名       | 電話          | 年齢 | メール   |
+|----|-----------|---------------|------|---------|
+| 1  | 田中太郎   | 090-1234-5678 | 35   | t@x.com |
+| 2  | 鈴木花子   | 080-9876-5432 | 28   | s@x.com |
+| ...                                               |
++--------------------------------------------------+
+| 件数: 2件  合計年齢: 63  平均年齢: 31.5            |
++--------------------------------------------------+
+</code></pre>
+
+<h3>4.2 画面構成要素</h3>
+<table>
+<thead>
+<tr>
+<th>コントロール</th>
+<th>名称</th>
+<th>種類</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>txtName</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>氏名入力</td>
+</tr>
+<tr>
+<td>txtPhone</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>電話番号入力</td>
+</tr>
+<tr>
+<td>txtAge</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>年齢入力</td>
+</tr>
+<tr>
+<td>txtEmail</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>メールアドレス入力</td>
+</tr>
+<tr>
+<td>btnAdd</td>
+<td>ボタン</td>
+<td>Button</td>
+<td>顧客追加</td>
+</tr>
+<tr>
+<td>btnEdit</td>
+<td>ボタン</td>
+<td>Button</td>
+<td>顧客編集</td>
+</tr>
+<tr>
+<td>btnDelete</td>
+<td>ボタン</td>
+<td>Button</td>
+<td>顧客削除</td>
+</tr>
+<tr>
+<td>txtSearch</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>検索キーワード入力</td>
+</tr>
+<tr>
+<td>btnSearch</td>
+<td>ボタン</td>
+<td>Button</td>
+<td>検索実行</td>
+</tr>
+<tr>
+<td>btnShowAll</td>
+<td>ボタン</td>
+<td>Button</td>
+<td>全件表示</td>
+</tr>
+<tr>
+<td>dgvCustomers</td>
+<td>データグリッド</td>
+<td>DataGridView</td>
+<td>顧客一覧表示</td>
+</tr>
+<tr>
+<td>lblStatus</td>
+<td>ラベル</td>
+<td>Label</td>
+<td>ステータス表示（件数・集計）</td>
+</tr>
+</tbody>
+</table>
+<h2>5. 機能仕様</h2>
+<h3>5.1 顧客追加（FR-001）</h3>
+<ul>
+<li>「追加」ボタン押下で入力欄の値をデータベースに INSERT する</li>
+<li>IDはデータベースの IDENTITY で自動採番</li>
+<li><strong>追加後、入力欄をクリアする</strong></li>
+<li><strong>追加後、一覧を更新して新しい顧客が表示されること</strong></li>
+<li>ステータスバーの件数・集計を更新する</li>
+</ul>
+<h3>5.2 顧客編集（FR-002）</h3>
+<ul>
+<li>一覧で行を選択した状態で「編集」ボタン押下</li>
+<li>選択行の値が入力欄に表示される</li>
+<li>入力欄を修正後、再度「編集」ボタンで UPDATE 実行</li>
+<li><strong>一覧が選択されていない場合は「顧客を選択してください」と警告表示</strong></li>
+</ul>
+<h3>5.3 顧客削除（FR-003）</h3>
+<ul>
+<li>一覧で行を選択した状態で「削除」ボタン押下</li>
+<li><strong>削除前に「○○を削除しますか？」と確認ダイアログを表示する</strong></li>
+<li>「はい」で DELETE 実行、「いいえ」でキャンセル</li>
+<li><strong>一覧が選択されていない場合は「顧客を選択してください」と警告表示</strong></li>
+</ul>
+<h3>5.4 検索（FR-004）</h3>
+<ul>
+<li>検索テキストボックスにキーワードを入力し「検索」ボタンで実行</li>
+<li><strong>氏名またはメールアドレスに対して部分一致検索を行う（SQL の LIKE を使用）</strong></li>
+<li><strong>大文字・小文字を区別しない</strong></li>
+<li>検索結果が0件の場合「該当する顧客はありません」と表示</li>
+<li>「全件表示」ボタンで検索をリセットし全データを表示</li>
+</ul>
+<h3>5.5 入力バリデーション（FR-005）</h3>
+<ul>
+<li>氏名: <strong>必須。空欄の場合はエラー「氏名を入力してください」</strong></li>
+<li>電話番号: 任意</li>
+<li>年齢: <strong>必須。0以上150以下の整数。範囲外はエラー「年齢は0～150の整数で入力してください」</strong></li>
+<li>メールアドレス: 任意</li>
+</ul>
+<h3>5.6 ステータス表示（FR-006）</h3>
+<ul>
+<li>画面下部に以下を常時表示:</li>
+<li>現在の表示件数</li>
+<li><strong>全顧客の年齢の合計</strong></li>
+<li><strong>全顧客の年齢の平均（小数第1位まで）</strong></li>
+<li>追加・削除・検索時に自動更新される</li>
+</ul>
+<h2>6. アーキテクチャ</h2>
+<h3>6.1 クラス構成</h3>
+<table>
+<thead>
+<tr>
+<th>クラス名</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Program</td>
+<td>エントリポイント</td>
+</tr>
+<tr>
+<td>Customer</td>
+<td>顧客データを保持するモデルクラス</td>
+</tr>
+<tr>
+<td>DatabaseHelper</td>
+<td>DB接続・CRUD操作を行うヘルパークラス</td>
+</tr>
+<tr>
+<td>FormMain</td>
+<td>UI制御・イベント処理</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 DatabaseHelper クラスの責務</h3>
+<ul>
+<li>接続文字列の取得（app.config から）</li>
+<li>顧客の全件取得（SELECT）</li>
+<li>顧客の追加（INSERT）</li>
+<li>顧客の更新（UPDATE）</li>
+<li>顧客の削除（DELETE）</li>
+<li>顧客の検索（SELECT + LIKE）</li>
+</ul>
+<h2>7. 非機能要件</h2>
+<ul>
+<li><strong>DB接続エラー時は適切なメッセージを表示し、アプリがクラッシュしないこと</strong></li>
+<li>一覧の選択行は青色でハイライトされること</li>
+<li><strong>DB接続はusing文で確実にリソースを解放すること</strong></li>
+</ul>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

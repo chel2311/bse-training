@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題1 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 07_SQLServer_Level1 / 回答解説 / 問題1_回答
+</div>
+<div class="content">
+<h1>練習問題1 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: OrdersテーブルのCustomerIDに外部キー制約がない</h3>
+<p><strong>該当仕様</strong>: BR-005 外部キー制約の必須設定</p>
+<blockquote>
+<p><strong>CustomerID、ProductID、OrderIDの参照関係には、必ず外部キー制約（FOREIGN KEY）を設定すること。</strong></p>
+</blockquote>
+<p>また、テーブル設計「3.3 Orders」:</p>
+<blockquote>
+<p>CustomerID: <strong>FOREIGN KEY → Customers(CustomerID)</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>CreateTables.sql</code> Ordersテーブル定義</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+CREATE TABLE Orders (
+    OrderID      INT            PRIMARY KEY IDENTITY(1,1),
+    CustomerID   INT            NOT NULL,
+    OrderDate    DATE           NOT NULL DEFAULT GETDATE(),
+    TotalAmount  DECIMAL(12,2)  NOT NULL DEFAULT 0,
+    Status       NVARCHAR(20)   NOT NULL DEFAULT N'未処理'
+    -- ← CustomerIDへの外部キー制約がない
+);
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-sql">CREATE TABLE Orders (
+    OrderID      INT            PRIMARY KEY IDENTITY(1,1),
+    CustomerID   INT            NOT NULL,
+    OrderDate    DATE           NOT NULL DEFAULT GETDATE(),
+    TotalAmount  DECIMAL(12,2)  NOT NULL DEFAULT 0,
+    Status       NVARCHAR(20)   NOT NULL DEFAULT N'未処理',
+    CONSTRAINT FK_Orders_Customers
+        FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】CreateTables.sql: OrdersテーブルのCREATE TABLE定義
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 BR-005 および テーブル設計3.3 では、
+        Orders.CustomerID に Customers(CustomerID) への外部キー制約を
+        設定すると定義されているが、実装では外部キー制約が定義されていない。
+        存在しないCustomerIDの受注レコードが登録可能な状態であり、
+        データの整合性が保証されない。
+【修正案】OrdersテーブルにCONSTRAINT FK_Orders_Customers
+        FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+        を追加してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: OrderDetailsのSubtotalカラムがINT型</h3>
+<p><strong>該当仕様</strong>: テーブル設計「3.4 OrderDetails」</p>
+<blockquote>
+<p>Subtotal: <strong>DECIMAL(12,2)</strong> NOT NULL  小計 = Quantity x UnitPrice</p>
+</blockquote>
+<p>また、非機能要件:</p>
+<blockquote>
+<p><strong>金額系カラムはすべてDECIMAL型を使用すること（INT不可）</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>CreateTables.sql</code> OrderDetailsテーブル定義</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+CREATE TABLE OrderDetails (
+    DetailID    INT          PRIMARY KEY IDENTITY(1,1),
+    OrderID     INT          NOT NULL,
+    ProductID   INT          NOT NULL,
+    Quantity    INT          NOT NULL CHECK (Quantity &gt; 0),
+    UnitPrice   DECIMAL(10,2) NOT NULL,
+    Subtotal    INT          NOT NULL,   -- ← INT型になっている
+    ...
+);
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-sql">    Subtotal    DECIMAL(12,2) NOT NULL,
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】CreateTables.sql: OrderDetailsテーブル Subtotalカラム
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 テーブル設計3.4 では Subtotal のデータ型は
+        DECIMAL(12,2) と定義されているが、実装では INT 型になっている。
+        Subtotal = Quantity x UnitPrice であり、UnitPriceがDECIMAL(10,2)のため
+        小数を含む結果が発生する（例: 2500.50 x 3 = 7501.50）。
+        INT型では小数部分が切り捨てられ、金額の不整合が発生する。
+        また、非機能要件にて「金額系カラムはすべてDECIMAL型」と明記されている。
+【修正案】SubtotalのデータをINTからDECIMAL(12,2)に変更してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: Products.StockQuantityにCHECK制約がない</h3>
+<p><strong>該当仕様</strong>: テーブル設計「3.2 Products」</p>
+<blockquote>
+<p>StockQuantity: INT NOT NULL, <strong>CHECK (StockQuantity &gt;= 0)</strong> 在庫数（0以上）</p>
+</blockquote>
+<p>また、BR-003:</p>
+<blockquote>
+<p><strong>在庫数が注文数量を下回る場合はエラーとする</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>CreateTables.sql</code> Productsテーブル定義</p>
+<pre class="codehilite"><code class="language-sql">-- 現在の実装（バグ）
+CREATE TABLE Products (
+    ProductID      INT            PRIMARY KEY IDENTITY(1,1),
+    ProductName    NVARCHAR(200)  NOT NULL,
+    Category       NVARCHAR(50)   NOT NULL,
+    UnitPrice      DECIMAL(10,2)  NOT NULL,
+    StockQuantity  INT            NOT NULL
+    -- ← CHECK制約がない
+);
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-sql">CREATE TABLE Products (
+    ProductID      INT            PRIMARY KEY IDENTITY(1,1),
+    ProductName    NVARCHAR(200)  NOT NULL,
+    Category       NVARCHAR(50)   NOT NULL,
+    UnitPrice      DECIMAL(10,2)  NOT NULL,
+    StockQuantity  INT            NOT NULL CHECK (StockQuantity &gt;= 0)
+);
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】CreateTables.sql: ProductsテーブルStockQuantityカラム
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 テーブル設計3.2 では StockQuantity に
+        CHECK (StockQuantity &gt;= 0) 制約を設定すると定義されているが、
+        実装ではCHECK制約が定義されていない。
+        マイナスの在庫数がデータベースレベルで入力可能な状態であり、
+        BR-003（在庫チェック）の前提が崩れる。
+        アプリケーション側のバグやSQL直接実行でマイナス在庫になるリスクがある。
+【修正案】StockQuantityカラムに CHECK (StockQuantity &gt;= 0) 制約を追加してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>仕様書のテーブル定義の「制約」列を1つずつ照合する</strong><br />
+   - PRIMARY KEY、FOREIGN KEY、NOT NULL、CHECK、DEFAULTを漏れなく確認<br />
+   - 今回のバグ1とバグ3はこの照合で発見できる</p>
+</li>
+<li>
+<p><strong>データ型を仕様書と突き合わせる</strong><br />
+   - 特に金額系カラムのDECIMAL指定は厳密に確認<br />
+   - INT/DECIMAL/NVARCHARなどの型の違いは見落としやすい<br />
+   - 今回のバグ2はこの照合で発見できる</p>
+</li>
+<li>
+<p><strong>外部キー制約の有無は特に重要</strong><br />
+   - 外部キー制約がないと、存在しないIDの参照が可能になる<br />
+   - テーブル間の参照整合性はデータベースの根幹</p>
+</li>
+<li>
+<p><strong>CHECK制約は「最後の砦」</strong><br />
+   - アプリケーション側でバリデーションしていても、DB直接操作で不正値が入る可能性がある<br />
+   - CHECK制約でデータベースレベルでの防御を行うことが重要</p>
+</li>
+</ol>
+<h2>次の問題</h2>
+<p>この問題が解けたら <code>問題2</code> に進んでください。<br />
+次の問題ではSQLクエリのレビューに挑戦します。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

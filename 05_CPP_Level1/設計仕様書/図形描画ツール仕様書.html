@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>図形描画ツール（CAD基礎モジュール） 設計仕様書 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 05_CPP_Level1 / 設計仕様書 / 図形描画ツール仕様書
+</div>
+<div class="content">
+<h1>図形描画ツール（CAD基礎モジュール） 設計仕様書</h1>
+<h2>1. 概要</h2>
+<p>CADソフトウェアの基盤となる図形計算モジュール。図形の生成・管理・面積/周長計算を行うC++ライブラリ。<br />
+GUIは対象外。コンソールアプリケーションとしてロジックの検証を行う。</p>
+<h2>2. 開発環境</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>言語</td>
+<td>C++ (C++17)</td>
+</tr>
+<tr>
+<td>コンパイラ</td>
+<td>MSVC (Visual Studio 2022)</td>
+</tr>
+<tr>
+<td>プラットフォーム</td>
+<td>Windows x64</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>コンソール（標準入出力）</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>Visual Studio 2022</td>
+</tr>
+</tbody>
+</table>
+<h2>3. クラス設計</h2>
+<h3>3.1 クラス継承図</h3>
+<pre class="codehilite"><code>Shape（基底クラス・抽象クラス）
+  ├── Circle（円）
+  ├── Rectangle（矩形）
+  └── Triangle（三角形）
+
+ShapeManager（図形管理クラス）
+  └── std::vector&lt;Shape*&gt; shapes  ← Shapeポインタのリスト
+</code></pre>
+
+<h3>3.2 Shape クラス（基底クラス）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバ</th>
+<th>種別</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>protected</td>
+<td>std::string</td>
+<td>図形タイプ名</td>
+</tr>
+<tr>
+<td>Shape()</td>
+<td>コンストラクタ</td>
+<td>-</td>
+<td>初期化</td>
+</tr>
+<tr>
+<td>virtual ~Shape()</td>
+<td>デストラクタ</td>
+<td>-</td>
+<td>仮想デストラクタ（派生クラスの適切な破棄のため）</td>
+</tr>
+<tr>
+<td>GetArea()</td>
+<td>純粋仮想関数</td>
+<td>double</td>
+<td><strong>図形の面積を返す</strong></td>
+</tr>
+<tr>
+<td>GetPerimeter()</td>
+<td>純粋仮想関数</td>
+<td>double</td>
+<td><strong>図形の周長を返す</strong></td>
+</tr>
+<tr>
+<td>GetInfo()</td>
+<td>純粋仮想関数</td>
+<td>std::string</td>
+<td>図形の情報文字列を返す</td>
+</tr>
+<tr>
+<td>GetType()</td>
+<td>メンバ関数</td>
+<td>std::string</td>
+<td>図形タイプ名を返す</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 Circle クラス（円）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバ</th>
+<th>種別</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>radius</td>
+<td>private</td>
+<td>double</td>
+<td>半径</td>
+</tr>
+<tr>
+<td>Circle(double radius)</td>
+<td>コンストラクタ</td>
+<td>-</td>
+<td>半径を指定して生成</td>
+</tr>
+</tbody>
+</table>
+<p><strong>計算式:</strong><br />
+- <strong>面積 = pi x r x r</strong>（pi = 3.14159265358979）<br />
+- <strong>周長 = 2 x pi x r</strong></p>
+<p><strong>バリデーション:</strong><br />
+- <strong>半径（radius）は正の値（&gt; 0）であること</strong><br />
+- 不正な値の場合は <code>std::invalid_argument</code> 例外を送出</p>
+<h3>3.4 Rectangle クラス（矩形）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバ</th>
+<th>種別</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>private</td>
+<td>double</td>
+<td>幅</td>
+</tr>
+<tr>
+<td>height</td>
+<td>private</td>
+<td>double</td>
+<td>高さ</td>
+</tr>
+<tr>
+<td>Rectangle(double width, double height)</td>
+<td>コンストラクタ</td>
+<td>-</td>
+<td>幅と高さを指定して生成</td>
+</tr>
+</tbody>
+</table>
+<p><strong>計算式:</strong><br />
+- <strong>面積 = width x height</strong><br />
+- <strong>周長 = 2 x (width + height)</strong></p>
+<p><strong>バリデーション:</strong><br />
+- <strong>幅（width）、高さ（height）はともに正の値（&gt; 0）であること</strong><br />
+- 不正な値の場合は <code>std::invalid_argument</code> 例外を送出</p>
+<h3>3.5 Triangle クラス（三角形）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバ</th>
+<th>種別</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base_len</td>
+<td>private</td>
+<td>double</td>
+<td>底辺の長さ</td>
+</tr>
+<tr>
+<td>height</td>
+<td>private</td>
+<td>double</td>
+<td>高さ</td>
+</tr>
+<tr>
+<td>side_a</td>
+<td>private</td>
+<td>double</td>
+<td>辺a</td>
+</tr>
+<tr>
+<td>side_b</td>
+<td>private</td>
+<td>double</td>
+<td>辺b</td>
+</tr>
+<tr>
+<td>side_c</td>
+<td>private</td>
+<td>double</td>
+<td>辺c</td>
+</tr>
+<tr>
+<td>Triangle(double base, double height, double a, double b, double c)</td>
+<td>コンストラクタ</td>
+<td>-</td>
+<td>底辺、高さ、3辺を指定して生成</td>
+</tr>
+</tbody>
+</table>
+<p><strong>計算式:</strong><br />
+- <strong>面積 = base_len x height / 2</strong><br />
+- <strong>周長 = a + b + c</strong></p>
+<p><strong>バリデーション:</strong><br />
+- <strong>底辺（base_len）、高さ（height）、3辺（a, b, c）はすべて正の値（&gt; 0）であること</strong><br />
+- 不正な値の場合は <code>std::invalid_argument</code> 例外を送出</p>
+<h3>3.6 ShapeManager クラス（図形管理）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバ</th>
+<th>種別</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shapes</td>
+<td>private</td>
+<td>std::vector\&lt;Shape*&gt;</td>
+<td>図形ポインタのリスト</td>
+</tr>
+<tr>
+<td>ShapeManager()</td>
+<td>コンストラクタ</td>
+<td>-</td>
+<td>初期化</td>
+</tr>
+<tr>
+<td>~ShapeManager()</td>
+<td>デストラクタ</td>
+<td>-</td>
+<td><strong>保持する全図形のメモリを解放（delete）</strong></td>
+</tr>
+<tr>
+<td>AddShape(Shape* shape)</td>
+<td>メンバ関数</td>
+<td>void</td>
+<td>図形を追加</td>
+</tr>
+<tr>
+<td>RemoveShape(int index)</td>
+<td>メンバ関数</td>
+<td>bool</td>
+<td>指定インデックスの図形を削除（<strong>deleteしてからリストから除去</strong>）</td>
+</tr>
+<tr>
+<td>GetTotalArea()</td>
+<td>メンバ関数</td>
+<td>double</td>
+<td><strong>全図形の面積合計を返す</strong></td>
+</tr>
+<tr>
+<td>GetShapeCount()</td>
+<td>メンバ関数</td>
+<td>int</td>
+<td>図形の総数を返す</td>
+</tr>
+<tr>
+<td>FindByType(std::string type)</td>
+<td>メンバ関数</td>
+<td>std::vector\&lt;Shape*&gt;</td>
+<td><strong>指定タイプの図形リストを返す</strong></td>
+</tr>
+<tr>
+<td>PrintAll()</td>
+<td>メンバ関数</td>
+<td>void</td>
+<td>全図形の情報を標準出力に表示</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 機能仕様</h2>
+<h3>4.1 図形の追加（FR-001）</h3>
+<ul>
+<li><code>ShapeManager::AddShape</code> で図形ポインタを管理リストに追加する</li>
+<li>追加する図形は <code>new</code> で生成されたヒープオブジェクトであること</li>
+</ul>
+<h3>4.2 図形の削除（FR-002）</h3>
+<ul>
+<li><code>ShapeManager::RemoveShape</code> で指定インデックスの図形を削除する</li>
+<li><strong>削除時は対象図形の <code>delete</code> を行い、メモリを解放すること</strong></li>
+<li>インデックスが範囲外の場合は <code>false</code> を返す</li>
+</ul>
+<h3>4.3 面積合計の計算（FR-003）</h3>
+<ul>
+<li><code>ShapeManager::GetTotalArea</code> で全図形の面積の合計を返す</li>
+<li><strong>各図形の <code>GetArea()</code> を呼び出し、その合計値を返す</strong></li>
+<li>図形が0件の場合は <code>0.0</code> を返す</li>
+</ul>
+<h3>4.4 図形タイプ検索（FR-004）</h3>
+<ul>
+<li><code>ShapeManager::FindByType</code> で指定タイプ名に一致する図形のリストを返す</li>
+<li>タイプ名は "Circle", "Rectangle", "Triangle" のいずれか</li>
+</ul>
+<h3>4.5 入力バリデーション（FR-005）</h3>
+<ul>
+<li><strong>全ての寸法値（半径、幅、高さ、辺の長さ）は正の値（&gt; 0）であること</strong></li>
+<li>不正な値の場合はコンストラクタで <code>std::invalid_argument</code> 例外を送出</li>
+<li>エラーメッセージには不正なパラメータ名を含めること</li>
+</ul>
+<h3>4.6 メモリ管理（FR-006）</h3>
+<ul>
+<li><strong><code>new</code> で生成した図形オブジェクトは、<code>ShapeManager</code> のデストラクタで確実に <code>delete</code> すること</strong></li>
+<li><code>ShapeManager</code> のスコープ終了時に保持する全図形のメモリが解放されること</li>
+<li>メモリリークが発生しないこと</li>
+</ul>
+<h2>5. 非機能要件</h2>
+<ul>
+<li>計算精度: <code>double</code> 型を使用し、円周率は <code>3.14159265358979</code> を定数として定義すること</li>
+<li>例外発生時にアプリケーションがクラッシュしないよう、<code>main</code> 関数で適切にキャッチすること</li>
+<li>すべてのクラスでヘッダファイル（.h）とソースファイル（.cpp）を分離すること</li>
+</ul>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

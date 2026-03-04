@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習3: コンフリクト解消 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 06_Git / 演習 / 演習3_コンフリクト解消 / 手順書
+</div>
+<div class="content">
+<h1>演習3: コンフリクト解消</h1>
+<h2>状況設定</h2>
+<p>計算機アプリの <code>Calculator.cs</code> に対して、2人の開発者が同時に異なる変更を行いました。<br />
+mainブランチとfeatureブランチで同じ箇所が変更されたため、マージ時にコンフリクトが発生します。<br />
+この演習ではコンフリクトを意図的に発生させ、正しく解消する方法を学びます。</p>
+<h2>前提条件</h2>
+<ul>
+<li>演習1・2が完了していること</li>
+<li>ブランチの作成・切り替え・マージの基本操作を理解していること</li>
+</ul>
+<hr />
+<h2>シナリオ</h2>
+<pre class="codehilite"><code>開発者A（あなた）: mainブランチで Divide メソッドのエラーメッセージを日本語に統一
+開発者B:           featureブランチで Divide メソッドに引数チェックを追加
+
+→ 同じ Divide メソッドを異なる内容に変更 → マージ時にコンフリクト発生
+</code></pre>
+
+<hr />
+<h2>手順</h2>
+<h3>Step 1: 初期状態の確認</h3>
+<pre class="codehilite"><code class="language-bash">cd C:\work\git-training
+git checkout main
+git pull
+</code></pre>
+
+<p>現在の <code>Calculator.cs</code> の Divide メソッド:</p>
+<pre class="codehilite"><code class="language-csharp">public int Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException(&quot;0で割ることはできません&quot;);
+    return a / b;
+}
+</code></pre>
+
+<h3>Step 2: mainブランチで変更（開発者Aの作業）</h3>
+<p>mainブランチで Divide メソッドを変更する:</p>
+<pre class="codehilite"><code class="language-csharp">/// &lt;summary&gt;
+/// 除算（エラーメッセージを統一）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+    {
+        throw new ArgumentException(&quot;エラー: 除数に0は指定できません。正の整数を入力してください。&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<pre class="codehilite"><code class="language-bash">git add Calculator.cs
+git commit -m &quot;Divideメソッドのエラーメッセージを詳細化&quot;
+</code></pre>
+
+<h3>Step 3: featureブランチを作成して変更（開発者Bの作業をシミュレート）</h3>
+<p><strong>重要</strong>: Step 2のコミットの「1つ前」の状態からブランチを作る。</p>
+<pre class="codehilite"><code class="language-bash"># 1つ前のコミットからブランチを作成
+git checkout -b feature/divide-validation HEAD~1
+</code></pre>
+
+<p>featureブランチで Divide メソッドを異なる内容に変更する:</p>
+<pre class="codehilite"><code class="language-csharp">/// &lt;summary&gt;
+/// 除算（引数チェック強化）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException(&quot;0で割ることはできません&quot;);
+
+    // 結果が整数にならない場合の警告
+    if (a % b != 0)
+    {
+        Console.WriteLine($&quot;警告: {a} / {b} の結果は切り捨てられます&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<pre class="codehilite"><code class="language-bash">git add Calculator.cs
+git commit -m &quot;Divideメソッドに整数除算の警告を追加&quot;
+</code></pre>
+
+<h3>Step 4: マージを試みる（コンフリクト発生）</h3>
+<pre class="codehilite"><code class="language-bash"># mainブランチに切り替え
+git checkout main
+
+# featureブランチをマージ
+git merge feature/divide-validation
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>Auto-merging Calculator.cs
+CONFLICT (content): Merge conflict in Calculator.cs
+Automatic merge failed; fix conflicts and then commit the result.
+</code></pre>
+
+<p>→ コンフリクトが発生した。</p>
+<h3>Step 5: コンフリクトの状態を確認</h3>
+<pre class="codehilite"><code class="language-bash">git status
+</code></pre>
+
+<p>出力例:</p>
+<pre class="codehilite"><code>On branch main
+You have unmerged paths.
+  (fix conflicts and run &quot;git commit&quot;)
+  (use &quot;git merge --abort&quot; to abort the merge)
+
+Unmerged paths:
+  (use &quot;git add &lt;file&gt;...&quot; to mark resolution)
+        both modified:   Calculator.cs
+</code></pre>
+
+<p>Calculator.cs を開くと、コンフリクトマーカーが挿入されている:<br />
+（<code>コンフリクト例/conflicted.cs</code> を参照）</p>
+<pre class="codehilite"><code class="language-csharp">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+/// &lt;summary&gt;
+/// 除算（エラーメッセージを統一）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+    {
+        throw new ArgumentException(&quot;エラー: 除数に0は指定できません。正の整数を入力してください。&quot;);
+    }
+    return a / b;
+}
+=======
+/// &lt;summary&gt;
+/// 除算（引数チェック強化）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+        throw new DivideByZeroException(&quot;0で割ることはできません&quot;);
+
+    // 結果が整数にならない場合の警告
+    if (a % b != 0)
+    {
+        Console.WriteLine($&quot;警告: {a} / {b} の結果は切り捨てられます&quot;);
+    }
+    return a / b;
+}
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/divide-validation
+</code></pre>
+
+<h3>Step 6: コンフリクトを解消</h3>
+<p>両方の変更を取り入れて、正しいコードに修正する:<br />
+（<code>コンフリクト例/resolved.cs</code> を参照）</p>
+<ol>
+<li>コンフリクトマーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）を削除する</li>
+<li>両方の変更内容を確認し、最終的なコードを決定する</li>
+<li>この場合: エラーメッセージの詳細化（開発者A） + 整数除算の警告（開発者B）を両方採用</li>
+</ol>
+<pre class="codehilite"><code class="language-csharp">/// &lt;summary&gt;
+/// 除算（エラーメッセージ統一 + 引数チェック強化）
+/// &lt;/summary&gt;
+public int Divide(int a, int b)
+{
+    if (b == 0)
+    {
+        throw new ArgumentException(&quot;エラー: 除数に0は指定できません。正の整数を入力してください。&quot;);
+    }
+
+    // 結果が整数にならない場合の警告
+    if (a % b != 0)
+    {
+        Console.WriteLine($&quot;警告: {a} / {b} の結果は切り捨てられます&quot;);
+    }
+    return a / b;
+}
+</code></pre>
+
+<h3>Step 7: 解消をコミット</h3>
+<pre class="codehilite"><code class="language-bash"># 解消したファイルをステージング
+git add Calculator.cs
+
+# マージコミット
+git commit -m &quot;コンフリクト解消: Divideメソッドのエラーメッセージ詳細化と整数除算警告を統合&quot;
+
+# リモートに送信
+git push
+</code></pre>
+
+<hr />
+<h2>Visual Studioでのコンフリクト解消</h2>
+<p>Visual Studioにはコンフリクト解消用のGUIがある:</p>
+<ol>
+<li>マージ実行後、Git Changes ウィンドウにコンフリクトファイルが表示される</li>
+<li>ファイルをクリックすると「マージ エディター」が開く</li>
+<li>3ペイン表示:<br />
+   - 左: 現在のブランチ（HEAD）の変更<br />
+   - 右: マージしようとしたブランチの変更<br />
+   - 下: 結果（ここを編集する）</li>
+<li>チェックボックスで採用する変更を選択、または手動で下ペインを編集</li>
+<li>「マージの受入」ボタンで確定</li>
+</ol>
+<hr />
+<h2>コンフリクト例のファイル一覧</h2>
+<p><code>コンフリクト例/</code> フォルダに各段階のファイルを用意しています:</p>
+<table>
+<thead>
+<tr>
+<th>ファイル</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>before_main.cs</code></td>
+<td>mainブランチでの変更内容</td>
+</tr>
+<tr>
+<td><code>before_feature.cs</code></td>
+<td>featureブランチでの変更内容</td>
+</tr>
+<tr>
+<td><code>conflicted.cs</code></td>
+<td>コンフリクト発生時のファイル（マーカー入り）</td>
+</tr>
+<tr>
+<td><code>resolved.cs</code></td>
+<td>正しく解消した後のファイル</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>確認ポイント</h2>
+<ul>
+<li>[ ] コンフリクトがなぜ発生するか説明できる（同じ箇所の異なる変更）</li>
+<li>[ ] コンフリクトマーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）の意味を理解した</li>
+<li>[ ] コンフリクトの解消手順（マーカー削除 → コード修正 → add → commit）を実施できた</li>
+<li>[ ] Visual Studioのマージエディターの使い方を知った</li>
+</ul>
+<hr />
+<h2>コンフリクトを予防するために</h2>
+<ol>
+<li><strong>作業前に必ず <code>git pull</code></strong> する（最新の状態で作業開始）</li>
+<li><strong>ブランチをこまめにマージ</strong> する（長期間放置しない）</li>
+<li><strong>変更範囲を小さくする</strong> （大きな変更はコンフリクトリスクが高い）</li>
+<li><strong>チーム内で作業範囲を共有</strong> する（同じファイルを同時に編集しない）</li>
+</ol>
+<hr />
+<h2>回答</h2>
+<p>コンフリクト解消の詳細な考え方は <code>回答解説.md</code> を参照してください。</p>
+<h2>次の演習</h2>
+<p>コンフリクト解消が理解できたら <code>演習4_PRレビュー</code> に進んでください。<br />
+実際のPull Requestをレビューする実践演習を行います。</p>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

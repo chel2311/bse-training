@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題1 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 03_VBA_Level1 / 回答解説 / 問題1_回答
+</div>
+<div class="content">
+<h1>練習問題1 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 売上金額をE列の値そのまま使っている（計算ロジック誤り）</h3>
+<p><strong>該当仕様</strong>: FR-002 売上金額の再計算</p>
+<blockquote>
+<p><strong>売上金額は「数量(C列) x 単価(D列)」で計算する</strong><br />
+<strong>E列の値（手入力値）をそのまま使用してはならない</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>SalesReport.bas</code> 転記処理部分</p>
+<pre class="codehilite"><code class="language-vba">' 現在の実装（バグ）
+wsReport.Cells(outputRow, 5).Value = wsData.Cells(i, 5).Value       ' 売上金額
+
+' --- 合計用に加算 ---
+totalQty = totalQty + wsData.Cells(i, 3).Value
+totalAmount = totalAmount + wsData.Cells(i, 5).Value
+' → E列の手入力値をそのまま転記・合計している
+' → サンプルデータの「コピー用紙A4(1月)」は数量50 x 単価450 = 22,500が正しいのに、E列は25,500
+' → サンプルデータの「ホチキス」は数量20 x 単価350 = 7,000が正しいのに、E列は7,700
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vba">' 数量 x 単価 で再計算して転記
+Dim calcAmount As Currency
+calcAmount = wsData.Cells(i, 3).Value * wsData.Cells(i, 4).Value
+
+wsReport.Cells(outputRow, 5).Value = calcAmount                     ' 売上金額（再計算）
+
+' --- 合計用に加算 ---
+totalQty = totalQty + wsData.Cells(i, 3).Value
+totalAmount = totalAmount + calcAmount
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】SalesReport.bas: 転記処理（wsReport.Cells(outputRow, 5) への代入行）
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-002 では売上金額は「数量(C列) x 単価(D列)で再計算する」と定義されており、
+        「E列の値をそのまま使用してはならない」と明記されている。
+        しかし実装では wsData.Cells(i, 5).Value（E列の手入力値）をそのまま転記している。
+        サンプルデータの「コピー用紙A4(1月)」では数量50 x 単価450 = 22,500が正しいがE列は25,500、
+        「ホチキス」では数量20 x 単価350 = 7,000が正しいがE列は7,700と入力ミスがあり、
+        帳票にも誤った金額が反映される。
+        合計金額の計算にもE列の値が使われており、合計も誤る。
+【修正案】wsData.Cells(i, 5).Value の代わりに wsData.Cells(i, 3).Value * wsData.Cells(i, 4).Value で
+        売上金額を再計算し、転記および合計加算の両方に使用してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: 合計行が太字になっていない（書式設定漏れ）</h3>
+<p><strong>該当仕様</strong>: FR-005 合計行の書式設定</p>
+<blockquote>
+<p><strong>合計行のフォントを太字（Bold）にする</strong><br />
+対象範囲: 合計行のA列～E列</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>SalesReport.bas</code> 合計行追加後の処理</p>
+<pre class="codehilite"><code class="language-vba">' 現在の実装（バグ）
+' --- FR-004: 合計行の追加 ---
+wsReport.Cells(outputRow, 2).Value = &quot;合計&quot;
+wsReport.Cells(outputRow, 3).Value = totalQty
+wsReport.Cells(outputRow, 5).Value = totalAmount
+
+' → ここでFR-005の太字設定処理が完全に欠落している
+' → 直後に完了メッセージに進んでしまう
+
+' --- 完了メッセージ ---
+Application.ScreenUpdating = True
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vba">' --- FR-004: 合計行の追加 ---
+wsReport.Cells(outputRow, 2).Value = &quot;合計&quot;
+wsReport.Cells(outputRow, 3).Value = totalQty
+wsReport.Cells(outputRow, 5).Value = totalAmount
+
+' --- FR-005: 合計行を太字にする ---
+wsReport.Range(wsReport.Cells(outputRow, 1), wsReport.Cells(outputRow, 5)).Font.Bold = True
+
+' --- 完了メッセージ ---
+Application.ScreenUpdating = True
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】SalesReport.bas: FR-004合計行追加処理の直後
+【分類】仕様不一致
+【重要度】中
+【内容】設計仕様書 FR-005 では「合計行のフォントを太字（Bold）にする」と定義されているが、
+        実装では合計行のデータ設定後に太字設定の処理が行われていない。
+        帳票としての視認性に影響があり、印刷時に合計行が目立たない。
+【修正案】合計行のデータ設定後に以下のコードを追加してください。
+        wsReport.Range(wsReport.Cells(outputRow, 1), wsReport.Cells(outputRow, 5)).Font.Bold = True
+</code></pre>
+
+<hr />
+<h3>バグ3: 既存データのクリアが不完全（固定範囲のみクリア）</h3>
+<p><strong>該当仕様</strong>: FR-007 既存データのクリア</p>
+<blockquote>
+<p><strong>処理開始前に「月次帳票」シートの既存データをすべてクリアする</strong><br />
+前回実行分のデータが残らないよう、<strong>UsedRange全体をクリア</strong>する</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>SalesReport.bas</code> クリア処理</p>
+<pre class="codehilite"><code class="language-vba">' 現在の実装（バグ）
+' --- FR-007: 既存データのクリア ---
+wsReport.Range(&quot;A1:E50&quot;).Clear
+' → 固定範囲（50行まで）しかクリアしていない
+' → 前回のデータが51行以上あった場合、51行目以降のデータが残る
+' → 例: 前回100件のデータを生成→今回10件のデータを生成→11行目以降に前回の90件が残る
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-vba">' --- FR-007: 既存データのクリア ---
+wsReport.UsedRange.Clear
+' → 使用されている範囲全体をクリアする
+' → データ量に関わらず確実に前回データを削除できる
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】SalesReport.bas: wsReport.Range(&quot;A1:E50&quot;).Clear の行
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-007 では「UsedRange全体をクリアする」と定義されているが、
+        実装では Range(&quot;A1:E50&quot;) という固定範囲のみをクリアしている。
+        前回の実行で50行を超えるデータが生成された場合、51行目以降のデータが
+        クリアされずに残り、新しい帳票の下に前回のデータが混在する。
+        これは帳票の信頼性に関わる重大な不具合である。
+【修正案】wsReport.Range(&quot;A1:E50&quot;).Clear を wsReport.UsedRange.Clear に変更してください。
+        UsedRangeはシート上で使用されている範囲全体を動的に参照するため、
+        データ量に関わらず確実にクリアできます。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>仕様書のFR番号を1つずつコードと照合する</strong><br />
+   - FR-001からFR-008まで順にチェック。今回のバグは FR-002, FR-005, FR-007<br />
+   - 仕様書に太字で強調された部分は特に注意</p>
+</li>
+<li>
+<p><strong>「計算」が絡む部分は特に注意する</strong><br />
+   - バグ1: 仕様では「再計算」と明記しているのに、入力値をそのまま使っている<br />
+   - 「どの値を使って計算しているか」を追跡することが重要</p>
+</li>
+<li>
+<p><strong>実際にExcelで動かして確認する</strong><br />
+   - バグ1: サンプルデータの「コピー用紙A4」（E列: 25,500 vs 再計算: 22,500）や「ホチキス」（E列: 7,700 vs 再計算: 7,000）を比較<br />
+   - バグ2: 帳票の合計行が太字になっているか目視確認<br />
+   - バグ3: 大量データで1回実行→少量データで再実行して、前回データが残らないか確認</p>
+</li>
+<li>
+<p><strong>「前回の状態」を意識する</strong><br />
+   - バグ3のようなクリア漏れは、1回目の実行では問題にならない<br />
+   - 2回以上実行して初めて発覚するバグも多い<br />
+   - BSEレビューでは「連続実行」のテストケースを必ず確認する</p>
+</li>
+</ol>
+<h2>VBAレビューの追加知識</h2>
+<h3>このコードの良い点</h3>
+<ul>
+<li><code>Option Explicit</code> が宣言されている（変数の未宣言エラーを検出できる）</li>
+<li><code>On Error GoTo ErrorHandler</code> でエラー処理が実装されている</li>
+<li><code>Application.ScreenUpdating</code> で画面更新を制御している</li>
+<li>変数名が分かりやすく、コメントも適切</li>
+</ul>
+<h3>改善提案（バグではないが指摘すべき点）</h3>
+<ul>
+<li>InputBoxの入力値の形式チェックがない（仕様FR-008で「行わない」と明記されているのでバグではない）</li>
+<li>日付の書式を <code>Format(cellDate, "yyyy/mm")</code> で変換しているが、Excelの地域設定に依存する可能性がある</li>
+</ul>
+<h2>次の問題</h2>
+<p>この問題が解けたら、他の練習問題に進んでください。<br />
+VBAでよくあるバグパターンを一つずつ習得していきましょう。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

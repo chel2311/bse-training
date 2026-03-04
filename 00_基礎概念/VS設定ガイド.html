@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Studio 設定ガイド（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / VS設定ガイド
+</div>
+<div class="content">
+<h1>Visual Studio 設定ガイド（BSE向け）</h1>
+<blockquote>
+<p>コードレビュー訓練を始める前に、開発環境を整える。このガイドに沿ってセットアップすれば準備完了。</p>
+</blockquote>
+<hr />
+<h2>1. Visual Studio 2022 のインストール</h2>
+<h3>ダウンロード</h3>
+<ol>
+<li><a href="https://visualstudio.microsoft.com/ja/vs/community/">Visual Studio 2022 Community</a> にアクセスする</li>
+<li>「無料ダウンロード」をクリックする</li>
+<li>Community版は個人学習・小規模チームでの利用は無料</li>
+</ol>
+<h3>ワークロードの選択</h3>
+<p>インストーラーが起動したら、以下のワークロードにチェックを入れる。</p>
+<table>
+<thead>
+<tr>
+<th>ワークロード</th>
+<th>必須/任意</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>.NETデスクトップ開発</strong></td>
+<td><strong>必須</strong></td>
+<td>C#, VB.NETのWinFormsアプリ開発・実行に必要</td>
+</tr>
+<tr>
+<td>C++によるデスクトップ開発</td>
+<td>任意</td>
+<td>C++の問題（05_CPP_Level1）に取り組む場合</td>
+</tr>
+</tbody>
+</table>
+<p><strong>補足</strong>: ワークロードは後からでも追加できる。まずは「.NETデスクトップ開発」だけ入れて始めてよい。</p>
+<h3>インストール後の初回設定</h3>
+<ol>
+<li>Visual Studioを初めて起動すると、開発設定の選択画面が表示される</li>
+<li>「全般」を選択する（特定の言語に偏らない標準レイアウト）</li>
+<li>配色テーマは好みで選ぶ（「濃色」が目に優しい、「淡色」が紙の資料に近い）</li>
+</ol>
+<hr />
+<h2>2. プロジェクトの開き方</h2>
+<h3>方法1: .slnファイルをダブルクリック</h3>
+<p>最も簡単な方法。各問題フォルダにある <code>.sln</code>（ソリューションファイル）をエクスプローラーでダブルクリックする。</p>
+<pre class="codehilite"><code>例: 01_CSharp_Level1/練習問題/問題1_顧客追加バグ/CustomerManager/CustomerManager.sln
+</code></pre>
+
+<h3>方法2: Visual Studioから開く</h3>
+<ol>
+<li>Visual Studioを起動する</li>
+<li>「ファイル」→「開く」→「プロジェクト/ソリューション」を選択する</li>
+<li>対象の <code>.sln</code> ファイルを選択して「開く」をクリックする</li>
+</ol>
+<h3>ソリューションエクスプローラーの見方</h3>
+<p>プロジェクトを開くと、右側に「ソリューションエクスプローラー」が表示される。</p>
+<pre class="codehilite"><code>ソリューション 'CustomerManager'
+  └─ CustomerManager（プロジェクト）
+       ├─ Dependencies（依存ライブラリ）
+       ├─ Program.cs（エントリーポイント）
+       ├─ FormMain.cs（メインフォーム）
+       ├─ FormMain.Designer.cs（フォームのデザイナーコード）
+       └─ Customer.cs（顧客クラス）
+</code></pre>
+
+<ul>
+<li><strong>Dependencies</strong>: NuGetパッケージや参照ライブラリ。通常はレビュー不要</li>
+<li><strong>Program.cs</strong>: アプリの起動処理。通常はレビュー不要</li>
+<li><strong>FormMain.cs</strong>: メインの処理コード。<strong>レビューの主な対象</strong></li>
+<li><strong>FormMain.Designer.cs</strong>: 画面のレイアウト定義。イベントハンドラの接続を確認する際に見る</li>
+<li><strong>Customer.cs</strong>: データクラス。プロパティの型・名前を確認する</li>
+</ul>
+<hr />
+<h2>3. 基本的なUI構成</h2>
+<p>Visual Studio 2022のウィンドウ構成を把握しておく。</p>
+<pre class="codehilite"><code>+------------------------------------------------------------------+
+|  メニューバー（ファイル/編集/表示/ビルド/デバッグ/...）           |
++------------------------------------------------------------------+
+|           |                              |                        |
+| ツール    |                              | ソリューション         |
+| ボックス  |     コードエディタ（中央）    | エクスプローラー       |
+| （左側）  |                              | （右側）               |
+|           |                              |                        |
+| WinForms  |     ここでコードを読む       | ファイル一覧           |
+| デザイナー|                              |                        |
+| 用        |                              +------------------------+
+|           |                              | プロパティ             |
+|           |                              | ウィンドウ（右下）     |
++-----------+------------------------------+------------------------+
+|  出力 / エラー一覧 / イミディエイト ウィンドウ（下部）           |
++------------------------------------------------------------------+
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>領域</th>
+<th>役割</th>
+<th>よく使う場面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メニューバー</td>
+<td>全機能へのアクセス</td>
+<td>ビルド、デバッグ開始</td>
+</tr>
+<tr>
+<td>ソリューションエクスプローラー（右側）</td>
+<td>プロジェクト内のファイル一覧</td>
+<td>レビュー対象ファイルを開く</td>
+</tr>
+<tr>
+<td>コードエディタ（中央）</td>
+<td>ソースコードの表示・編集</td>
+<td>コードの読解</td>
+</tr>
+<tr>
+<td>プロパティウィンドウ（右下）</td>
+<td>選択した要素のプロパティ</td>
+<td>コントロールの設定確認</td>
+</tr>
+<tr>
+<td>出力/エラー一覧ウィンドウ（下部）</td>
+<td>ビルド結果、エラーメッセージ</td>
+<td>ビルドエラーの確認</td>
+</tr>
+<tr>
+<td>ツールボックス（左側）</td>
+<td>WinFormsのコントロール一覧</td>
+<td>デザイナー使用時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ウィンドウが見つからない場合</strong>: メニューの「表示」から各ウィンドウを表示できる。</p>
+<hr />
+<h2>4. ビルドと実行</h2>
+<h3>基本操作</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ビルド</td>
+<td>Ctrl+Shift+B</td>
+<td>コードをコンパイルする。エラーがあれば「エラー一覧」に表示される</td>
+</tr>
+<tr>
+<td>デバッグ実行</td>
+<td>F5</td>
+<td>ビルドして実行。ブレークポイントで止まる</td>
+</tr>
+<tr>
+<td>デバッグなしで実行</td>
+<td>Ctrl+F5</td>
+<td>ビルドして実行。ブレークポイントは無視される</td>
+</tr>
+</tbody>
+</table>
+<h3>ビルドエラーの見方</h3>
+<p>ビルドに失敗すると、ウィンドウ下部の「エラー一覧」にエラーが表示される。</p>
+<pre class="codehilite"><code>エラー一覧:
+  CS1002  ; が必要です    FormMain.cs  行45
+  CS0103  名前 'custmer' は現在のコンテキストに存在しません    FormMain.cs  行52
+</code></pre>
+
+<ul>
+<li><strong>CSxxxx</strong>: C#コンパイラのエラーコード。番号でWeb検索すると原因がわかる</li>
+<li><strong>ファイル名と行番号</strong>: ダブルクリックすると該当行にジャンプする</li>
+<li><strong>エラー内容</strong>: 日本語で表示される（日本語パックが入っている場合）</li>
+</ul>
+<p><strong>補足</strong>: この教材のバグは「ビルドは通るが動作がおかしい」タイプが多い。ビルドエラーが出る場合は環境設定の問題の可能性がある。</p>
+<hr />
+<h2>5. WinFormsデザイナー</h2>
+<h3>.csファイルと.Designer.csファイルの関係</h3>
+<p>WinFormsアプリでは、1つのフォームが2つのファイルに分かれている。</p>
+<table>
+<thead>
+<tr>
+<th>ファイル</th>
+<th>内容</th>
+<th>レビュー対象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FormMain.cs</td>
+<td>処理のコード（ボタンクリック時の処理等）</td>
+<td>主なレビュー対象</td>
+</tr>
+<tr>
+<td>FormMain.Designer.cs</td>
+<td>画面レイアウトの定義コード（自動生成）</td>
+<td>イベントハンドラの接続確認</td>
+</tr>
+</tbody>
+</table>
+<h3>デザイナー画面の開き方</h3>
+<ol>
+<li>ソリューションエクスプローラーでフォームファイル（例: FormMain.cs）をダブルクリックする</li>
+<li>デザイナー画面が開き、フォームのレイアウトが表示される</li>
+<li>コード画面に切り替えるには、フォームを右クリック →「コードの表示」、またはF7キー</li>
+</ol>
+<h3>コントロールのプロパティ確認</h3>
+<ol>
+<li>デザイナー画面でコントロール（ボタン、テキストボックス等）をクリックする</li>
+<li>右下の「プロパティ」ウィンドウに、そのコントロールの設定が表示される</li>
+<li>Name（名前）、Text（表示テキスト）、Enabled（有効/無効）等を確認できる</li>
+</ol>
+<h3>イベントハンドラの確認方法</h3>
+<p>「ボタンにクリックイベントが接続されているか」を確認する方法。</p>
+<p><strong>方法1: プロパティウィンドウから確認</strong><br />
+1. デザイナー画面でボタンをクリックする<br />
+2. プロパティウィンドウの上部にあるイナズマアイコン（イベント）をクリックする<br />
+3. 「Click」の欄にメソッド名（例: btnAdd_Click）が設定されていれば接続済み</p>
+<p><strong>方法2: Designer.csで確認</strong><br />
+1. FormMain.Designer.cs を開く<br />
+2. <code>InitializeComponent()</code> メソッド内を確認する<br />
+3. 以下のような行があれば接続済み</p>
+<pre class="codehilite"><code class="language-csharp">this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+</code></pre>
+
+<p>この行がない場合、ボタンを押しても何も起きない（問題1で出題されるバグパターン）。</p>
+<hr />
+<h2>6. 便利なショートカット一覧</h2>
+<h3>コード編集</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>検索</td>
+<td>Ctrl+F</td>
+</tr>
+<tr>
+<td>ファイル全体から検索</td>
+<td>Ctrl+Shift+F</td>
+</tr>
+<tr>
+<td>置換</td>
+<td>Ctrl+H</td>
+</tr>
+<tr>
+<td>コメントアウト</td>
+<td>Ctrl+K → Ctrl+C</td>
+</tr>
+<tr>
+<td>コメント解除</td>
+<td>Ctrl+K → Ctrl+U</td>
+</tr>
+<tr>
+<td>コードの整形</td>
+<td>Ctrl+K → Ctrl+D</td>
+</tr>
+</tbody>
+</table>
+<h3>ナビゲーション</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定義へ移動</td>
+<td>F12</td>
+</tr>
+<tr>
+<td>参照の検索</td>
+<td>Shift+F12</td>
+</tr>
+<tr>
+<td>ファイル内のシンボル検索</td>
+<td>Ctrl+T</td>
+</tr>
+<tr>
+<td>前の位置に戻る</td>
+<td>Ctrl+-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>F12（定義へ移動）は特に重要</strong>: メソッド名の上でF12を押すと、そのメソッドの定義場所にジャンプする。コードの流れを追うときに必須の操作。</p>
+<h3>ビルドとデバッグ</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ビルド</td>
+<td>Ctrl+Shift+B</td>
+</tr>
+<tr>
+<td>デバッグ実行</td>
+<td>F5</td>
+</tr>
+<tr>
+<td>デバッグなしで実行</td>
+<td>Ctrl+F5</td>
+</tr>
+<tr>
+<td>ブレークポイントの設置/解除</td>
+<td>F9</td>
+</tr>
+<tr>
+<td>ステップオーバー</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>ステップイン</td>
+<td>F11</td>
+</tr>
+<tr>
+<td>ステップアウト</td>
+<td>Shift+F11</td>
+</tr>
+<tr>
+<td>デバッグ停止</td>
+<td>Shift+F5</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. Git統合</h2>
+<p>Visual Studio 2022にはGit機能が組み込まれている。</p>
+<h3>Git Changesウィンドウ</h3>
+<p>メニューの「表示」→「Git Changes」で開く。変更されたファイルの一覧と差分を確認できる。</p>
+<h3>基本操作</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>手順</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clone</td>
+<td>「Git」→「リポジトリのクローン」→ URLを入力</td>
+</tr>
+<tr>
+<td>commit</td>
+<td>Git Changesでファイルをステージ → メッセージ入力 →「コミット」</td>
+</tr>
+<tr>
+<td>push</td>
+<td>Git Changesの「Push」ボタン</td>
+</tr>
+<tr>
+<td>pull</td>
+<td>Git Changesの「Pull」ボタン</td>
+</tr>
+<tr>
+<td>ブランチ切り替え</td>
+<td>ウィンドウ右下のブランチ名をクリック → 切り替え先を選択</td>
+</tr>
+</tbody>
+</table>
+<h3>差分の確認</h3>
+<p>Git Changesで変更ファイルをダブルクリックすると、変更前後の差分が表示される。コードレビューでは、この差分表示を使って「何が変更されたか」を確認する。</p>
+<hr />
+<h2>8. SQL Server 関連</h2>
+<p>C#のDB接続問題（問題4）やSQL Server問題（07_SQLServer_Level1）で必要。</p>
+<h3>SQL Server Express のインストール</h3>
+<ol>
+<li><a href="https://www.microsoft.com/ja-jp/sql-server/sql-server-downloads">SQL Server Express</a> にアクセスする</li>
+<li>「Express」の「今すぐダウンロード」をクリックする</li>
+<li>「基本」インストールを選択する（最も簡単）</li>
+<li>インストール完了後、接続文字列が表示されるのでメモしておく</li>
+</ol>
+<h3>SQL Server Management Studio (SSMS) のインストール</h3>
+<ol>
+<li><a href="https://learn.microsoft.com/ja-jp/sql/ssms/download-sql-server-management-studio-ssms">SSMS ダウンロードページ</a> からダウンロードする</li>
+<li>インストーラーを実行し、デフォルト設定でインストールする</li>
+</ol>
+<h3>接続方法</h3>
+<ol>
+<li>SSMSを起動する</li>
+<li>接続ダイアログで以下を入力する</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サーバーの種類</td>
+<td>データベースエンジン</td>
+</tr>
+<tr>
+<td>サーバー名</td>
+<td><code>localhost\SQLEXPRESS</code> または <code>(localdb)\MSSQLLocalDB</code></td>
+</tr>
+<tr>
+<td>認証</td>
+<td>Windows認証</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li>「接続」をクリックする</li>
+</ol>
+<p><strong>補足</strong>: SQL Server Expressをインストールしていない場合、<code>(localdb)\MSSQLLocalDB</code>（LocalDB）がVisual Studioと一緒にインストールされていることがある。まずはこちらで試すのが手軽。</p>
+<hr />
+<h2>9. VBA環境</h2>
+<p>VBA問題（03_VBA_Level1）で必要。Visual Studioは不要で、Excelだけあれば取り組める。</p>
+<h3>Excelのマクロ有効化設定</h3>
+<ol>
+<li>Excelを開く</li>
+<li>「ファイル」→「オプション」→「トラスト センター」→「トラスト センターの設定」を開く</li>
+<li>「マクロの設定」で「<strong>すべてのマクロを有効にする</strong>」を選択する（学習中のみ。終わったら戻す）</li>
+<li>「OK」で閉じる</li>
+</ol>
+<p><strong>セキュリティ上の注意</strong>: 「すべてのマクロを有効にする」は学習環境でのみ使用する。業務では「警告を表示してすべてのマクロを無効にする」に戻すこと。</p>
+<h3>VBE（Visual Basic Editor）の開き方</h3>
+<ol>
+<li>Excelでマクロ有効ブック（.xlsm）を開く</li>
+<li><strong>Alt+F11</strong> を押す → VBEが開く</li>
+<li>左側の「プロジェクトエクスプローラー」で標準モジュールを展開する</li>
+</ol>
+<h3>.basファイルのインポート方法</h3>
+<p>教材に.bas（標準モジュール）ファイルが含まれている場合。</p>
+<ol>
+<li>VBEを開く（Alt+F11）</li>
+<li>「ファイル」→「ファイルのインポート」を選択する</li>
+<li>対象の .bas ファイルを選択する</li>
+<li>プロジェクトエクスプローラーの「標準モジュール」に追加される</li>
+</ol>
+<hr />
+<h2>10. トラブルシューティング</h2>
+<h3>「.NETランタイムが見つかりません」</h3>
+<p><strong>原因</strong>: .NET 8 SDKがインストールされていない。</p>
+<p><strong>対処</strong>:<br />
+1. <a href="https://dotnet.microsoft.com/ja-jp/download/dotnet/8.0">.NET 8 SDK ダウンロードページ</a> にアクセスする<br />
+2. 「SDK」の列から、使用しているOSに合ったインストーラーをダウンロードする<br />
+3. インストール後、Visual Studioを再起動する</p>
+<h3>「プロジェクトの読み込みに失敗しました」</h3>
+<p><strong>原因</strong>: 必要なワークロードがインストールされていない。</p>
+<p><strong>対処</strong>:<br />
+1. Visual Studio Installerを起動する（Windowsスタートメニューから検索）<br />
+2. 「変更」をクリックする<br />
+3. 「.NETデスクトップ開発」にチェックを入れる<br />
+4. 「変更」ボタンでインストールする<br />
+5. Visual Studioを再起動する</p>
+<h3>ビルドエラー「CSxxxx」の調べ方</h3>
+<ol>
+<li>エラー一覧に表示されるエラーコード（例: CS0103）をコピーする</li>
+<li>Webブラウザで「CS0103 C#」と検索する</li>
+<li>Microsoft公式ドキュメントに原因と対処法が記載されている</li>
+</ol>
+<h3>ソリューションエクスプローラーが表示されない</h3>
+<p><strong>対処</strong>: メニューの「表示」→「ソリューション エクスプローラー」をクリックする（Ctrl+Alt+L）</p>
+<h3>デバッグ実行してもウィンドウが表示されない</h3>
+<p><strong>対処</strong>:<br />
+1. ソリューションエクスプローラーでプロジェクトを右クリックする<br />
+2. 「プロパティ」を開く<br />
+3. 「出力の種類」が「Windowsアプリケーション」になっているか確認する</p>
+<hr />
+<h2>次のステップ</h2>
+<p>Visual Studioの準備ができたら、<code>00_基礎概念/デバッグガイド.md</code> でデバッグ操作を覚える。<br />
+その後、<code>01_CSharp_Level1/練習問題/問題1_顧客追加バグ/</code> から問題演習を始める。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

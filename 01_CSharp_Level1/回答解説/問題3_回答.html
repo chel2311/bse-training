@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題3 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 01_CSharp_Level1 / 回答解説 / 問題3_回答
+</div>
+<div class="content">
+<h1>練習問題3 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 税率の適用ミス（常に8%で計算される）</h3>
+<p><strong>該当仕様</strong>: FR-003 小計計算</p>
+<blockquote>
+<p>税率は選択された値を使用する<br />
+- 「10%（標準）」選択時: 税率 = <strong>0.10</strong><br />
+- 「8%（軽減税率）」選択時: 税率 = 0.08</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> GetSelectedTaxRate メソッド（113行目付近）</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+private decimal GetSelectedTaxRate()
+{
+    if (cmbTaxRate.SelectedIndex == 0)
+    {
+        // 「10%（標準）」が選択されている場合
+        return 0.08m;  // ← ここが間違い。0.10m であるべき
+    }
+    else
+    {
+        // 「8%（軽減税率）」が選択されている場合
+        return 0.08m;
+    }
+}
+// → どちらを選んでも常に8%が返される
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">private decimal GetSelectedTaxRate()
+{
+    if (cmbTaxRate.SelectedIndex == 0)
+    {
+        // 「10%（標準）」が選択されている場合
+        return 0.10m;
+    }
+    else
+    {
+        // 「8%（軽減税率）」が選択されている場合
+        return 0.08m;
+    }
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: GetSelectedTaxRate メソッド内 税率返却処理
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 FR-003 では「10%（標準）」選択時に税率0.10を返すと定義されているが、
+        実装ではSelectedIndex == 0（10%（標準）選択時）の分岐で0.08mを返しており、
+        どの税率を選択しても常に8%で計算されてしまう。
+        標準税率の商品すべてで金額が過少計算となり、売上に影響する重大なバグ。
+【修正案】SelectedIndex == 0 の場合のreturn値を 0.08m から 0.10m に変更してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: 合計金額が最後の注文の小計のみ表示される</h3>
+<p><strong>該当仕様</strong>: FR-004 合計計算</p>
+<blockquote>
+<p><strong>全注文の小計の合計を計算して表示する</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> UpdateTotal メソッド（133行目付近）</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+private void UpdateTotal()
+{
+    int total = 0;
+
+    for (int i = 0; i &lt; orders.Count; i++)
+    {
+        total = orders[i].Subtotal;  // ← += であるべきところが = になっている
+    }
+
+    lblTotal.Text = $&quot;合計金額（税込）: {total:#,0}円&quot;;
+}
+// → ループの各反復でtotalが上書きされ、最後の注文の小計だけが表示される
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">private void UpdateTotal()
+{
+    int total = 0;
+
+    for (int i = 0; i &lt; orders.Count; i++)
+    {
+        total += orders[i].Subtotal;
+    }
+
+    lblTotal.Text = $&quot;合計金額（税込）: {total:#,0}円&quot;;
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: UpdateTotal メソッド内 合計金額計算処理
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 FR-004 では「全注文の小計の合計を計算して表示する」と定義されているが、
+        実装ではforループ内の代入演算子が += ではなく = になっているため、
+        ループの各反復でtotalが上書きされ、最後の注文の小計のみが合計として表示される。
+        注文が複数ある場合に合計金額が正しく計算されない。
+【修正案】forループ内の total = orders[i].Subtotal を total += orders[i].Subtotal に
+        変更してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: 数量0でも注文可能</h3>
+<p><strong>該当仕様</strong>: FR-005 入力バリデーション</p>
+<blockquote>
+<p><strong>数量: 必須。1以上100以下の整数</strong>。不正な場合はエラー「数量は1～100の整数で入力してください」</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> btnAdd_Click メソッド内（57行目付近）</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity &lt; 0 || quantity &gt; 100)
+{
+    MessageBox.Show(&quot;数量は1～100の整数で入力してください&quot;, &quot;入力エラー&quot;,
+        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    return;
+}
+// → quantity &lt; 0 のため、数量0が有効な値として通ってしまう
+// → 小計0円のゴミデータが注文一覧に追加される
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity &lt; 1 || quantity &gt; 100)
+{
+    MessageBox.Show(&quot;数量は1～100の整数で入力してください&quot;, &quot;入力エラー&quot;,
+        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    return;
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnAdd_Click メソッド内 数量バリデーション処理
+【分類】仕様不一致
+【重要度】中
+【内容】設計仕様書 FR-005 では数量は「1以上100以下の整数」と定義されているが、
+        実装では下限チェックが quantity &lt; 0 となっており、
+        数量0の注文が有効な値として追加できてしまう。
+        数量0の注文が追加されると小計0円のデータが一覧に残り、
+        データの整合性に問題が生じる。
+【修正案】数量の下限チェックを quantity &lt; 0 から quantity &lt; 1 に変更してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>計算ロジックは必ず手計算で検算する</strong><br />
+   - 単価200 x 数量5 x 1.10 = 1,100円 のように、仕様書の計算式に具体値を入れて検算<br />
+   - バグ1は「税率10%なのに1,080円になる」ことで発覚する</p>
+</li>
+<li>
+<p><strong>境界値テストを意識する</strong><br />
+   - バグ3は数量に「0」を入力することで発覚する<br />
+   - 仕様書に書かれた範囲の最小値・最大値は必ずテストする</p>
+</li>
+<li>
+<p><strong>複数データで動作確認する</strong><br />
+   - バグ2は注文が1件だけでは気づけない<br />
+   - 2件以上追加して合計金額が正しいか確認する</p>
+</li>
+<li>
+<p><strong>代入演算子（= と +=）の違いに注意する</strong><br />
+   - <code>=</code> と <code>+=</code> は見た目が似ているがまったく異なる動作をする<br />
+   - 集計処理では特に注意が必要</p>
+</li>
+</ol>
+<h2>次の問題</h2>
+<p>この問題が解けたら <code>問題4</code> に進んでください。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

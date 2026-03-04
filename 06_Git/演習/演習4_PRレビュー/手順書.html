@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習4: Pull Requestレビュー演習 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 06_Git / 演習 / 演習4_PRレビュー / 手順書
+</div>
+<div class="content">
+<h1>演習4: Pull Requestレビュー演習</h1>
+<h2>状況設定</h2>
+<p>オフショア開発チーム（ベトナム）の開発者から、顧客管理アプリに「CSVエクスポート機能」を追加するPull Requestが提出されました。<br />
+BSEであるあなたは、このPRをレビューし、問題点を指摘する必要があります。</p>
+<h2>あなたのタスク</h2>
+<ol>
+<li><code>PR例/PR説明.md</code> を読み、PRの内容を把握する</li>
+<li><code>PR例/diff_before.cs</code>（変更前）と <code>PR例/diff_after.cs</code>（変更後）を比較する</li>
+<li><code>PR例/diff.patch</code> でgit diff形式の差分を確認する</li>
+<li>問題点を見つけ、レビュー指摘を書く</li>
+</ol>
+<h2>ヒント</h2>
+<ul>
+<li>このPRには <strong>3つの問題点</strong> が含まれています</li>
+<li>レビューの観点: セキュリティ、リソース管理、文字エンコーディング</li>
+<li><code>06_Git/レビューチェックリスト.md</code> を参照しながらレビューしてください</li>
+</ul>
+<hr />
+<h2>PRレビューの手順</h2>
+<h3>Step 1: PRの説明を読む</h3>
+<p><code>PR例/PR説明.md</code> を読み、以下を把握する:</p>
+<ul>
+<li><strong>何を変更したか</strong>: どの機能が追加・変更されたか</li>
+<li><strong>なぜ変更したか</strong>: 変更の背景・目的は何か</li>
+<li><strong>影響範囲</strong>: 変更がどのファイルに及ぶか</li>
+</ul>
+<h3>Step 2: 差分（Diff）を確認する</h3>
+<p>PRの差分を確認する方法:</p>
+<p><strong>方法A: before/afterファイルの比較</strong><br />
+- <code>diff_before.cs</code> と <code>diff_after.cs</code> を見比べる<br />
+- Visual Studioで2つのファイルを開き、目視で比較する</p>
+<p><strong>方法B: diff.patchファイルの確認</strong><br />
+- <code>diff.patch</code> はgit diff形式の出力<br />
+- <code>-</code>（赤）= 削除された行、<code>+</code>（緑）= 追加された行</p>
+<p><strong>方法C: 実際のGitHub/Azure DevOpsでの確認（実務の場合）</strong><br />
+- PR画面の「Files changed」タブで差分を確認<br />
+- 行番号をクリックしてコメントを入力</p>
+<h3>Step 3: チェックリストに沿ってレビュー</h3>
+<p><code>06_Git/レビューチェックリスト.md</code> の各項目を確認する。<br />
+特に以下の観点を重点的に確認:</p>
+<table>
+<thead>
+<tr>
+<th>確認観点</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セキュリティ</td>
+<td>ハードコーディングされた値がないか</td>
+</tr>
+<tr>
+<td>リソース管理</td>
+<td>ファイルやDB接続が適切に解放されているか</td>
+</tr>
+<tr>
+<td>文字エンコーディング</td>
+<td>日本語を含むファイルの文字化け対策がされているか</td>
+</tr>
+<tr>
+<td>エラー処理</td>
+<td>例外が適切にハンドリングされているか</td>
+</tr>
+<tr>
+<td>仕様準拠</td>
+<td>要件を満たしているか</td>
+</tr>
+</tbody>
+</table>
+<h3>Step 4: 指摘を書く</h3>
+<p>問題を見つけたら、以下のフォーマットで指摘を書く:</p>
+<pre class="codehilite"><code>【指摘箇所】ファイル名: 行番号付近
+【分類】バグ / 仕様不一致 / 改善提案 / セキュリティ
+【重要度】高 / 中 / 低
+【内容】○○の処理で△△となっているが、□□とすべきではないか。
+【修正案】△△を□□に変更してください。
+</code></pre>
+
+<hr />
+<h2>確認ポイント</h2>
+<ul>
+<li>[ ] PR説明から変更内容を正しく把握できた</li>
+<li>[ ] diff（差分）を正しく読めた</li>
+<li>[ ] 3つの問題点をすべて発見できた</li>
+<li>[ ] 各問題点に対してレビュー指摘を書けた</li>
+<li>[ ] 指摘に修正案を含めることができた</li>
+</ul>
+<hr />
+<h2>回答</h2>
+<p>自分で考えた後、<code>レビュー指摘例.md</code> で答え合わせしてください。</p>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

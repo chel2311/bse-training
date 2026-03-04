@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VB6 プログラミング基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / VB6基礎概念
+</div>
+<div class="content">
+<h1>VB6 プログラミング基礎概念（BSE向け）</h1>
+<blockquote>
+<p>レガシーコードを「読んでレビューできる」ことが目標</p>
+</blockquote>
+<hr />
+<h2>1. VB6とは</h2>
+<p>Visual Basic 6.0（VB6）は1998年にMicrosoftがリリースした開発言語。2008年にサポートが終了したが、多くの業務システムで現役稼働している。BSEとしてレガシー保守案件に関わる際、VB6のコードを読んでレビューできることが求められる。</p>
+<h3>開発環境</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IDE</td>
+<td>Visual Basic 6.0 IDE（VB6 IDE）</td>
+</tr>
+<tr>
+<td>ファイル形式</td>
+<td>.frm（フォーム）、.bas（標準モジュール）、.cls（クラスモジュール）、.vbp（プロジェクト）</td>
+</tr>
+<tr>
+<td>実行環境</td>
+<td>Windows上でランタイム（MSVBVM60.DLL）が必要</td>
+</tr>
+<tr>
+<td>特徴</td>
+<td>フォームファイルはテキスト形式で保存され、テキストエディタで読める</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 変数宣言（Dim）</h2>
+<p>VB6では <code>Dim</code> で変数を宣言する。型指定をしないと <code>Variant</code> 型になる。</p>
+<pre class="codehilite"><code class="language-vb">' 整数
+Dim empNo As Long
+
+' 文字列
+Dim empName As String
+
+' 日付
+Dim hireDate As Date
+
+' 真偽値
+Dim isActive As Boolean
+
+' 型指定なし → Variant型（何でも入る。非推奨）
+Dim value
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>Option Explicit</code> が宣言されているか？ → ないと未宣言変数が使えてしまい、タイプミスがバグになる</li>
+<li><code>Variant</code> 型が多用されていないか？ → 型安全性がなく予期しない動作の原因になる</li>
+<li>数値型に <code>Integer</code>（-32768～32767）を使っていないか？ → 大きな数は <code>Long</code> を使うべき</li>
+</ul>
+<hr />
+<h2>3. プロシージャ（Sub / Function）</h2>
+<p>処理をまとめるもの。<code>Sub</code> は戻り値なし、<code>Function</code> は戻り値あり。</p>
+<pre class="codehilite"><code class="language-vb">' Subプロシージャ（戻り値なし）
+Private Sub ShowMessage(msg As String)
+    MsgBox msg, vbInformation, &quot;お知らせ&quot;
+End Sub
+
+' Functionプロシージャ（戻り値あり）
+Private Function CalcTax(price As Long) As Long
+    CalcTax = price * 1.1    ' 関数名に代入 = 戻り値
+End Function
+
+' 使い方
+Dim total As Long
+total = CalcTax(1000)    ' 1100
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>Function</code> の戻り値が関数名への代入で設定されているか？（VB6独特の書き方）</li>
+<li>引数の <code>ByVal</code> / <code>ByRef</code> は適切か？（VB6のデフォルトは <code>ByRef</code>。意図せず呼び出し元の値が変わる）</li>
+</ul>
+<hr />
+<h2>4. ユーザー定義型（Type）</h2>
+<p>C言語の構造体に相当する。関連データをまとめる。</p>
+<pre class="codehilite"><code class="language-vb">' 社員データの型定義（標準モジュール .bas に記述）
+Public Type Employee
+    EmpNo As String
+    EmpName As String
+    Department As String
+    HireDate As Date
+End Type
+
+' 使い方
+Dim emp As Employee
+emp.EmpNo = &quot;001&quot;
+emp.EmpName = &quot;田中太郎&quot;
+emp.Department = &quot;営業部&quot;
+emp.HireDate = #2015/04/01#
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>型定義は標準モジュール（.bas）に配置されているか？</li>
+<li>メンバーのデータ型は適切か？（日付は <code>Date</code> 型、金額は <code>Currency</code> 型を使うべき）</li>
+</ul>
+<hr />
+<h2>5. 制御構造</h2>
+<h3>If...Then...Else</h3>
+<pre class="codehilite"><code class="language-vb">If age &gt;= 18 Then
+    MsgBox &quot;成人です&quot;
+ElseIf age &gt;= 0 Then
+    MsgBox &quot;未成年です&quot;
+Else
+    MsgBox &quot;不正な値です&quot;
+End If
+</code></pre>
+
+<h3>For...Next</h3>
+<pre class="codehilite"><code class="language-vb">Dim i As Long
+For i = 0 To 9
+    Debug.Print i
+Next i
+</code></pre>
+
+<h3>Select Case</h3>
+<pre class="codehilite"><code class="language-vb">Select Case department
+    Case &quot;営業部&quot;
+        bonus = salary * 0.2
+    Case &quot;開発部&quot;
+        bonus = salary * 0.15
+    Case Else
+        bonus = salary * 0.1
+End Select
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>If</code> の条件が仕様通りか？（<code>&gt;=</code> と <code>&gt;</code> の境界値に注意）</li>
+<li><code>Select Case</code> に <code>Case Else</code> があるか？（想定外の値への対処）</li>
+<li>ループの回数は正しいか？（VB6の <code>For i = 1 To 10</code> は10回実行される）</li>
+</ul>
+<hr />
+<h2>6. エラー処理（On Error GoTo）</h2>
+<p>VB6にはtry-catchがない。<code>On Error GoTo</code> でエラー処理を行う。</p>
+<pre class="codehilite"><code class="language-vb">Private Sub LoadData()
+    On Error GoTo ErrorHandler
+
+    ' 正常処理
+    Dim rs As ADODB.Recordset
+    Set rs = New ADODB.Recordset
+    rs.Open &quot;SELECT * FROM Employees&quot;, cn
+
+    ' 後始末
+    rs.Close
+    Set rs = Nothing
+    Exit Sub
+
+ErrorHandler:
+    MsgBox &quot;エラーが発生しました: &quot; &amp; Err.Description, vbCritical, &quot;エラー&quot;
+    If Not rs Is Nothing Then
+        If rs.State = adStateOpen Then rs.Close
+        Set rs = Nothing
+    End If
+End Sub
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>On Error GoTo</code> が設定されているか？ → ないとエラー時にアプリが停止する</li>
+<li><code>On Error Resume Next</code>（エラー無視）が使われていないか？ → エラーの握りつぶし</li>
+<li><code>Exit Sub</code> / <code>Exit Function</code> でエラーハンドラを飛び越えているか？ → ないと正常時もエラーハンドラを実行してしまう</li>
+<li><code>Set obj = Nothing</code> でオブジェクト参照を解放しているか？</li>
+</ul>
+<hr />
+<h2>7. With...End With構文</h2>
+<p>同じオブジェクトに対する複数の操作をまとめる。</p>
+<pre class="codehilite"><code class="language-vb">' Withなし（冗長）
+lstEmployees.ListItems.Add , , emp.EmpNo
+lstEmployees.ListItems(lstEmployees.ListItems.Count).SubItems(1) = emp.EmpName
+lstEmployees.ListItems(lstEmployees.ListItems.Count).SubItems(2) = emp.Department
+
+' Withあり（簡潔）
+With lstEmployees.ListItems.Add(, , emp.EmpNo)
+    .SubItems(1) = emp.EmpName
+    .SubItems(2) = emp.Department
+    .SubItems(3) = Format(emp.HireDate, &quot;yyyy/mm/dd&quot;)
+End With
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>With</code> の対象オブジェクトは正しいか？</li>
+<li>ネストした <code>With</code> で対象が混同していないか？</li>
+</ul>
+<hr />
+<h2>8. フォームファイル（.frm）の構造</h2>
+<p>VB6のフォームファイルはテキスト形式で、2つの部分で構成される。</p>
+<h3>前半: コントロール定義（デザイナ部分）</h3>
+<pre class="codehilite"><code>VERSION 5.00
+Object = &quot;{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0&quot;; &quot;MSCOMCTL.OCX&quot;
+Begin VB.Form frmMain
+   Caption         =   &quot;社員名簿管理&quot;
+   ClientHeight    =   7200
+   ClientWidth     =   10200
+   Begin VB.TextBox txtEmpNo
+      Height          =   375
+      Left            =   1800
+      Top             =   360
+      Width           =   2415
+   End
+   Begin VB.CommandButton cmdAdd
+      Caption         =   &quot;追加&quot;
+      Height          =   375
+      Left            =   600
+      Top             =   3000
+      Width           =   1215
+   End
+End
+</code></pre>
+
+<h3>後半: コード部分</h3>
+<pre class="codehilite"><code>Attribute VB_Name = &quot;frmMain&quot;
+Option Explicit
+
+Private Sub Form_Load()
+    ' フォーム読み込み時の処理
+End Sub
+
+Private Sub cmdAdd_Click()
+    ' 追加ボタンクリック時の処理
+End Sub
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>コントロール名が設計書の命名規則と一致しているか？</li>
+<li>イベントプロシージャ名が正しいか？（コントロール名_イベント名）</li>
+<li><code>Option Explicit</code> が宣言されているか？</li>
+</ul>
+<hr />
+<h2>9. VB6とVB.NETの主な違い</h2>
+<p>VB.NETに移行されたコードをレビューする際にも役立つ。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>VB6</th>
+<th>VB.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>オブジェクト代入</td>
+<td><code>Set obj = New Class1</code></td>
+<td><code>Dim obj As New Class1</code></td>
+</tr>
+<tr>
+<td>デフォルト引数渡し</td>
+<td><code>ByRef</code>（参照渡し）</td>
+<td><code>ByVal</code>（値渡し）</td>
+</tr>
+<tr>
+<td>汎用型</td>
+<td><code>Variant</code></td>
+<td><code>Object</code></td>
+</tr>
+<tr>
+<td>文字列関数</td>
+<td><code>Left$()</code>, <code>Mid$()</code>, <code>Right$()</code></td>
+<td><code>.Substring()</code>, <code>.Length</code></td>
+</tr>
+<tr>
+<td>エラー処理</td>
+<td><code>On Error GoTo</code></td>
+<td><code>Try...Catch...Finally</code></td>
+</tr>
+<tr>
+<td>固定長文字列</td>
+<td><code>Dim s As String * 10</code></td>
+<td>サポートなし</td>
+</tr>
+<tr>
+<td>配列の下限</td>
+<td><code>Option Base</code> で変更可能</td>
+<td>常に0始まり</td>
+</tr>
+<tr>
+<td>型判定</td>
+<td><code>TypeName()</code>, <code>VarType()</code></td>
+<td><code>GetType()</code>, <code>TypeOf...Is</code></td>
+</tr>
+<tr>
+<td>コレクション</td>
+<td><code>Collection</code></td>
+<td><code>List(Of T)</code>, <code>Dictionary</code></td>
+</tr>
+<tr>
+<td>日付関数</td>
+<td><code>DateDiff()</code>, <code>DateAdd()</code>, <code>IsDate()</code></td>
+<td><code>DateTime</code> クラスメソッド</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>10. レガシーコードレビューのポイント</h2>
+<p>VB6のレガシーコードをレビューする際、特に注意すべき点。</p>
+<h3>よくある問題</h3>
+<ol>
+<li>
+<p><strong>Option Explicit の欠如</strong><br />
+   - 宣言なしで変数が使えるため、タイプミスが実行時まで発見されない</p>
+</li>
+<li>
+<p><strong>Variant型の多用</strong><br />
+   - 型安全性がなく、実行時の型変換エラーの原因になる</p>
+</li>
+<li>
+<p><strong>On Error Resume Next の乱用</strong><br />
+   - エラーが無視され、データ不整合の原因になる</p>
+</li>
+<li>
+<p><strong>Set ... = Nothing の漏れ</strong><br />
+   - オブジェクト参照の解放忘れ。メモリリークの原因</p>
+</li>
+<li>
+<p><strong>DateDiff等の日付関数の引数順序</strong><br />
+   - 引数の順序ミスで計算結果が逆になるバグは頻出</p>
+</li>
+<li>
+<p><strong>配列の境界チェック不足</strong><br />
+   - <code>ReDim</code> / <code>UBound</code> の取り扱いミスによる実行時エラー</p>
+</li>
+</ol>
+<h3>レビューの進め方</h3>
+<ol>
+<li>仕様書（設計書）を先に読む</li>
+<li>モジュール構造を把握する（.vbp → .frm → .bas の順）</li>
+<li>コントロール定義と画面設計を照合する</li>
+<li>イベントプロシージャ（_Click, _Load等）から処理の流れを追う</li>
+<li>仕様書の各機能要件に対応する実装を確認する</li>
+<li>エラー処理とバリデーションの漏れを確認する</li>
+</ol>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>04_VB6_Level1/</code> の練習問題に進んでください。<br />
+実際のVB6フォームファイルを読み、設計仕様書と照らし合わせてバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

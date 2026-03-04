@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社員名簿管理アプリケーション 設計仕様書 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 04_VB6_Level1 / 設計仕様書 / 社員名簿管理仕様書
+</div>
+<div class="content">
+<h1>社員名簿管理アプリケーション 設計仕様書</h1>
+<h2>1. 概要</h2>
+<p>社員情報の登録・削除・検索・一覧表示を行うWindowsデスクトップアプリケーション。<br />
+10年以上前に構築されたVB6アプリケーションの保守案件として管理する。</p>
+<h2>2. 開発環境</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>言語</td>
+<td>Visual Basic 6.0</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>VB6標準フォーム</td>
+</tr>
+<tr>
+<td>一覧表示</td>
+<td>Microsoft Windows Common Controls 6.0（ListView）</td>
+</tr>
+<tr>
+<td>データ管理</td>
+<td>インメモリ配列（将来的にDB対応予定）</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>Visual Basic 6.0 IDE</td>
+</tr>
+</tbody>
+</table>
+<h2>3. 画面設計</h2>
+<h3>3.1 メイン画面（frmMain）</h3>
+<pre class="codehilite"><code>+----------------------------------------------------------+
+| 社員名簿管理                                      [_][□][X] |
++----------------------------------------------------------+
+| 社員番号: [_______________]                                |
+| 氏名:     [_______________]                                |
+| 部署:     [営業部       |v]                                |
+| 入社日:   [_______________]  (yyyy/mm/dd形式)              |
+|                                                            |
+| [追加]  [削除]  [検索]                                     |
++----------------------------------------------------------+
+| 社員番号 | 氏名       | 部署   | 入社日     | 勤続年数    |
+|----------|-----------|--------|------------|------------|
+| 001      | 田中太郎   | 営業部 | 2015/04/01 | 11年       |
+| 002      | 鈴木花子   | 開発部 | 2020/10/01 | 5年        |
+| ...                                                       |
++----------------------------------------------------------+
+</code></pre>
+
+<h3>3.2 画面構成要素</h3>
+<table>
+<thead>
+<tr>
+<th>コントロール</th>
+<th>名称</th>
+<th>種類</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>txtEmpNo</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>社員番号入力</td>
+</tr>
+<tr>
+<td>txtName</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>氏名入力</td>
+</tr>
+<tr>
+<td>cmbDept</td>
+<td>コンボボックス</td>
+<td>ComboBox</td>
+<td>部署選択（営業部/開発部/総務部/経理部）</td>
+</tr>
+<tr>
+<td>txtHireDate</td>
+<td>テキストボックス</td>
+<td>TextBox</td>
+<td>入社日入力（yyyy/mm/dd形式）</td>
+</tr>
+<tr>
+<td>cmdAdd</td>
+<td>コマンドボタン</td>
+<td>CommandButton</td>
+<td>社員追加</td>
+</tr>
+<tr>
+<td>cmdDelete</td>
+<td>コマンドボタン</td>
+<td>CommandButton</td>
+<td>社員削除</td>
+</tr>
+<tr>
+<td>cmdSearch</td>
+<td>コマンドボタン</td>
+<td>CommandButton</td>
+<td>検索実行</td>
+</tr>
+<tr>
+<td>lstEmployees</td>
+<td>リストビュー</td>
+<td>ListView</td>
+<td>社員一覧表示</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 機能仕様</h2>
+<h3>4.1 社員追加（FR-001）</h3>
+<ul>
+<li>「追加」ボタン押下で入力欄の値を社員データとして追加する</li>
+<li><strong>社員番号は重複不可。既に登録済みの社員番号の場合はエラー「この社員番号は既に登録されています」を表示する</strong></li>
+<li>追加後、入力欄をクリアする</li>
+<li>追加後、一覧を更新して新しい社員が表示されること</li>
+</ul>
+<h3>4.2 社員削除（FR-002）</h3>
+<ul>
+<li>一覧で行を選択した状態で「削除」ボタン押下</li>
+<li><strong>削除前に「○○を削除しますか？」と確認ダイアログを表示する</strong></li>
+<li>「はい」で削除実行、「いいえ」でキャンセル</li>
+<li><strong>一覧が選択されていない場合は「社員を選択してください」と警告表示</strong></li>
+</ul>
+<h3>4.3 検索（FR-003）</h3>
+<ul>
+<li>氏名テキストボックスにキーワードを入力し「検索」ボタンで実行</li>
+<li><strong>氏名に対して部分一致検索を行う</strong></li>
+<li>検索結果が0件の場合「該当する社員はいません」と表示</li>
+<li>キーワードが空の場合は全件表示</li>
+</ul>
+<h3>4.4 入力バリデーション（FR-004）</h3>
+<ul>
+<li>社員番号: <strong>必須。数字のみ許可。空欄の場合はエラー「社員番号を入力してください」、数字以外が含まれる場合はエラー「社員番号は数字で入力してください」</strong></li>
+<li>氏名: <strong>必須。空欄の場合はエラー「氏名を入力してください」</strong></li>
+<li>入社日: <strong>IsDate関数を使用して日付形式チェックを行う。不正な場合はエラー「入社日を正しい日付形式(yyyy/mm/dd)で入力してください」</strong></li>
+</ul>
+<h3>4.5 一覧表示（FR-005）</h3>
+<ul>
+<li>ListViewに以下のカラムを表示する:</li>
+<li>社員番号</li>
+<li>氏名</li>
+<li>部署</li>
+<li>入社日（yyyy/mm/dd形式）</li>
+<li>勤続年数（年単位）</li>
+<li>フォーム読み込み時にサンプルデータを表示する</li>
+</ul>
+<h3>4.6 勤続年数計算（FR-006）</h3>
+<ul>
+<li><strong>入社日から現在日までの年数をDateDiff関数で計算する</strong></li>
+<li>計算式: <code>DateDiff("yyyy", 入社日, Now)</code> で年数を取得</li>
+<li>一覧の勤続年数カラムに「○年」の形式で表示する</li>
+</ul>
+<h2>5. データ構造</h2>
+<h3>5.1 Employee型（ユーザー定義型）</h3>
+<table>
+<thead>
+<tr>
+<th>メンバー</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EmpNo</td>
+<td>String</td>
+<td>社員番号</td>
+</tr>
+<tr>
+<td>EmpName</td>
+<td>String</td>
+<td>氏名</td>
+</tr>
+<tr>
+<td>Department</td>
+<td>String</td>
+<td>部署</td>
+</tr>
+<tr>
+<td>HireDate</td>
+<td>Date</td>
+<td>入社日</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 データ格納</h3>
+<ul>
+<li>モジュールレベルの動的配列 <code>Employees()</code> で管理</li>
+<li>社員数は <code>EmployeeCount</code> 変数で管理</li>
+</ul>
+<h2>6. 非機能要件</h2>
+<ul>
+<li>エラー発生時は適切なメッセージを表示し、アプリが異常終了しないこと</li>
+<li>On Error GoTo によるエラーハンドリングを実装すること</li>
+<li>Option Explicit を全モジュールで宣言すること</li>
+</ul>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

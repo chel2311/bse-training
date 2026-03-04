@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習4 回答・解説: PRレビュー指摘 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../../index.html">ポータル</a> / 06_Git / 演習 / 演習4_PRレビュー / レビュー指摘例
+</div>
+<div class="content">
+<h1>演習4 回答・解説: PRレビュー指摘</h1>
+<h2>問題点一覧（3件）</h2>
+<hr />
+<h3>問題1: ファイルパスのハードコーディング</h3>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> btnExportCsv_Click メソッド内</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（問題あり）
+string filePath = @&quot;C:\export\customers.csv&quot;;
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- 出力先パスが <code>C:\export\</code> に固定されている<br />
+- このフォルダが存在しない環境ではエラーになる（<code>DirectoryNotFoundException</code>）<br />
+- ユーザーが出力先を選択できない<br />
+- 他のPCやサーバーに配備した際に動作しない</p>
+<p><strong>修正案</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">// SaveFileDialogで出力先をユーザーに選択させる
+using (var dialog = new SaveFileDialog())
+{
+    dialog.Filter = &quot;CSVファイル (*.csv)|*.csv&quot;;
+    dialog.FileName = &quot;customers.csv&quot;;
+    dialog.Title = &quot;CSVエクスポート先を選択&quot;;
+
+    if (dialog.ShowDialog() != DialogResult.OK)
+        return;
+
+    string filePath = dialog.FileName;
+    // 以降の処理...
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnExportCsv_Click メソッド内 ファイルパス定義
+【分類】改善提案 / セキュリティ
+【重要度】高
+【内容】出力先ファイルパスが &quot;C:\export\customers.csv&quot; にハードコーディングされている。
+        このフォルダが存在しない環境ではDirectoryNotFoundExceptionが発生する。
+        また、ユーザーが出力先を選択できないため、運用上不便である。
+【修正案】SaveFileDialogを使用して、ユーザーに出力先を選択させるよう変更してください。
+</code></pre>
+
+<hr />
+<h3>問題2: ファイルストリームがusingで囲まれていない（リソースリーク）</h3>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> btnExportCsv_Click メソッド内</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（問題あり）
+StreamWriter writer = new StreamWriter(filePath);
+
+// ヘッダー行
+writer.WriteLine(&quot;顧客ID,顧客名,年齢,電話番号,メールアドレス&quot;);
+
+// データ行
+foreach (var customer in customers)
+{
+    writer.WriteLine($&quot;{customer.Id},{customer.Name},{customer.Age},{customer.Phone},{customer.Email}&quot;);
+}
+
+writer.Close();  // ← ここに到達する前に例外が発生するとCloseされない
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- <code>StreamWriter</code> が <code>using</code> ブロックで囲まれていない<br />
+- <code>writer.WriteLine()</code> の途中で例外が発生した場合、<code>writer.Close()</code> が実行されない<br />
+- ファイルハンドルが解放されず、ファイルがロックされたままになる（リソースリーク）<br />
+- ロックされたファイルは他のプログラムから開けなくなり、再起動が必要になることもある</p>
+<p><strong>修正案</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">// usingブロックでStreamWriterを囲む
+using (var writer = new StreamWriter(filePath, false, new System.Text.UTF8Encoding(true)))
+{
+    // ヘッダー行
+    writer.WriteLine(&quot;顧客ID,顧客名,年齢,電話番号,メールアドレス&quot;);
+
+    // データ行
+    foreach (var customer in customers)
+    {
+        writer.WriteLine($&quot;{customer.Id},{customer.Name},{customer.Age},{customer.Phone},{customer.Email}&quot;);
+    }
+}
+// usingブロックを抜けると自動的にClose/Disposeされる
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnExportCsv_Click メソッド内 StreamWriterの使用箇所
+【分類】バグ
+【重要度】高
+【内容】StreamWriterがusingブロックで囲まれていない。
+        writer.WriteLine()の処理中に例外が発生した場合、writer.Close()が
+        実行されず、ファイルハンドルが解放されない（リソースリーク）。
+        ファイルがロックされたままになり、再実行やファイル削除ができなくなる。
+【修正案】StreamWriterをusingブロックで囲み、例外発生時でも確実に
+        リソースが解放されるよう修正してください。
+</code></pre>
+
+<hr />
+<h3>問題3: 日本語の文字化け（Encoding指定なし）</h3>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> btnExportCsv_Click メソッド内</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（問題あり）
+StreamWriter writer = new StreamWriter(filePath);
+// → Encodingが指定されていない（デフォルトはUTF-8だがBOMなし）
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- <code>StreamWriter</code> のデフォルトエンコーディングはUTF-8（BOMなし）<br />
+- Excelで「BOMなしUTF-8」のCSVを開くと、日本語が文字化けする<br />
+- ヘッダー行の「顧客ID」「顧客名」等や、データの「田中太郎」等がすべて文字化けする<br />
+- ExcelでCSVを正しく表示するには <strong>UTF-8 BOM付き</strong> で出力する必要がある</p>
+<p><strong>BOM（Byte Order Mark）とは</strong>:<br />
+- ファイルの先頭に付加される特殊なバイト列（EF BB BF）<br />
+- テキストエディタやExcelがファイルのエンコーディングを判別するための目印<br />
+- BOMがないと、ExcelはCSVをShift-JISとして解釈し、文字化けが発生する</p>
+<p><strong>修正案</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">// UTF-8 BOM付きでStreamWriterを作成
+using (var writer = new StreamWriter(filePath, false, new System.Text.UTF8Encoding(true)))
+{
+    // UTF8Encoding(true) の true がBOMを付加する指定
+    writer.WriteLine(&quot;顧客ID,顧客名,年齢,電話番号,メールアドレス&quot;);
+    // ...
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnExportCsv_Click メソッド内 StreamWriterの生成
+【分類】バグ
+【重要度】高
+【内容】StreamWriterの生成時にEncodingが指定されていない。
+        デフォルトのUTF-8（BOMなし）で出力されるため、ExcelでCSVを
+        開いた際に日本語（ヘッダー「顧客ID,顧客名...」やデータ「田中太郎」等）が
+        文字化けする。
+        CSVファイルの利用者はExcelで開くことが想定されるため、
+        UTF-8 BOM付きで出力する必要がある。
+【修正案】StreamWriterのコンストラクタに new System.Text.UTF8Encoding(true) を
+        指定し、BOM付きUTF-8で出力するよう変更してください。
+        例: new StreamWriter(filePath, false, new System.Text.UTF8Encoding(true))
+</code></pre>
+
+<hr />
+<h2>修正後の完全なコード</h2>
+<p>3つの問題をすべて修正した場合:</p>
+<pre class="codehilite"><code class="language-csharp">/// &lt;summary&gt;
+/// 顧客一覧をCSVファイルにエクスポートする
+/// &lt;/summary&gt;
+private void btnExportCsv_Click(object sender, EventArgs e)
+{
+    if (customers.Count == 0)
+    {
+        MessageBox.Show(&quot;エクスポートする顧客データがありません&quot;, &quot;警告&quot;,
+            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+    }
+
+    // 【修正1】SaveFileDialogで出力先を選択
+    using (var dialog = new SaveFileDialog())
+    {
+        dialog.Filter = &quot;CSVファイル (*.csv)|*.csv&quot;;
+        dialog.FileName = &quot;customers.csv&quot;;
+        dialog.Title = &quot;CSVエクスポート先を選択&quot;;
+
+        if (dialog.ShowDialog() != DialogResult.OK)
+            return;
+
+        string filePath = dialog.FileName;
+
+        try
+        {
+            // 【修正2】usingブロックで囲む + 【修正3】UTF-8 BOM付き
+            using (var writer = new StreamWriter(filePath, false, new System.Text.UTF8Encoding(true)))
+            {
+                // ヘッダー行
+                writer.WriteLine(&quot;顧客ID,顧客名,年齢,電話番号,メールアドレス&quot;);
+
+                // データ行
+                foreach (var customer in customers)
+                {
+                    writer.WriteLine($&quot;{customer.Id},{customer.Name},{customer.Age},{customer.Phone},{customer.Email}&quot;);
+                }
+            }
+
+            MessageBox.Show($&quot;CSVファイルを出力しました\n{filePath}&quot;, &quot;完了&quot;,
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($&quot;CSV出力中にエラーが発生しました: {ex.Message}&quot;, &quot;エラー&quot;,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+}
+</code></pre>
+
+<hr />
+<h2>レビューのコツ</h2>
+<h3>1. diffを読む順序</h3>
+<ol>
+<li>まずPR説明で「何をしたか」を把握する</li>
+<li>追加された <code>using</code> 文を確認する（<code>System.IO</code> が追加されている → ファイル操作がある）</li>
+<li>追加されたメソッドを上から順に読む</li>
+<li>各処理で「このケースでエラーが起きたらどうなるか」を考える</li>
+</ol>
+<h3>2. よくある問題パターン</h3>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ファイルパスのハードコーディング</td>
+<td>環境依存しないか？ユーザーが選択できるか？</td>
+</tr>
+<tr>
+<td>リソースの解放漏れ</td>
+<td>using文で囲まれているか？finallyブロックがあるか？</td>
+</tr>
+<tr>
+<td>文字エンコーディング</td>
+<td>日本語を含むファイルでBOM付きUTF-8か？</td>
+</tr>
+<tr>
+<td>エラーハンドリング</td>
+<td>try-catchの範囲は適切か？エラーメッセージは適切か？</td>
+</tr>
+<tr>
+<td>ハードコーディングされた値</td>
+<td>設定ファイルや定数に外出しすべきか？</td>
+</tr>
+</tbody>
+</table>
+<h3>3. 指摘の優先度</h3>
+<p>今回の3つの問題の優先度:</p>
+<table>
+<thead>
+<tr>
+<th>優先度</th>
+<th>問題</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高</td>
+<td>リソースリーク（using未使用）</td>
+<td>ファイルロックが発生し、システム障害につながる</td>
+</tr>
+<tr>
+<td>高</td>
+<td>文字化け（Encoding未指定）</td>
+<td>出力ファイルが使い物にならない</td>
+</tr>
+<tr>
+<td>高</td>
+<td>パスのハードコーディング</td>
+<td>特定の環境でしか動作しない</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>まとめ</h2>
+<p>PRレビューでは「正常に動作するか」だけでなく、以下の観点も重要:</p>
+<ol>
+<li><strong>異常系</strong>: エラーが発生した場合に安全か（リソースリーク）</li>
+<li><strong>環境依存</strong>: 他のPCやサーバーでも動作するか（ハードコーディング）</li>
+<li><strong>日本語対応</strong>: 日本語データが正しく扱えるか（エンコーディング）</li>
+</ol>
+<p>これらはBSEとして特に注意すべき、日本のシステム開発で頻出する問題パターンです。</p>
+<div class="nav-links">
+    <a href="../../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

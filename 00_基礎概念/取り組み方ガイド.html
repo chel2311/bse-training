@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSEコードレビュー訓練 取り組み方ガイド - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / 取り組み方ガイド
+</div>
+<div class="content">
+<h1>BSEコードレビュー訓練 取り組み方ガイド</h1>
+<blockquote>
+<p>コードを「書く」のではなく「読んでレビューできる」ことが目標。この教材で段階的に力をつけていく。</p>
+</blockquote>
+<hr />
+<h2>対象者</h2>
+<p>この教材は、<strong>ブリッジSE（BSE）としてコードレビューを行う方</strong>を対象としている。</p>
+<ul>
+<li>コーディング経験は少なくても問題ない</li>
+<li>VB6を少し独学した程度の知識があれば十分</li>
+<li>オフショア開発チームから納品されるコードをレビューする業務を想定</li>
+</ul>
+<p><strong>この教材のゴール</strong>: 設計仕様書とソースコードを突き合わせて「仕様と実装の差異（バグ）」を見つけ、開発者に的確な指摘ができるようになること。</p>
+<hr />
+<h2>このリポジトリの使い方</h2>
+<h3>Step 1: GitHubからcloneする</h3>
+<pre class="codehilite"><code class="language-bash">git clone https://github.com/[リポジトリURL] bse-training
+cd bse-training
+</code></pre>
+
+<p>Git操作に不慣れな場合は、GitHubの「Code」ボタン → 「Download ZIP」でも可。</p>
+<h3>Step 2: index.htmlをブラウザで開く</h3>
+<p>リポジトリのルートにある <code>index.html</code> をダブルクリックすると、ポータル画面が開く。<br />
+ここから各問題・各ガイドへリンクで移動できる。</p>
+<h3>Step 3: 推奨順序に沿って進める</h3>
+<p>下記の「推奨学習順序」に従って、基礎概念の理解 → 実際の問題演習 の順で進める。</p>
+<hr />
+<h2>推奨学習順序</h2>
+<h3>Step 1: 基礎概念を読む（00_基礎概念/）</h3>
+<p>最初に以下の3つを順に読む。</p>
+<table>
+<thead>
+<tr>
+<th>順番</th>
+<th>ファイル</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>CSharp基礎概念.md</td>
+<td>C#の変数・制御構造・メソッド・クラス・イベント駆動・DB接続・例外処理の基礎。<strong>他の言語（VB.NET, VBA等）の理解にも共通する概念が多い</strong>ため、最初に必ず読む</td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>コードリーディングガイド.md</td>
+<td>FormMain.csの読み方を5ステップで解説。頻出コードパターンの日本語翻訳辞書付き。<strong>コードが読めない場合はここを先に読む</strong></td>
+</tr>
+<tr>
+<td>1-3</td>
+<td>VS設定ガイド.md</td>
+<td>Visual Studio 2022のインストールと基本設定。<strong>問題を動かすために必須</strong></td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>デバッグガイド.md</td>
+<td>ブレークポイント・ステップ実行・変数確認の方法。<strong>バグ発見の最も強力な手段</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>理由</strong>: C#の基礎概念は、この教材のすべての問題の土台になる。Visual Studioとデバッグ操作を先に覚えておくと、問題演習の効率が大幅に上がる。</p>
+<h3>Step 2: C# Level 1 問題1～4（01_CSharp_Level1/）</h3>
+<p>この教材で最も問題数が多く、段階的に難易度が上がるように設計されている。</p>
+<table>
+<thead>
+<tr>
+<th>順番</th>
+<th>問題</th>
+<th>テーマ</th>
+<th>難易度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-1</td>
+<td>問題1</td>
+<td>顧客追加が反映されない（イベントハンドラ未接続）</td>
+<td>★☆☆</td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>問題2</td>
+<td>検索が一致しない（大文字小文字の未考慮）</td>
+<td>★☆☆</td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>問題3</td>
+<td>金額計算が合わない（計算ロジックミス）</td>
+<td>★★☆</td>
+</tr>
+<tr>
+<td>2-4</td>
+<td>問題4</td>
+<td>DB接続エラー（接続文字列/例外処理）</td>
+<td>★★☆</td>
+</tr>
+</tbody>
+</table>
+<p><strong>理由</strong>: C# WinFormsは業務アプリ開発で最も多く使われる技術スタックの一つ。ここで「設計仕様書 vs 実装」の差異を見つけるスキルを身につければ、他の言語にも応用できる。</p>
+<h3>Step 3: SQL Server（07_SQLServer_Level1/）</h3>
+<table>
+<thead>
+<tr>
+<th>順番</th>
+<th>テーマ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-1</td>
+<td>テーブル設計の問題を見つける</td>
+</tr>
+<tr>
+<td>3-2</td>
+<td>SQLクエリのバグ（JOIN、GROUP BY等）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>理由</strong>: C#の問題4（DB接続バグ）でSQL Serverに触れている。その知識が温かいうちにDB側の知識を深める。実務ではDBレビューの比重が大きい。</p>
+<h3>Step 4: VB.NET（02_VBNET_Level1/）</h3>
+<p><strong>理由</strong>: VB.NETはC#と同じ.NETプラットフォーム上で動作し、構文が似ている。C#の知識があればスムーズに入れる。既存の業務アプリでVB.NETが使われているプロジェクトは多い。</p>
+<h3>Step 5: VBA（03_VBA_Level1/）</h3>
+<p><strong>理由</strong>: Excel帳票のマクロは実務で頻出する。Excelさえあれば環境構築不要で試せるため、取り組みやすい。</p>
+<h3>Step 6: Git演習（06_Git/）</h3>
+<p><strong>理由</strong>: コードレビューの実務フローを学ぶ。clone → ブランチ作成 → レビュー → Pull Request の流れを体験する。ここまでの問題で「何をレビューするか」は身についているので、「どうやってレビューするか」のワークフローを覚える。</p>
+<h3>Step 7: VB6（04_VB6_Level1/）</h3>
+<p><strong>理由</strong>: レガシーアプリの保守案件がある場合に必要。新規開発では使わないが、既存システムの改修レビューで求められることがある。案件に応じて取り組む。</p>
+<h3>Step 8: C++（05_CPP_Level1/）</h3>
+<p><strong>理由</strong>: CAD案件など、C++が使われるプロジェクトがある場合に取り組む。ポインタやメモリ管理など独特の概念があるため、他の言語とは別枠で学習する。</p>
+<hr />
+<h2>1問の取り組み方</h2>
+<p>各問題は以下の10ステップで進める。<strong>必ずこの順序で行うこと</strong>。</p>
+<h3>ステップ1: 問題説明.mdを読む</h3>
+<p>問題の状況設定とタスクを把握する。「バグが何個あるか」のヒントもここに書かれている。</p>
+<h3>ステップ2: 設計仕様書を熟読する</h3>
+<p>設計仕様書はレビューの「正解」にあたる。特に以下の部分に注目する。</p>
+<ul>
+<li><strong>太字・強調されている箇所</strong>: バグが仕込まれているポイントのヒント</li>
+<li>画面レイアウト図: ボタンやテキストボックスの配置</li>
+<li>機能仕様: 各ボタンの動作、計算ロジック、入力チェック</li>
+<li>エラー処理: エラーメッセージの文言、表示タイミング</li>
+</ul>
+<h3>ステップ3: ソースコードをVisual Studioで開く</h3>
+<p><code>.sln</code> ファイルをダブルクリックしてVisual Studioで開く。テキストエディタ（VSCode等）でも可。</p>
+<h3>ステップ4: F5でデバッグ実行し、仕様書の通りに操作する</h3>
+<p>まずは「普通のユーザー」として操作してみる。仕様書に書かれた操作を1つずつ試す。</p>
+<h3>ステップ5: 仕様と異なる動作を見つけたらメモする</h3>
+<p>「仕様書にはこう書いてあるが、実際はこう動く」という差異をメモする。この時点では原因の特定は不要。</p>
+<h3>ステップ6: ソースコードを読み、バグの箇所を特定する</h3>
+<p>デバッグ機能（ブレークポイント、ステップ実行）を使って、どの行が原因かを突き止める。デバッグガイドを参考にする。</p>
+<h3>ステップ7: レビューチェックリストで確認漏れがないかチェック</h3>
+<p><code>01_CSharp_Level1/レビューチェックリスト.md</code> を使って、見落としがないか体系的に確認する。</p>
+<h3>ステップ8: レビュー指摘テンプレートに沿って指摘を書く</h3>
+<p>見つけたバグを以下のテンプレートで文書化する（詳細は後述の「レビュー指摘の書き方のコツ」を参照）。</p>
+<pre class="codehilite"><code>【指摘箇所】ファイル名: 行番号付近
+【分類】バグ / 仕様不一致 / 改善提案
+【重要度】高 / 中 / 低
+【内容】設計仕様書では○○と定義されているが、実装では△△となっている。
+【修正案】△△を□□に変更してください。
+</code></pre>
+
+<h3>ステップ9: 回答解説で答え合わせ</h3>
+<p><code>回答解説/</code> フォルダの対応ファイルを読み、自分の指摘と比較する。</p>
+<ul>
+<li>見つけられなかったバグがあれば、なぜ見落としたかを振り返る</li>
+<li>自分の指摘文と回答解説の指摘例文を比較し、書き方を改善する</li>
+</ul>
+<h3>ステップ10: 修正コードを見て「なぜそう直すのか」を理解する</h3>
+<p>回答解説には修正後のコードが載っている。「何を」「どう」直したかだけでなく、「なぜその修正が正しいのか」を理解する。これが次の問題でのレビュー力向上につながる。</p>
+<hr />
+<h2>レビュー指摘の書き方のコツ</h2>
+<h3>基本原則: 事実ベースで書く</h3>
+<p>悪い例:</p>
+<pre class="codehilite"><code>ここが間違っています。直してください。
+</code></pre>
+
+<p>良い例:</p>
+<pre class="codehilite"><code>【内容】設計仕様書3.2節「検索機能」では「大文字小文字を区別しない」と定義されていますが、
+FormMain.cs 45行目の検索処理で String.Contains() を使用しており、
+大文字小文字が区別される実装になっています。
+【修正案】String.Contains() の第2引数に StringComparison.OrdinalIgnoreCase を
+指定してください。
+</code></pre>
+
+<h3>修正案を必ず添える</h3>
+<p>指摘だけでなく「どう直せばよいか」を具体的に書く。オフショア開発者が指摘を見ただけで修正できるレベルが理想。</p>
+<h3>重要度の判断基準</h3>
+<table>
+<thead>
+<tr>
+<th>重要度</th>
+<th>基準</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>高</strong></td>
+<td>データ破損、セキュリティ、システム停止の恐れ</td>
+<td>SQLインジェクション、接続文字列のミス、データ消失</td>
+</tr>
+<tr>
+<td><strong>中</strong></td>
+<td>機能が正しく動作しない</td>
+<td>計算結果が違う、検索できない、追加が反映されない</td>
+</tr>
+<tr>
+<td><strong>低</strong></td>
+<td>使い勝手の問題、仕様の軽微な差異</td>
+<td>確認ダイアログがない、入力欄がクリアされない</td>
+</tr>
+</tbody>
+</table>
+<h3>オフショア開発者に伝わるように書く</h3>
+<ul>
+<li>ファイル名と行番号を必ず含める</li>
+<li>仕様書のどの項目に対する指摘かを明記する</li>
+<li>曖昧な表現（「適切に」「正しく」）を避け、具体的な値や条件を書く</li>
+<li>必要に応じてコード例を添える</li>
+</ul>
+<hr />
+<h2>困ったときは</h2>
+<h3>バグが見つからない場合</h3>
+<ol>
+<li><strong>デバッグで値を確認する</strong>: ブレークポイントを設置してF5実行。変数の値が期待通りか確認する（デバッグガイド参照）</li>
+<li><strong>仕様書の太字・強調部分を再確認する</strong>: バグのヒントが隠れていることが多い</li>
+<li><strong>レビューチェックリストを上から順に確認する</strong>: 体系的に確認することで見落としを防ぐ</li>
+</ol>
+<h3>ビルドエラーが出る場合</h3>
+<ol>
+<li>Visual Studioの「エラー一覧」ウィンドウで内容を確認する</li>
+<li><code>.NET 8 SDK</code> がインストールされているか確認する</li>
+<li>VS設定ガイドの「トラブルシューティング」を参照する</li>
+</ol>
+<h3>コードの読み方がわからない場合</h3>
+<ol>
+<li><code>00_基礎概念/コードリーディングガイド.md</code> で「コードの読み方5ステップ」と「翻訳辞書」を確認する</li>
+<li><code>00_基礎概念/CSharp基礎概念.md</code> に戻って該当する文法を確認する</li>
+<li>Visual Studioで変数やメソッドにカーソルを合わせると型情報が表示される</li>
+<li>F12（定義へ移動）でメソッドの中身を確認する</li>
+</ol>
+<h3>レビュー指摘の書き方に迷う場合</h3>
+<ol>
+<li>回答解説の「レビュー指摘例文」を参考にする</li>
+<li>上記テンプレートに当てはめて書く</li>
+<li>「仕様書では○○、実装は△△、修正案は□□」の3点を必ず含める</li>
+</ol>
+<hr />
+<h2>次のステップ</h2>
+<p>まだ読んでいない場合は、以下を先に読んでから問題演習に進む。</p>
+<ol>
+<li><code>00_基礎概念/CSharp基礎概念.md</code> - C#の基礎概念</li>
+<li><code>00_基礎概念/VS設定ガイド.md</code> - Visual Studioの準備</li>
+<li><code>00_基礎概念/デバッグガイド.md</code> - デバッグ操作の習得</li>
+</ol>
+<p>準備ができたら <code>01_CSharp_Level1/練習問題/問題1_顧客追加バグ/問題説明.md</code> から始める。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

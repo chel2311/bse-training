@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VBA プログラミング基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / VBA基礎概念
+</div>
+<div class="content">
+<h1>VBA プログラミング基礎概念（BSE向け）</h1>
+<blockquote>
+<p>コードを「書く」のではなく「読んでレビューできる」ことが目標</p>
+</blockquote>
+<hr />
+<h2>1. VBAとは</h2>
+<p>VBA（Visual Basic for Applications）はMicrosoft Office製品に組み込まれたプログラミング言語。<br />
+Excel VBAでは、セル操作・シート操作・帳票作成などの業務自動化マクロを作成する。</p>
+<h3>VBE（Visual Basic Editor）の開き方</h3>
+<ol>
+<li>Excelを開く</li>
+<li><code>Alt + F11</code> でVBEが起動</li>
+<li>左側の「プロジェクトエクスプローラー」でVBAProjectを展開</li>
+<li>「挿入」メニュー → 「標準モジュール」でコードを書く場所を追加</li>
+</ol>
+<h3>マクロの実行方法</h3>
+<ul>
+<li>VBE上で <code>F5</code> キー（カーソルがSubプロシージャ内にある状態で）</li>
+<li>Excel上で <code>Alt + F8</code> → マクロ一覧から選択して「実行」</li>
+<li>ボタンにマクロを割り当てて実行</li>
+</ul>
+<h3>.basファイルについて</h3>
+<ul>
+<li>VBAモジュールをテキスト形式でエクスポートしたファイル</li>
+<li>VBEの「ファイル」→「ファイルのインポート」で取り込める</li>
+<li>教材ではこの形式でコードを提供する</li>
+</ul>
+<hr />
+<h2>2. 変数と型宣言</h2>
+<p>VBAでは <code>Dim</code> キーワードで変数を宣言する。</p>
+<pre class="codehilite"><code class="language-vba">' 整数
+Dim count As Long
+
+' 文字列
+Dim name As String
+
+' 小数（金額計算に使う）
+Dim price As Currency
+
+' 日付
+Dim targetDate As Date
+
+' 真偽値
+Dim isValid As Boolean
+
+' バリアント型（何でも入る。型を指定しない場合のデフォルト）
+Dim value As Variant
+</code></pre>
+
+<h3>Option Explicit</h3>
+<pre class="codehilite"><code class="language-vba">Option Explicit  ' モジュールの先頭に記述
+
+Sub Sample()
+    Dim count As Long
+    count = 10
+    ' coutn = 20  ← スペルミスでもエラーにならない（Option Explicitがない場合）
+End Sub
+</code></pre>
+
+<p><code>Option Explicit</code> を付けると、宣言されていない変数を使った時にコンパイルエラーになる。<br />
+付けないと変数のスペルミスが検出できず、原因不明のバグになる。</p>
+<h3>C#/VB.NETとの違い</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>VBA</th>
+<th>C# / VB.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>型宣言</td>
+<td><code>Dim x As Long</code></td>
+<td><code>int x;</code> / <code>Dim x As Integer</code></td>
+</tr>
+<tr>
+<td>整数型</td>
+<td><code>Long</code>推奨（Integerは16bit）</td>
+<td><code>int</code>（32bit）</td>
+</tr>
+<tr>
+<td>金額型</td>
+<td><code>Currency</code></td>
+<td><code>decimal</code></td>
+</tr>
+<tr>
+<td>型省略</td>
+<td>Variant型になる</td>
+<td>コンパイルエラー</td>
+</tr>
+<tr>
+<td>型安全性</td>
+<td>弱い（暗黙変換多い）</td>
+<td>強い</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>Option Explicit</code> がモジュールの先頭にあるか？ → ないと変数名の誤字が検出できない</li>
+<li>金額に適切な型（<code>Currency</code>）を使っているか？</li>
+<li><code>Integer</code> ではなく <code>Long</code> を使っているか？ → VBAのIntegerは16bitで32,767が上限</li>
+<li>変数が <code>Variant</code> になっていないか？ → 型が不明確でバグの温床になる</li>
+</ul>
+<hr />
+<h2>3. Sub と Function</h2>
+<h3>Sub プロシージャ（戻り値なし）</h3>
+<pre class="codehilite"><code class="language-vba">Sub ClearInputFields()
+    Range(&quot;A1&quot;).Value = &quot;&quot;
+    Range(&quot;B1&quot;).Value = &quot;&quot;
+    Range(&quot;C1&quot;).Value = &quot;&quot;
+End Sub
+</code></pre>
+
+<h3>Function プロシージャ（戻り値あり）</h3>
+<pre class="codehilite"><code class="language-vba">Function CalculateTax(price As Currency, taxRate As Double) As Currency
+    CalculateTax = price * (1 + taxRate)
+End Function
+
+' 使い方
+Dim total As Currency
+total = CalculateTax(1000, 0.1)  ' 1100
+</code></pre>
+
+<h3>C#との違い</h3>
+<ul>
+<li>C#: <code>return</code> で値を返す</li>
+<li>VBA: 関数名に代入して値を返す（<code>CalculateTax = ...</code>）</li>
+</ul>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>Functionなのに戻り値が設定されていない箇所はないか？</li>
+<li>引数の型は呼び出し元と一致しているか？</li>
+<li><code>ByRef</code>（参照渡し）と <code>ByVal</code>（値渡し）の使い分けは適切か？</li>
+<li>VBAのデフォルトは <code>ByRef</code>（C#のデフォルトは値渡し）</li>
+</ul>
+<hr />
+<h2>4. Range操作とセル参照</h2>
+<p>Excel VBAの最も基本的な操作。セルの値を読み書きする。</p>
+<pre class="codehilite"><code class="language-vba">' セルに値を設定
+Range(&quot;A1&quot;).Value = &quot;商品名&quot;
+Cells(1, 1).Value = &quot;商品名&quot;   ' 同じ意味（行, 列で指定）
+
+' セルの値を読み取る
+Dim productName As String
+productName = Range(&quot;A1&quot;).Value
+
+' 範囲指定
+Range(&quot;A1:E10&quot;).Value = &quot;&quot;     ' A1～E10をクリア
+Range(&quot;A1:E1&quot;).Font.Bold = True ' A1～E1を太字にする
+
+' 最終行の取得（データがある最後の行）
+Dim lastRow As Long
+lastRow = Cells(Rows.Count, 1).End(xlUp).Row
+
+' 行ループ
+Dim i As Long
+For i = 2 To lastRow  ' 2行目（ヘッダの次）から最終行まで
+    Debug.Print Cells(i, 1).Value
+Next i
+</code></pre>
+
+<h3>RangeとCellsの使い分け</h3>
+<table>
+<thead>
+<tr>
+<th>書き方</th>
+<th>使い所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Range("A1")</code></td>
+<td>固定セルを参照する時</td>
+</tr>
+<tr>
+<td><code>Cells(i, j)</code></td>
+<td>ループで行・列を変数にする時</td>
+</tr>
+<tr>
+<td><code>Range("A1:E" &amp; lastRow)</code></td>
+<td>可変範囲を指定する時</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>最終行の取得方法は適切か？ → <code>Cells(Rows.Count, 1).End(xlUp).Row</code> が定石</li>
+<li>ループの開始行は正しいか？ → ヘッダ行を飛ばして2行目からか</li>
+<li>セル参照でハードコーディングされた行番号・列番号がないか？</li>
+<li><code>UsedRange</code> と固定範囲の使い分けは適切か？</li>
+</ul>
+<hr />
+<h2>5. Worksheetオブジェクト</h2>
+<p>複数シートを操作する場合、対象シートを明示的に指定する必要がある。</p>
+<pre class="codehilite"><code class="language-vba">' シートを変数に格納
+Dim wsInput As Worksheet
+Dim wsOutput As Worksheet
+Set wsInput = ThisWorkbook.Worksheets(&quot;売上データ&quot;)
+Set wsOutput = ThisWorkbook.Worksheets(&quot;月次帳票&quot;)
+
+' シート上のセルを操作
+wsInput.Cells(2, 1).Value   ' 「売上データ」シートのA2セル
+wsOutput.Range(&quot;A1&quot;).Value   ' 「月次帳票」シートのA1セル
+
+' シートの存在チェック
+Dim ws As Worksheet
+Dim sheetExists As Boolean
+sheetExists = False
+For Each ws In ThisWorkbook.Worksheets
+    If ws.Name = &quot;月次帳票&quot; Then
+        sheetExists = True
+        Exit For
+    End If
+Next ws
+
+' シートのデータクリア
+wsOutput.UsedRange.Clear    ' 使用範囲全体をクリア
+wsOutput.Cells.Clear        ' シート全体をクリア
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>シート名の指定は正しいか？ → 全角/半角、スペースの有無</li>
+<li><code>Set</code> キーワードを使っているか？ → オブジェクト代入には <code>Set</code> が必須</li>
+<li>ActiveSheetに依存していないか？ → 明示的にシート変数を使うべき</li>
+<li>シートのクリア範囲は適切か？ → <code>UsedRange.Clear</code> か <code>Cells.Clear</code> で確実にクリア</li>
+</ul>
+<hr />
+<h2>6. エラーハンドリング（On Error）</h2>
+<p>VBAのエラー処理はC#のtry-catchとは異なり、<code>On Error</code> ステートメントを使う。</p>
+<pre class="codehilite"><code class="language-vba">Sub SafeProcess()
+    On Error GoTo ErrorHandler
+
+    ' 正常処理
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Worksheets(&quot;存在しないシート&quot;)
+    ws.Range(&quot;A1&quot;).Value = &quot;テスト&quot;
+
+    Exit Sub  ' 正常終了時はここで抜ける（重要！）
+
+ErrorHandler:
+    MsgBox &quot;エラーが発生しました: &quot; &amp; Err.Description, vbExclamation, &quot;エラー&quot;
+End Sub
+</code></pre>
+
+<h3>エラー処理の3パターン</h3>
+<pre class="codehilite"><code class="language-vba">' パターン1: エラーハンドラに飛ぶ
+On Error GoTo ErrorHandler
+
+' パターン2: エラーを無視して次の行に進む（危険！）
+On Error Resume Next
+
+' パターン3: エラー処理を解除（通常のエラーに戻る）
+On Error GoTo 0
+</code></pre>
+
+<h3>C#との比較</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>VBA</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>エラー処理</td>
+<td><code>On Error GoTo</code></td>
+<td><code>try-catch</code></td>
+</tr>
+<tr>
+<td>エラー情報</td>
+<td><code>Err.Number</code>, <code>Err.Description</code></td>
+<td><code>Exception</code> オブジェクト</td>
+</tr>
+<tr>
+<td>リソース解放</td>
+<td><code>GoTo</code> で手動</td>
+<td><code>finally</code> / <code>using</code></td>
+</tr>
+<tr>
+<td>エラー無視</td>
+<td><code>On Error Resume Next</code></td>
+<td>（該当なし）</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>On Error Resume Next</code> が広範囲に使われていないか？ → エラーの握りつぶし</li>
+<li><code>Exit Sub</code> がErrorHandlerの手前にあるか？ → ないと正常時もエラー処理に入る</li>
+<li><code>Err.Clear</code> でエラー情報がリセットされているか？</li>
+<li>エラー時にユーザーに適切なメッセージが表示されるか？</li>
+</ul>
+<hr />
+<h2>7. よく使うVBA関数・メソッド</h2>
+<h3>文字列操作</h3>
+<pre class="codehilite"><code class="language-vba">Left(&quot;2024/01/15&quot;, 7)       ' &quot;2024/01&quot; （左から7文字）
+Right(&quot;2024/01/15&quot;, 2)      ' &quot;15&quot;（右から2文字）
+Mid(&quot;2024/01/15&quot;, 6, 2)     ' &quot;01&quot;（6文字目から2文字）
+InStr(&quot;2024/01/15&quot;, &quot;/&quot;)    ' 5（&quot;/&quot;の位置）
+Format(Now, &quot;yyyy/mm&quot;)      ' &quot;2024/01&quot;（日付の書式変換）
+</code></pre>
+
+<h3>型変換</h3>
+<pre class="codehilite"><code class="language-vba">CLng(&quot;123&quot;)      ' 文字列→Long
+CDbl(&quot;3.14&quot;)     ' 文字列→Double
+CStr(123)        ' 数値→文字列
+CDate(&quot;2024/01/15&quot;) ' 文字列→Date
+IsDate(&quot;2024/01/15&quot;) ' True（日付として有効か判定）
+IsNumeric(&quot;123&quot;)     ' True（数値として有効か判定）
+</code></pre>
+
+<h3>メッセージボックス</h3>
+<pre class="codehilite"><code class="language-vba">' 情報表示
+MsgBox &quot;処理が完了しました&quot;, vbInformation, &quot;完了&quot;
+
+' 確認ダイアログ
+Dim result As VbMsgBoxResult
+result = MsgBox(&quot;実行しますか？&quot;, vbYesNo + vbQuestion, &quot;確認&quot;)
+If result = vbYes Then
+    ' はいの処理
+End If
+</code></pre>
+
+<h3>InputBox</h3>
+<pre class="codehilite"><code class="language-vba">Dim inputValue As String
+inputValue = InputBox(&quot;対象月を入力してください（yyyy/mm）&quot;, &quot;月の指定&quot;)
+If inputValue = &quot;&quot; Then Exit Sub  ' キャンセル時
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>日付の比較方法は適切か？ → 文字列比較と日付型比較の違い</li>
+<li>型変換でエラーが起きる可能性はないか？ → 入力値の検証が先</li>
+<li>MsgBoxの引数（アイコン、ボタン種類）は適切か？</li>
+<li>InputBoxのキャンセル処理があるか？</li>
+</ul>
+<hr />
+<h2>8. VBEでのデバッグ基本操作</h2>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブレークポイント設置</td>
+<td>F9</td>
+<td>実行を止めたい行に設置</td>
+</tr>
+<tr>
+<td>実行</td>
+<td>F5</td>
+<td>マクロの実行（ブレークポイントで止まる）</td>
+</tr>
+<tr>
+<td>ステップオーバー</td>
+<td>F8</td>
+<td>1行ずつ実行</td>
+</tr>
+<tr>
+<td>変数の値確認</td>
+<td>マウスホバー</td>
+<td>変数にカーソルを合わせると値が見える</td>
+</tr>
+<tr>
+<td>イミディエイトウィンドウ</td>
+<td>Ctrl+G</td>
+<td><code>Debug.Print</code> の出力先 / 直接式を実行</td>
+</tr>
+<tr>
+<td>ローカルウィンドウ</td>
+<td>-</td>
+<td>現在のスコープの全変数の値を表示</td>
+</tr>
+</tbody>
+</table>
+<h3>Debug.Print の活用</h3>
+<pre class="codehilite"><code class="language-vba">Sub SampleDebug()
+    Dim i As Long
+    For i = 1 To 10
+        Debug.Print &quot;i = &quot; &amp; i &amp; &quot;, 値 = &quot; &amp; Cells(i, 1).Value
+    Next i
+End Sub
+</code></pre>
+
+<p>イミディエイトウィンドウ（Ctrl+G）に出力される。<br />
+MsgBoxと違い、処理を止めずに値を確認できる。</p>
+<h3>デバッグの手順</h3>
+<ol>
+<li>「おかしい」と思う処理の手前にブレークポイント（F9）</li>
+<li>マクロを実行（F5）</li>
+<li>止まったら変数にマウスを合わせて値を確認</li>
+<li>F8で1行ずつ進めながら値の変化を追う</li>
+<li>イミディエイトウィンドウで <code>?変数名</code> と入力して値を確認することもできる</li>
+</ol>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>03_VBA_Level1/</code> の練習問題に進んでください。<br />
+VBAマクロのコードを読み、設計仕様書と照らし合わせてバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

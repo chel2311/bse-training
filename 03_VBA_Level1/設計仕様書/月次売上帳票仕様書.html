@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>月次売上帳票マクロ 設計仕様書 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 03_VBA_Level1 / 設計仕様書 / 月次売上帳票仕様書
+</div>
+<div class="content">
+<h1>月次売上帳票マクロ 設計仕様書</h1>
+<h2>1. 概要</h2>
+<p>売上データシートから指定月のデータを抽出し、月次帳票シートに転記・集計するExcel VBAマクロ。</p>
+<h2>2. 開発環境</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>言語</td>
+<td>VBA（Visual Basic for Applications）</td>
+</tr>
+<tr>
+<td>対象アプリ</td>
+<td>Microsoft Excel 2016以降</td>
+</tr>
+<tr>
+<td>ファイル形式</td>
+<td>.xlsm（マクロ有効ブック）</td>
+</tr>
+<tr>
+<td>開発環境</td>
+<td>VBE（Visual Basic Editor / Alt+F11）</td>
+</tr>
+</tbody>
+</table>
+<h2>3. シート構成</h2>
+<h3>3.1 入力シート「売上データ」</h3>
+<p>売上の明細データが蓄積されるシート。手入力または外部システムからの貼り付けで更新される。</p>
+<pre class="codehilite"><code>+------+-----------+------+--------+----------+
+|  A   |     B     |  C   |   D    |    E     |
++------+-----------+------+--------+----------+
+| 日付 | 商品名    | 数量 | 単価   | 売上金額 |  ← 1行目: ヘッダ
++------+-----------+------+--------+----------+
+| 2024/01/05 | 商品A | 10 | 1000 | 10000    |  ← 2行目以降: データ
+| 2024/01/10 | 商品B |  5 | 2000 | 10000    |
+| 2024/02/03 | 商品A |  8 | 1000 |  8000    |
+| ...  | ...       | ...  | ...    | ...      |
++------+-----------+------+--------+----------+
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>項目名</th>
+<th>データ型</th>
+<th>形式</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>日付</td>
+<td>Date</td>
+<td>yyyy/mm/dd</td>
+<td>売上発生日</td>
+</tr>
+<tr>
+<td>B</td>
+<td>商品名</td>
+<td>String</td>
+<td>-</td>
+<td>商品の名称</td>
+</tr>
+<tr>
+<td>C</td>
+<td>数量</td>
+<td>Long</td>
+<td>整数</td>
+<td>販売数量</td>
+</tr>
+<tr>
+<td>D</td>
+<td>単価</td>
+<td>Currency</td>
+<td>整数</td>
+<td>商品1個あたりの価格</td>
+</tr>
+<tr>
+<td>E</td>
+<td>売上金額</td>
+<td>Currency</td>
+<td>整数</td>
+<td>手入力値（参考値。マクロでは使用しない）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>: E列の売上金額は手入力されている場合があり、入力ミスの可能性がある。マクロでは<strong>E列の値を使用せず、数量(C列) x 単価(D列)で再計算する</strong>こと。</p>
+<h3>3.2 出力シート「月次帳票」</h3>
+<p>マクロ実行により生成される帳票シート。</p>
+<pre class="codehilite"><code>+------+-----------+------+--------+----------+
+|  A   |     B     |  C   |   D    |    E     |
++------+-----------+------+--------+----------+
+| 日付 | 商品名    | 数量 | 単価   | 売上金額 |  ← 1行目: ヘッダ
++------+-----------+------+--------+----------+
+| 2024/01/05 | 商品A | 10 | 1000 | 10000    |  ← 2行目以降: 抽出データ
+| 2024/01/10 | 商品B |  5 | 2000 | 10000    |
+| 2024/01/15 | 商品C |  3 | 5000 | 15000    |
++------+-----------+------+--------+----------+
+|      | 合計      | 18   |        | 35000    |  ← 最終行: 合計行（太字）
++------+-----------+------+--------+----------+
+</code></pre>
+
+<h2>4. 機能仕様</h2>
+<h3>4.1 月次帳票生成（GenerateMonthlyReport）</h3>
+<h4>FR-001: 対象月データの抽出</h4>
+<ul>
+<li>「売上データ」シートから、指定された月に該当するデータを抽出する</li>
+<li>日付(A列)の年月が対象月と一致するレコードを対象とする</li>
+</ul>
+<h4>FR-002: 売上金額の再計算</h4>
+<ul>
+<li><strong>売上金額は「数量(C列) x 単価(D列)」で計算する</strong></li>
+<li><strong>E列の値（手入力値）をそのまま使用してはならない</strong></li>
+<li>入力データのE列に計算ミスがあっても、帳票には正しい金額が出力される</li>
+</ul>
+<h4>FR-003: 月次帳票シートへの転記</h4>
+<ul>
+<li>抽出したデータを「月次帳票」シートに以下の順で転記する</li>
+<li>A列: 日付</li>
+<li>B列: 商品名</li>
+<li>C列: 数量</li>
+<li>D列: 単価</li>
+<li>E列: 売上金額（FR-002で再計算した値）</li>
+<li>1行目はヘッダ行（「日付」「商品名」「数量」「単価」「売上金額」）</li>
+<li>2行目からデータを転記</li>
+</ul>
+<h4>FR-004: 合計行の追加</h4>
+<ul>
+<li><strong>データの最終行の次の行に合計行を追加する</strong></li>
+<li>合計行の内容:</li>
+<li>B列: 「合計」</li>
+<li>C列: 数量の合計</li>
+<li>E列: 売上金額の合計</li>
+<li>A列、D列は空欄とする</li>
+</ul>
+<h4>FR-005: 合計行の書式設定</h4>
+<ul>
+<li><strong>合計行のフォントを太字（Bold）にする</strong></li>
+<li>対象範囲: 合計行のA列～E列</li>
+</ul>
+<h4>FR-006: データなし時の処理</h4>
+<ul>
+<li>指定月に該当するデータが1件もない場合、MsgBoxで「該当月のデータはありません」と表示する</li>
+<li>帳票シートにはヘッダ行のみが残る状態とする</li>
+</ul>
+<h4>FR-007: 既存データのクリア</h4>
+<ul>
+<li><strong>処理開始前に「月次帳票」シートの既存データをすべてクリアする</strong></li>
+<li>前回実行分のデータが残らないよう、<strong>UsedRange全体をクリア</strong>する</li>
+<li>ヘッダ行もクリア後に再設定する</li>
+</ul>
+<h4>FR-008: 対象月の入力</h4>
+<ul>
+<li>InputBoxで対象月を「yyyy/mm」形式で入力させる</li>
+<li>キャンセル時は処理を中断する</li>
+<li>入力値の形式チェックは行わない（簡易版）</li>
+</ul>
+<h2>5. 処理フロー</h2>
+<pre class="codehilite"><code>開始
+  |
+  v
+InputBoxで対象月を入力（FR-008）
+  |
+  v（キャンセル → 終了）
+月次帳票シートの既存データをクリア（FR-007）
+  |
+  v
+ヘッダ行を設定
+  |
+  v
+売上データシートをループ（2行目～最終行）
+  |
+  +--→ 日付が対象月か判定（FR-001）
+  |     |
+  |     v（一致）
+  |     数量 x 単価 で売上金額を計算（FR-002）
+  |     月次帳票シートに転記（FR-003）
+  |     |
+  |     v（不一致 → 次の行へ）
+  |
+  v（ループ終了）
+データ件数を判定
+  |
+  +--→ 0件: MsgBox表示（FR-006）→ 終了
+  |
+  v（1件以上）
+合計行を追加（FR-004）
+  |
+  v
+合計行を太字に設定（FR-005）
+  |
+  v
+完了メッセージ表示
+  |
+  v
+終了
+</code></pre>
+
+<h2>6. 非機能要件</h2>
+<ul>
+<li>エラー発生時は適切なメッセージを表示し、Excelがフリーズしないこと</li>
+<li>処理中は画面更新を停止し、処理速度を向上させること（<code>Application.ScreenUpdating</code>）</li>
+<li>マクロ実行前後でアクティブシートが変わらないこと</li>
+</ul>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VB.NET WinForms コードレビューチェックリスト（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 02_VBNET_Level1 / レビューチェックリスト
+</div>
+<div class="content">
+<h1>VB.NET WinForms コードレビューチェックリスト（BSE向け）</h1>
+<h2>使い方</h2>
+<p>コードレビュー時に以下の項目を1つずつ確認していく。<br />
+各項目を確認したら「OK」「NG」「N/A（該当なし）」を記入する。</p>
+<hr />
+<h2>1. 仕様との整合性</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>画面の構成要素（ボタン、テキストボックス、コンボボックス等）は設計書通りか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>各ボタンの動作は仕様書の機能仕様通りか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-3</td>
+<td>エラーメッセージの文言は仕様書通りか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>入力バリデーションは仕様書の条件を満たしているか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-5</td>
+<td>計算ロジック（合計、乗算等）は仕様書通りか</td>
+<td></td>
+</tr>
+<tr>
+<td>1-6</td>
+<td>条件付き表示（行の色変更等）は仕様書通りか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>2. VB.NET構文・イベント処理</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-1</td>
+<td>すべてのボタンに Handles 句でイベントハンドラが接続されているか</td>
+<td></td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>WithEvents 修飾子が必要なコントロールに付いているか（Designer.vb確認）</td>
+<td></td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>フォームロード時の初期化処理は適切か（Handles MyBase.Load）</td>
+<td></td>
+</tr>
+<tr>
+<td>2-4</td>
+<td>Option Strict / Option Explicit の設定は適切か</td>
+<td></td>
+</tr>
+<tr>
+<td>2-5</td>
+<td>暗黙の型変換が意図しない動作を引き起こしていないか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>3. 入力チェック</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-1</td>
+<td>必須項目の空チェック（String.IsNullOrWhiteSpace）があるか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-2</td>
+<td>数値項目の型チェック（Integer.TryParse等）があるか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-3</td>
+<td>数値の範囲チェックがあるか（上限・下限の境界値）</td>
+<td></td>
+</tr>
+<tr>
+<td>3-4</td>
+<td>コンボボックスの選択状態チェックがあるか</td>
+<td></td>
+</tr>
+<tr>
+<td>3-5</td>
+<td>追加と編集の両方に同じバリデーションが適用されているか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>4. エラー処理</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4-1</td>
+<td>DB接続時にTry-Catchがあるか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-2</td>
+<td>エラー時にユーザーにMessageBoxでメッセージが表示されるか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-3</td>
+<td>空のCatchブロック（エラーの握りつぶし）がないか</td>
+<td></td>
+</tr>
+<tr>
+<td>4-4</td>
+<td>CType / CInt 等のキャスト失敗時の考慮があるか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>5. UI操作</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5-1</td>
+<td>削除等の重要操作前に確認ダイアログ（MessageBox.Show YesNo）があるか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-2</td>
+<td>操作後に画面表示（DataGridView）が更新されるか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-3</td>
+<td>操作後に入力欄がクリアされるか（仕様で指定がある場合）</td>
+<td></td>
+</tr>
+<tr>
+<td>5-4</td>
+<td>一覧未選択時に適切な警告が出るか</td>
+<td></td>
+</tr>
+<tr>
+<td>5-5</td>
+<td>ステータス表示が操作後に正しく更新されるか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>6. データ処理</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6-1</td>
+<td>金額計算に適切な型（Integer / Decimal）を使っているか</td>
+<td></td>
+</tr>
+<tr>
+<td>6-2</td>
+<td>0除算が発生しないか（平均計算時等）</td>
+<td></td>
+</tr>
+<tr>
+<td>6-3</td>
+<td>Nothing（Null）の考慮がされているか</td>
+<td></td>
+</tr>
+<tr>
+<td>6-4</td>
+<td>計算式の演算子は正しいか（+ と * の混同等）</td>
+<td></td>
+</tr>
+<tr>
+<td>6-5</td>
+<td>計算結果を手計算で検証したか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>7. VB.NET固有の注意点</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7-1</td>
+<td>Nothing と String.Empty の使い分けは適切か</td>
+<td></td>
+</tr>
+<tr>
+<td>7-2</td>
+<td>Is / IsNot Nothing のチェックが適切に行われているか</td>
+<td></td>
+</tr>
+<tr>
+<td>7-3</td>
+<td>文字列比較で大文字小文字の区別設定は仕様通りか（StringComparison）</td>
+<td></td>
+</tr>
+<tr>
+<td>7-4</td>
+<td>VB6互換機能（Microsoft.VisualBasic名前空間）の不要な使用がないか</td>
+<td></td>
+</tr>
+<tr>
+<td>7-5</td>
+<td>Late Binding（遅延バインディング）による実行時エラーの危険がないか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>8. セキュリティ</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>確認項目</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8-1</td>
+<td>SQLにパラメータを使っているか（文字列結合でのSQL組み立てはNG）</td>
+<td></td>
+</tr>
+<tr>
+<td>8-2</td>
+<td>接続文字列にパスワードがハードコーディングされていないか</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>指摘テンプレート</h2>
+<pre class="codehilite"><code>【指摘箇所】ファイル名: 行番号付近
+【分類】バグ / 仕様不一致 / 改善提案
+【重要度】高 / 中 / 低
+【内容】○○の処理で△△となっているが、設計仕様書では□□と定義されている。
+【修正案】△△を□□に変更してください。
+</code></pre>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

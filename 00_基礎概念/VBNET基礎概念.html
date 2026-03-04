@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VB.NET プログラミング基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / VBNET基礎概念
+</div>
+<div class="content">
+<h1>VB.NET プログラミング基礎概念（BSE向け）</h1>
+<blockquote>
+<p>コードを「書く」のではなく「読んでレビューできる」ことが目標<br />
+C#との比較を交えて理解する</p>
+</blockquote>
+<hr />
+<h2>1. VB.NETとは</h2>
+<p>VB.NET（Visual Basic .NET）は、Microsoftが開発したプログラミング言語。<br />
+C#と同じ.NETプラットフォーム上で動作し、<strong>できることはC#とほぼ同じ</strong>だが、構文が英語に近く読みやすいのが特徴。</p>
+<h3>VB6との違い（よくある誤解）</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>VB6（旧）</th>
+<th>VB.NET（現在）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プラットフォーム</td>
+<td>COM / Win32</td>
+<td>.NET Framework / .NET</td>
+</tr>
+<tr>
+<td>オブジェクト指向</td>
+<td>部分的</td>
+<td>完全対応（継承・インターフェース等）</td>
+</tr>
+<tr>
+<td>メモリ管理</td>
+<td>手動（参照カウント）</td>
+<td>自動（ガベージコレクション）</td>
+</tr>
+<tr>
+<td>エラー処理</td>
+<td>On Error GoTo</td>
+<td>Try-Catch-Finally</td>
+</tr>
+<tr>
+<td>データ型</td>
+<td>Variant型が主流</td>
+<td>強い型付け（Option Strict推奨）</td>
+</tr>
+<tr>
+<td>互換性</td>
+<td>VB.NETとは<strong>非互換</strong></td>
+<td>VB6コードはそのまま動かない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>重要</strong>: VB6とVB.NETは名前が似ているが<strong>別の言語</strong>。VB6の知識だけではVB.NETのコードレビューはできない。</p>
+<hr />
+<h2>2. 変数と型</h2>
+<h3>VB.NET の書き方</h3>
+<pre class="codehilite"><code class="language-vb">' 整数
+Dim age As Integer = 30
+
+' 文字列
+Dim name As String = &quot;田中太郎&quot;
+
+' 小数（金額計算に使う）
+Dim price As Decimal = 1980.5D
+
+' 真偽値（はい/いいえ）
+Dim isActive As Boolean = True
+</code></pre>
+
+<h3>C# との比較</h3>
+<table>
+<thead>
+<tr>
+<th>VB.NET</th>
+<th>C#</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dim age As Integer = 30</code></td>
+<td><code>int age = 30;</code></td>
+<td>整数</td>
+</tr>
+<tr>
+<td><code>Dim name As String = "田中"</code></td>
+<td><code>string name = "田中";</code></td>
+<td>文字列</td>
+</tr>
+<tr>
+<td><code>Dim price As Decimal = 100D</code></td>
+<td><code>decimal price = 100m;</code></td>
+<td>小数</td>
+</tr>
+<tr>
+<td><code>Dim flag As Boolean = True</code></td>
+<td><code>bool flag = true;</code></td>
+<td>真偽値</td>
+</tr>
+<tr>
+<td><code>Dim items As New List(Of String)</code></td>
+<td><code>var items = new List&lt;string&gt;()</code></td>
+<td>リスト</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>金額に <code>Single</code> や <code>Double</code> を使っていないか？ → 誤差が出る。<code>Decimal</code> が正しい</li>
+<li><code>Integer</code> に入りきらない大きな数を扱っていないか？ → <code>Long</code> を使うべき</li>
+<li>文字列が <code>Nothing</code> になる可能性を考慮しているか？</li>
+<li>VB.NETでは <code>Nothing</code> がC#の <code>null</code> に相当する</li>
+</ul>
+<hr />
+<h2>3. 制御構造</h2>
+<h3>If/Else - 条件分岐</h3>
+<pre class="codehilite"><code class="language-vb">If age &gt;= 18 Then
+    ' 成人の処理
+    Console.WriteLine(&quot;成人です&quot;)
+Else
+    ' 未成年の処理
+    Console.WriteLine(&quot;未成年です&quot;)
+End If
+</code></pre>
+
+<p><strong>C# との違い</strong>: VB.NETは <code>{}</code>（中かっこ）を使わず <code>Then</code> / <code>End If</code> で囲む。</p>
+<h3>For - 繰り返し</h3>
+<pre class="codehilite"><code class="language-vb">' 0から9まで10回繰り返す
+For i As Integer = 0 To 9
+    Console.WriteLine(i)
+Next
+</code></pre>
+
+<p><strong>C# との違い</strong>: C#は <code>for (int i = 0; i &lt; 10; i++)</code> と書く。VB.NETは <code>To</code> で終了値を指定。</p>
+<h3>For Each - コレクションの走査</h3>
+<pre class="codehilite"><code class="language-vb">Dim names As New List(Of String) From {&quot;田中&quot;, &quot;鈴木&quot;, &quot;佐藤&quot;}
+For Each name As String In names
+    Console.WriteLine(name)
+Next
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>If</code> の条件が仕様通りか？（<code>&gt;=</code> と <code>&gt;</code> の違い = 境界値）</li>
+<li>VB.NETの <code>To</code> は<strong>終了値を含む</strong>（C#の <code>&lt;</code> と <code>&lt;=</code> の違いに注意）</li>
+<li><code>ElseIf</code>（C#の <code>else if</code>）の処理漏れはないか？</li>
+<li><code>OrElse</code> と <code>Or</code> の違い: <code>OrElse</code> は短絡評価（推奨）、<code>Or</code> は両方評価する</li>
+</ul>
+<hr />
+<h2>4. 演算子の違い</h2>
+<p>C#と演算子が異なるため、レビュー時に注意が必要。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>VB.NET</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>等しい</td>
+<td><code>=</code></td>
+<td><code>==</code></td>
+</tr>
+<tr>
+<td>等しくない</td>
+<td><code>&lt;&gt;</code></td>
+<td><code>!=</code></td>
+</tr>
+<tr>
+<td>論理AND（短絡）</td>
+<td><code>AndAlso</code></td>
+<td><code>&amp;&amp;</code></td>
+</tr>
+<tr>
+<td>論理OR（短絡）</td>
+<td><code>OrElse</code></td>
+<td><code>||</code></td>
+</tr>
+<tr>
+<td>論理NOT</td>
+<td><code>Not</code></td>
+<td><code>!</code></td>
+</tr>
+<tr>
+<td>文字列結合</td>
+<td><code>&amp;</code> または <code>+</code></td>
+<td><code>+</code></td>
+</tr>
+<tr>
+<td>整数除算</td>
+<td><code>\</code></td>
+<td><code>/</code>（整数同士の場合）</td>
+</tr>
+<tr>
+<td>型チェック</td>
+<td><code>TypeOf x Is クラス名</code></td>
+<td><code>x is クラス名</code></td>
+</tr>
+<tr>
+<td>キャスト</td>
+<td><code>CType(x, 型)</code> / <code>DirectCast(x, 型)</code></td>
+<td><code>(型)x</code> / <code>x as 型</code></td>
+</tr>
+<tr>
+<td>Nothing判定</td>
+<td><code>x Is Nothing</code></td>
+<td><code>x == null</code></td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>=</code> が「代入」と「比較」の両方に使われる（文脈で判断）</li>
+<li><code>+</code> で文字列と数値を結合すると暗黙変換が起きる → <code>&amp;</code> を使うべき</li>
+<li><code>And</code> / <code>Or</code> ではなく <code>AndAlso</code> / <code>OrElse</code>（短絡評価）を使っているか</li>
+</ul>
+<hr />
+<h2>5. メソッド（関数とサブルーチン）</h2>
+<p>VB.NETには「戻り値あり（Function）」と「戻り値なし（Sub）」の2種類がある。</p>
+<pre class="codehilite"><code class="language-vb">' 戻り値あり: Function
+' 税込金額を計算するメソッド
+Private Function CalculateTaxIncluded(price As Decimal, taxRate As Decimal) As Decimal
+    Return price * (1 + taxRate)
+End Function
+
+' 戻り値なし: Sub
+' メッセージを表示するメソッド
+Private Sub ShowMessage(message As String)
+    MessageBox.Show(message)
+End Sub
+
+' 使い方
+Dim total As Decimal = CalculateTaxIncluded(1000D, 0.1D)  ' 1100
+ShowMessage(&quot;計算完了&quot;)
+</code></pre>
+
+<h3>C# との比較</h3>
+<table>
+<thead>
+<tr>
+<th>VB.NET</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Function 名前() As 型</code></td>
+<td><code>型 名前()</code></td>
+</tr>
+<tr>
+<td><code>Sub 名前()</code></td>
+<td><code>void 名前()</code></td>
+</tr>
+<tr>
+<td><code>End Function</code> / <code>End Sub</code></td>
+<td><code>}</code></td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>Function</code> なのに <code>Return</code> がないパスが存在しないか？</li>
+<li><code>Sub</code> で値を返すべき処理をしていないか？</li>
+<li>引数の型は設計書のデータ型定義と一致しているか？</li>
+</ul>
+<hr />
+<h2>6. クラスとオブジェクト</h2>
+<pre class="codehilite"><code class="language-vb">' 商品クラス
+Public Class Product
+    ' プロパティ（データ）
+    Public Property Id As Integer
+    Public Property ProductName As String = String.Empty
+    Public Property Stock As Integer
+    Public Property UnitPrice As Integer
+
+    ' 読み取り専用プロパティ（計算結果）
+    Public ReadOnly Property StockValue As Integer
+        Get
+            Return Stock * UnitPrice
+        End Get
+    End Property
+
+    ' コンストラクタ（初期化処理）
+    Public Sub New(id As Integer, productName As String, stock As Integer, unitPrice As Integer)
+        Me.Id = id
+        Me.ProductName = productName
+        Me.Stock = stock
+        Me.UnitPrice = unitPrice
+    End Sub
+End Class
+
+' 使い方
+Dim product As New Product(1, &quot;コーヒー豆&quot;, 50, 800)
+Dim value As Integer = product.StockValue  ' 40000
+</code></pre>
+
+<h3>C# との比較</h3>
+<table>
+<thead>
+<tr>
+<th>VB.NET</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Public Class 名前</code></td>
+<td><code>public class 名前</code></td>
+</tr>
+<tr>
+<td><code>Public Property Id As Integer</code></td>
+<td><code>public int Id { get; set; }</code></td>
+</tr>
+<tr>
+<td><code>Public Sub New(...)</code></td>
+<td><code>public 名前(...)</code></td>
+</tr>
+<tr>
+<td><code>Me.Id</code></td>
+<td><code>this.Id</code></td>
+</tr>
+<tr>
+<td><code>End Class</code></td>
+<td><code>}</code></td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>プロパティの型は設計書のデータ型定義と一致しているか？</li>
+<li><code>ReadOnly Property</code> の計算ロジックは仕様通りか？（演算子の誤り等）</li>
+<li>必須項目が <code>Nothing</code> になれる状態になっていないか？</li>
+</ul>
+<hr />
+<h2>7. イベント駆動プログラミング（WinForms）</h2>
+<p>GUIアプリは「ユーザーの操作（イベント）」に応じて処理が実行される。</p>
+<pre class="codehilite"><code class="language-vb">Public Partial Class FormMain
+    Inherits Form
+
+    Public Sub New()
+        InitializeComponent()
+    End Sub
+
+    ' フォームが読み込まれた時に実行される
+    Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadProductList()
+    End Sub
+
+    ' 「追加」ボタンがクリックされた時に実行される
+    Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+        AddProduct()
+    End Sub
+
+    ' 「削除」ボタンがクリックされた時に実行される
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        DeleteProduct()
+    End Sub
+End Class
+</code></pre>
+
+<h3>C# との違い（イベント接続方式）</h3>
+<table>
+<thead>
+<tr>
+<th>VB.NET</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Handles btnAdd.Click</code>（宣言的）</td>
+<td><code>btnAdd.Click += btnAdd_Click;</code>（命令的）</td>
+</tr>
+<tr>
+<td><code>WithEvents</code> をフィールドに付ける</td>
+<td>Designer.csで <code>+=</code> で接続</td>
+</tr>
+</tbody>
+</table>
+<p><strong>VB.NETの特徴</strong>: <code>Handles</code> 句でイベントとメソッドを直接紐付ける。<br />
+C#では Designer.cs 内の <code>+=</code> で接続するが、VB.NETでは <code>Handles</code> キーワードを使う。</p>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>すべてのボタンに <code>Handles</code> でイベントハンドラが接続されているか？</li>
+<li><code>WithEvents</code> 修飾子がDesigner.vbの該当コントロールに付いているか？</li>
+<li>フォームロード時の初期化処理は適切か？</li>
+</ul>
+<hr />
+<h2>8. 例外処理</h2>
+<pre class="codehilite"><code class="language-vb">Try
+    ' エラーが起きるかもしれない処理
+    conn.Open()
+    ' DB操作...
+Catch ex As SqlException
+    ' DB関連のエラー
+    MessageBox.Show($&quot;データベースエラー: {ex.Message}&quot;)
+Catch ex As Exception
+    ' その他のエラー
+    MessageBox.Show($&quot;エラーが発生しました: {ex.Message}&quot;)
+Finally
+    ' エラーが起きても起きなくても必ず実行される
+    conn.Close()
+End Try
+</code></pre>
+
+<h3>C# との比較</h3>
+<table>
+<thead>
+<tr>
+<th>VB.NET</th>
+<th>C#</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Try</code></td>
+<td><code>try {</code></td>
+</tr>
+<tr>
+<td><code>Catch ex As Exception</code></td>
+<td><code>catch (Exception ex) {</code></td>
+</tr>
+<tr>
+<td><code>Finally</code></td>
+<td><code>finally {</code></td>
+</tr>
+<tr>
+<td><code>End Try</code></td>
+<td><code>}</code></td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>Try-Catch</code> が適切な範囲で使われているか？</li>
+<li><code>Catch</code> でエラーを握りつぶしていないか？（空のCatchブロック）</li>
+<li>VB6の <code>On Error GoTo</code> / <code>On Error Resume Next</code> が混在していないか？ → .NETではNG</li>
+<li><code>Finally</code> でリソース解放が確実に行われるか？</li>
+</ul>
+<hr />
+<h2>9. VB.NET特有の注意点</h2>
+<h3>Nothing の扱い</h3>
+<pre class="codehilite"><code class="language-vb">Dim name As String = Nothing
+
+' NGパターン: NullReferenceException が発生する
+Dim length As Integer = name.Length
+
+' OKパターン: Nothingチェックしてから使う
+If name IsNot Nothing Then
+    Dim length As Integer = name.Length
+End If
+
+' OKパターン: Null条件演算子（VB 14以降）
+Dim length As Integer? = name?.Length
+</code></pre>
+
+<h3>文字列比較</h3>
+<pre class="codehilite"><code class="language-vb">' 大文字小文字を区別しない比較
+If String.Equals(a, b, StringComparison.OrdinalIgnoreCase) Then
+    ' 一致
+End If
+
+' 部分一致検索（大文字小文字区別なし）
+If productName.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) &gt;= 0 Then
+    ' 含まれている
+End If
+</code></pre>
+
+<h3>型変換</h3>
+<pre class="codehilite"><code class="language-vb">' 安全な変換（推奨）
+Dim stock As Integer
+If Integer.TryParse(txtStock.Text, stock) Then
+    ' 変換成功
+Else
+    ' 変換失敗
+End If
+
+' 危険な変換（非推奨）
+Dim stock As Integer = CInt(txtStock.Text)  ' 変換失敗時に例外が発生
+</code></pre>
+
+<hr />
+<h2>10. Visual Studio デバッグの基本操作</h2>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>ショートカット</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブレークポイント設置</td>
+<td>F9</td>
+<td>実行を止めたい行に設置</td>
+</tr>
+<tr>
+<td>デバッグ実行</td>
+<td>F5</td>
+<td>ブレークポイントで止まる</td>
+</tr>
+<tr>
+<td>ステップオーバー</td>
+<td>F10</td>
+<td>次の行へ（メソッド内に入らない）</td>
+</tr>
+<tr>
+<td>ステップイン</td>
+<td>F11</td>
+<td>メソッドの中に入る</td>
+</tr>
+<tr>
+<td>変数の値確認</td>
+<td>マウスホバー</td>
+<td>変数にカーソルを合わせると値が見える</td>
+</tr>
+<tr>
+<td>ウォッチウィンドウ</td>
+<td>-</td>
+<td>監視したい変数を登録して値を追跡</td>
+</tr>
+</tbody>
+</table>
+<h3>デバッグの手順</h3>
+<ol>
+<li>「おかしい」と思う処理の手前にブレークポイント（F9）</li>
+<li>デバッグ実行（F5）</li>
+<li>止まったら変数の値を確認</li>
+<li>F10で1行ずつ進めながら、値の変化を追う</li>
+<li>期待と違う値になる行がバグの原因</li>
+</ol>
+<hr />
+<h2>C# ↔ VB.NET 変換 早見表</h2>
+<p>レビュー時に片方の言語しか知らない場合に参照する。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>C#</th>
+<th>VB.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名前空間</td>
+<td><code>namespace X { }</code></td>
+<td><code>Namespace X ... End Namespace</code></td>
+</tr>
+<tr>
+<td>クラス</td>
+<td><code>public class X { }</code></td>
+<td><code>Public Class X ... End Class</code></td>
+</tr>
+<tr>
+<td>メソッド（戻り値あり）</td>
+<td><code>int Calc() { return 1; }</code></td>
+<td><code>Function Calc() As Integer ... Return 1 ... End Function</code></td>
+</tr>
+<tr>
+<td>メソッド（戻り値なし）</td>
+<td><code>void DoWork() { }</code></td>
+<td><code>Sub DoWork() ... End Sub</code></td>
+</tr>
+<tr>
+<td>プロパティ</td>
+<td><code>public int X { get; set; }</code></td>
+<td><code>Public Property X As Integer</code></td>
+</tr>
+<tr>
+<td>コンストラクタ</td>
+<td><code>public X() { }</code></td>
+<td><code>Public Sub New() ... End Sub</code></td>
+</tr>
+<tr>
+<td>変数宣言</td>
+<td><code>int x = 0;</code></td>
+<td><code>Dim x As Integer = 0</code></td>
+</tr>
+<tr>
+<td>条件分岐</td>
+<td><code>if (x &gt; 0) { } else { }</code></td>
+<td><code>If x &gt; 0 Then ... Else ... End If</code></td>
+</tr>
+<tr>
+<td>ループ</td>
+<td><code>foreach (var x in list) { }</code></td>
+<td><code>For Each x In list ... Next</code></td>
+</tr>
+<tr>
+<td>例外処理</td>
+<td><code>try { } catch { } finally { }</code></td>
+<td><code>Try ... Catch ... Finally ... End Try</code></td>
+</tr>
+<tr>
+<td>null</td>
+<td><code>null</code></td>
+<td><code>Nothing</code></td>
+</tr>
+<tr>
+<td>this</td>
+<td><code>this</code></td>
+<td><code>Me</code></td>
+</tr>
+<tr>
+<td>文末</td>
+<td><code>;</code>（セミコロン必須）</td>
+<td>なし（改行で文の終わり）</td>
+</tr>
+<tr>
+<td>ブロック</td>
+<td><code>{ }</code>（中かっこ）</td>
+<td><code>End If</code> / <code>End Sub</code> 等のキーワード</td>
+</tr>
+<tr>
+<td>ラムダ式</td>
+<td><code>x =&gt; x.Name</code></td>
+<td><code>Function(x) x.Name</code></td>
+</tr>
+<tr>
+<td>コメント</td>
+<td><code>// 1行</code> / <code>/* 複数行 */</code></td>
+<td><code>' 1行のみ</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>02_VBNET_Level1/</code> の練習問題に進んでください。<br />
+実際のGUIアプリのコードを読み、設計仕様書と照らし合わせてバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

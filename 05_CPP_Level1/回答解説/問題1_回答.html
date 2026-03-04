@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題1 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 05_CPP_Level1 / 回答解説 / 問題1_回答
+</div>
+<div class="content">
+<h1>練習問題1 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 円の面積計算が間違っている</h3>
+<p><strong>該当仕様</strong>: 3.3 Circle クラス / FR-003</p>
+<blockquote>
+<p>面積 = <strong>pi x r x r</strong>（pi = 3.14159265358979）</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>Circle.cpp</code> 26行目付近</p>
+<pre class="codehilite"><code class="language-cpp">// 現在の実装（バグ）
+double Circle::GetArea()
+{
+    return PI * radius * 2;
+    // → π × r × 2 になっている。2乗ではなく×2。
+}
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- 仕様では面積 = pi x r x r（rの2乗）だが、実装は pi x r x 2（rに2を掛けている）<br />
+- 半径5.0の場合:<br />
+  - 正しい面積: 3.14159 x 5 x 5 = <strong>78.54</strong><br />
+  - バグの面積: 3.14159 x 5 x 2 = <strong>31.42</strong><br />
+- 偶然にも <code>GetPerimeter()</code> の計算式 <code>2 * PI * radius</code> と数値が同じになる</p>
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-cpp">double Circle::GetArea()
+{
+    return PI * radius * radius;  // π × r × r（rの2乗）
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】Circle.cpp: GetArea() メソッド内
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 3.3 では円の面積は「π × r × r」と定義されているが、
+        実装では「PI * radius * 2」となっており、rの2乗ではなく×2になっている。
+        すべての円の面積計算が誤った値を返すため、面積合計も不正になる。
+【修正案】Circle.cpp の GetArea() 内の計算式を
+        「return PI * radius * radius;」に修正してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: ShapeManagerのデストラクタでメモリリークが発生する</h3>
+<p><strong>該当仕様</strong>: FR-006 メモリ管理</p>
+<blockquote>
+<p><code>new</code> で生成した図形オブジェクトは、<code>ShapeManager</code> のデストラクタで確実に <code>delete</code> すること</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>ShapeManager.cpp</code> 11行目付近</p>
+<pre class="codehilite"><code class="language-cpp">// 現在の実装（バグ）
+ShapeManager::~ShapeManager()
+{
+    // ← shapes vector内の図形ポインタをdeleteする処理がない
+    //    vectorは自身が破棄されるが、中のポインタが指すオブジェクトは解放されない
+}
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- <code>ShapeManager</code> が破棄されると <code>std::vector</code> 自体は解放されるが、vector内に格納されたポインタが指す先のオブジェクト（<code>new</code> で確保した <code>Circle</code>, <code>Rectangle</code>, <code>Triangle</code>）は <code>delete</code> されない<br />
+- C#ではガベージコレクタが自動で回収するが、C++では明示的に <code>delete</code> しないとメモリリークが発生する<br />
+- 長時間実行されるCADアプリでは、図形の作成・削除を繰り返すたびにメモリが増え続け、最終的にアプリがクラッシュする可能性がある</p>
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-cpp">ShapeManager::~ShapeManager()
+{
+    for (Shape* shape : shapes)
+    {
+        delete shape;
+    }
+    shapes.clear();
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】ShapeManager.cpp: デストラクタ（~ShapeManager）
+【分類】バグ
+【重要度】高
+【内容】設計仕様書 FR-006 では「ShapeManagerのデストラクタで保持する全図形の
+        メモリを解放（delete）すること」と定義されているが、
+        デストラクタの実装が空であり、newで確保した図形オブジェクトが
+        deleteされていない。メモリリークが発生する。
+【修正案】デストラクタ内でshapes vectorの全要素に対してdeleteを実行し、
+        その後shapes.clear()を呼び出してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: 三角形の3辺のバリデーションが不足している</h3>
+<p><strong>該当仕様</strong>: 3.5 Triangle クラス / FR-005</p>
+<blockquote>
+<p><strong>底辺（base_len）、高さ（height）、3辺（a, b, c）はすべて正の値（&gt; 0）であること</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>Triangle.cpp</code> 10行目付近</p>
+<pre class="codehilite"><code class="language-cpp">// 現在の実装（バグ）
+Triangle::Triangle(double base_len, double height, double a, double b, double c)
+{
+    if (base_len &lt;= 0 || height &lt;= 0)  // base_lenとheightだけチェック
+    {
+        throw std::invalid_argument(&quot;底辺と高さは正の値である必要があります&quot;);
+    }
+    // ← a, b, c のチェックがない
+    // → マイナスの辺の長さ（例: a=-3.0）でも三角形が作成できてしまう
+</code></pre>
+
+<p><strong>何が問題か</strong>:<br />
+- 仕様では底辺・高さに加えて3辺（a, b, c）もすべて正の値であることを要求している<br />
+- 実装では <code>base_len</code> と <code>height</code> しかチェックしていない<br />
+- <code>side_a = -3.0</code> のような不正な値で三角形が作成でき、周長計算が不正な値（例: 負の値）を返す可能性がある<br />
+- CADソフトで負の辺の長さは物理的にありえないため、不正データがシステムに混入する</p>
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-cpp">Triangle::Triangle(double base_len, double height, double a, double b, double c)
+{
+    if (base_len &lt;= 0 || height &lt;= 0 || a &lt;= 0 || b &lt;= 0 || c &lt;= 0)
+    {
+        throw std::invalid_argument(&quot;底辺、高さ、3辺はすべて正の値である必要があります&quot;);
+    }
+    // ...
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】Triangle.cpp: コンストラクタ内のバリデーション処理
+【分類】仕様不一致
+【重要度】中
+【内容】設計仕様書 FR-005 / 3.5 では「底辺、高さ、3辺（a, b, c）はすべて正の値
+        （&gt; 0）であること」と定義されているが、実装ではbase_lenとheightの
+        チェックのみで、3辺（a, b, c）の正値チェックが行われていない。
+        マイナスの辺の長さで三角形が作成可能な状態。
+【修正案】if文の条件に「a &lt;= 0 || b &lt;= 0 || c &lt;= 0」を追加し、
+        エラーメッセージも「底辺、高さ、3辺はすべて正の値である必要があります」
+        に変更してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>仕様書の太字や強調部分は特に注意して確認する</strong><br />
+   - 今回のバグ1は計算式の確認、バグ2・3は仕様書で太字になっていた箇所</p>
+</li>
+<li>
+<p><strong>C++特有のポイントに注目する</strong><br />
+   - <code>new</code> があれば対応する <code>delete</code> を探す（バグ2）<br />
+   - デストラクタの実装を必ず確認する<br />
+   - C#にはないメモリ管理の問題を意識する</p>
+</li>
+<li>
+<p><strong>計算式は仕様書の数式と1文字ずつ照合する</strong><br />
+   - <code>radius * 2</code> と <code>radius * radius</code> は見た目が似ているが意味が全く異なる（バグ1）<br />
+   - 特に数学の公式を使う計算は、コピーミスが起きやすい</p>
+</li>
+<li>
+<p><strong>バリデーションは「全パラメータ」が対象か確認する</strong><br />
+   - 一部のパラメータだけチェックしている場合がある（バグ3）<br />
+   - 仕様書のバリデーション要件を1つずつ照合する</p>
+</li>
+<li>
+<p><strong>実際に動かして値を確認する</strong><br />
+   - バグ1: 半径5の円の面積が78.54ではなく31.42になる<br />
+   - バグ3: <code>Triangle(3, 4, -1, -2, -3)</code> でエラーが出ないことを確認</p>
+</li>
+</ol>
+<h2>次の問題</h2>
+<p>この問題が解けたら、次のレベルの問題に進んでください。<br />
+C++ではメモリ管理がレビューの最重要項目であることを覚えておいてください。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

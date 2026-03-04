@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ プログラミング基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / CPP基礎概念
+</div>
+<div class="content">
+<h1>C++ プログラミング基礎概念（BSE向け）</h1>
+<blockquote>
+<p>コードを「書く」のではなく「読んでレビューできる」ことが目標</p>
+</blockquote>
+<hr />
+<h2>1. C++の基本構造</h2>
+<p>C++はC言語を拡張したオブジェクト指向言語。CADや組み込みシステムなど、高速処理が必要な分野で広く使われる。</p>
+<pre class="codehilite"><code class="language-cpp">#include &lt;iostream&gt;    // 標準入出力のヘッダファイル
+#include &lt;string&gt;      // 文字列のヘッダファイル
+
+int main()
+{
+    // 整数
+    int age = 30;
+
+    // 小数（double: 倍精度浮動小数点）
+    double price = 1980.50;
+
+    // 文字列
+    std::string name = &quot;田中太郎&quot;;
+
+    // 真偽値
+    bool isActive = true;
+
+    // コンソール出力
+    std::cout &lt;&lt; name &lt;&lt; &quot; (&quot; &lt;&lt; age &lt;&lt; &quot;歳)&quot; &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+
+<h3>C#との違い</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>C#</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文字列</td>
+<td><code>string name = "...";</code></td>
+<td><code>std::string name = "...";</code></td>
+</tr>
+<tr>
+<td>出力</td>
+<td><code>Console.WriteLine(...)</code></td>
+<td><code>std::cout &lt;&lt; ... &lt;&lt; std::endl;</code></td>
+</tr>
+<tr>
+<td>名前空間</td>
+<td><code>using System;</code></td>
+<td><code>#include &lt;iostream&gt;</code> + <code>using namespace std;</code></td>
+</tr>
+<tr>
+<td>メイン関数</td>
+<td><code>static void Main()</code></td>
+<td><code>int main()</code></td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><code>#include</code> が必要なヘッダを漏れなくインクルードしているか</li>
+<li><code>using namespace std;</code> をヘッダファイルで使っていないか（名前衝突の原因）</li>
+<li><code>main()</code> の戻り値が <code>int</code> になっているか</li>
+</ul>
+<hr />
+<h2>2. ポインタと参照</h2>
+<p>C++特有の概念。メモリを直接扱えるため強力だが、バグの温床にもなる。</p>
+<h3>ポインタ（*）</h3>
+<pre class="codehilite"><code class="language-cpp">int value = 42;
+int* ptr = &amp;value;   // &amp;でアドレスを取得し、ポインタに格納
+
+std::cout &lt;&lt; *ptr;    // *で値にアクセス（デリファレンス） → 42
+std::cout &lt;&lt; ptr;     // アドレスが表示される → 0x7ffd...
+</code></pre>
+
+<h3>参照（&amp;）</h3>
+<pre class="codehilite"><code class="language-cpp">int value = 42;
+int&amp; ref = value;    // 参照 = 元の変数の別名
+
+ref = 100;           // refを変更するとvalueも変わる
+std::cout &lt;&lt; value;  // 100
+</code></pre>
+
+<h3>new と delete（動的メモリ確保）</h3>
+<pre class="codehilite"><code class="language-cpp">// newでヒープにメモリ確保
+int* p = new int(42);
+
+// 使い終わったらdeleteで解放
+delete p;
+p = nullptr;  // 解放後はnullptrにする
+
+// 配列の場合
+int* arr = new int[10];
+delete[] arr;  // 配列はdelete[]で解放
+</code></pre>
+
+<h3>C#との違い</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>C#</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メモリ管理</td>
+<td>ガベージコレクション（自動）</td>
+<td>手動（new/delete）</td>
+</tr>
+<tr>
+<td>ポインタ</td>
+<td>通常使わない</td>
+<td>頻繁に使う</td>
+</tr>
+<tr>
+<td>null</td>
+<td><code>null</code></td>
+<td><code>nullptr</code></td>
+</tr>
+<tr>
+<td>メモリリーク</td>
+<td>ほぼ発生しない</td>
+<td>delete忘れで発生する</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li><strong><code>new</code> に対応する <code>delete</code> があるか</strong> （最頻出のレビュー項目）</li>
+<li>ポインタが <code>nullptr</code> でないことを確認してからアクセスしているか</li>
+<li><code>delete</code> した後のポインタを使っていないか（ダングリングポインタ）</li>
+<li>配列の <code>new[]</code> に <code>delete[]</code> を使っているか（<code>delete</code> ではダメ）</li>
+</ul>
+<hr />
+<h2>3. ヘッダファイルとソースファイル</h2>
+<p>C++では、宣言（.h）と実装（.cpp）を分けるのが基本。</p>
+<h3>ヘッダファイル（.h）: 設計図</h3>
+<pre class="codehilite"><code class="language-cpp">// Calculator.h
+#pragma once  // 二重インクルード防止
+
+class Calculator
+{
+public:
+    int Add(int a, int b);       // 宣言のみ
+    int Subtract(int a, int b);  // 宣言のみ
+};
+</code></pre>
+
+<h3>ソースファイル（.cpp）: 実装</h3>
+<pre class="codehilite"><code class="language-cpp">// Calculator.cpp
+#include &quot;Calculator.h&quot;  // 自分のヘッダをインクルード
+
+int Calculator::Add(int a, int b)
+{
+    return a + b;
+}
+
+int Calculator::Subtract(int a, int b)
+{
+    return a - b;
+}
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>ヘッダファイルに <code>#pragma once</code> があるか</li>
+<li><code>.h</code> の宣言と <code>.cpp</code> の実装が一致しているか（引数の型・数、戻り値の型）</li>
+<li>ヘッダファイルに実装コードを書いていないか（小さなインライン関数を除く）</li>
+</ul>
+<hr />
+<h2>4. クラスと継承</h2>
+<h3>クラスの基本</h3>
+<pre class="codehilite"><code class="language-cpp">// Shape.h
+#pragma once
+#include &lt;string&gt;
+
+class Shape
+{
+public:
+    Shape();                      // コンストラクタ
+    virtual ~Shape();             // 仮想デストラクタ
+
+    virtual double GetArea() = 0;      // 純粋仮想関数（= 0で抽象メソッド）
+    virtual double GetPerimeter() = 0; // 派生クラスで必ず実装する
+    virtual std::string GetInfo() = 0;
+
+protected:
+    std::string type;  // 派生クラスからアクセス可能
+};
+</code></pre>
+
+<h3>継承</h3>
+<pre class="codehilite"><code class="language-cpp">// Circle.h
+#pragma once
+#include &quot;Shape.h&quot;
+
+class Circle : public Shape  // Shapeを継承
+{
+public:
+    Circle(double radius);
+    ~Circle();
+
+    double GetArea() override;      // 親クラスの仮想関数を実装
+    double GetPerimeter() override;
+    std::string GetInfo() override;
+
+private:
+    double radius;
+};
+</code></pre>
+
+<h3>C#との対応</h3>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>C#</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>継承</td>
+<td><code>class Circle : Shape</code></td>
+<td><code>class Circle : public Shape</code></td>
+</tr>
+<tr>
+<td>抽象メソッド</td>
+<td><code>abstract double GetArea();</code></td>
+<td><code>virtual double GetArea() = 0;</code></td>
+</tr>
+<tr>
+<td>オーバーライド</td>
+<td><code>override</code> キーワード</td>
+<td><code>override</code> キーワード（C++11以降）</td>
+</tr>
+<tr>
+<td>インターフェース</td>
+<td><code>interface</code></td>
+<td>純粋仮想関数のみのクラス</td>
+</tr>
+<tr>
+<td>デストラクタ</td>
+<td><code>~Shape()</code> (ファイナライザ、通常不要)</td>
+<td><code>virtual ~Shape()</code> (ポインタ使用時に必須)</td>
+</tr>
+</tbody>
+</table>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>基底クラスのデストラクタが <code>virtual</code> になっているか（ポリモーフィズム使用時に必須）</li>
+<li>純粋仮想関数（= 0）がすべての派生クラスで実装されているか</li>
+<li><code>override</code> キーワードが付いているか（付け忘れると別のメソッドになる）</li>
+<li>アクセス修飾子（<code>public</code>, <code>protected</code>, <code>private</code>）が適切か</li>
+</ul>
+<hr />
+<h2>5. CAD関連で頻出するC++パターン</h2>
+<h3>図形クラスの継承階層</h3>
+<pre class="codehilite"><code>Shape（基底クラス）
+  ├── Circle（円）
+  ├── Rectangle（矩形）
+  ├── Triangle（三角形）
+  ├── Line（線分）
+  └── Polygon（多角形）
+</code></pre>
+
+<h3>座標と寸法の計算</h3>
+<pre class="codehilite"><code class="language-cpp">// 座標点
+struct Point2D
+{
+    double x;
+    double y;
+};
+
+// 距離計算
+double Distance(Point2D p1, Point2D p2)
+{
+    double dx = p2.x - p1.x;
+    double dy = p2.y - p1.y;
+    return sqrt(dx * dx + dy * dy);  // #include &lt;cmath&gt; が必要
+}
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>数学関数（<code>sqrt</code>, <code>sin</code>, <code>cos</code> 等）の <code>#include &lt;cmath&gt;</code> が漏れていないか</li>
+<li>円周率は定数で定義しているか（マジックナンバーになっていないか）</li>
+<li>座標計算の精度（<code>float</code> ではなく <code>double</code> を使っているか）</li>
+</ul>
+<hr />
+<h2>6. コンパイルとビルドの基本（Visual Studio）</h2>
+<h3>ソリューションとプロジェクト</h3>
+<pre class="codehilite"><code>ShapeCalc.sln              ← ソリューションファイル（プロジェクトの集合）
+  └── ShapeCalc.vcxproj    ← プロジェクトファイル（C++固有）
+        ├── Shape.h         ← ヘッダファイル
+        ├── Shape.cpp       ← ソースファイル
+        ├── Circle.h
+        ├── Circle.cpp
+        └── main.cpp        ← エントリポイント
+</code></pre>
+
+<h3>C#プロジェクト（.csproj）との違い</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>C#（.csproj）</th>
+<th>C++（.vcxproj）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ヘッダファイル</td>
+<td>なし</td>
+<td><code>ClInclude</code> で管理</td>
+</tr>
+<tr>
+<td>ソースファイル</td>
+<td><code>Compile</code> で管理</td>
+<td><code>ClCompile</code> で管理</td>
+</tr>
+<tr>
+<td>NuGet参照</td>
+<td><code>PackageReference</code></td>
+<td><code>vcpkg</code> 等で管理</td>
+</tr>
+<tr>
+<td>ビルド結果</td>
+<td>.dll / .exe</td>
+<td>.obj → .exe</td>
+</tr>
+</tbody>
+</table>
+<h3>ビルドエラーの読み方</h3>
+<pre class="codehilite"><code>error C2065: 'radius' : 宣言されていない識別子です。
+→ 変数名のスペルミス or #include漏れ
+
+error LNK2019: 未解決の外部シンボル
+→ .cppに関数の実装がない or .cppがプロジェクトに含まれていない
+</code></pre>
+
+<hr />
+<h2>7. BSEがC++レビューで注意すべきポイント</h2>
+<h3>メモリリーク</h3>
+<pre class="codehilite"><code class="language-cpp">// NG: deleteされない
+void BadFunction()
+{
+    Shape* shape = new Circle(5.0);
+    // ... 処理 ...
+    // deleteが呼ばれずに関数終了 → メモリリーク
+}
+
+// OK: 使い終わったらdelete
+void GoodFunction()
+{
+    Shape* shape = new Circle(5.0);
+    // ... 処理 ...
+    delete shape;  // 確実に解放
+}
+</code></pre>
+
+<h3>バッファオーバーフロー</h3>
+<pre class="codehilite"><code class="language-cpp">// NG: 配列の範囲外アクセス
+char buffer[10];
+strcpy(buffer, &quot;これは10文字を超える文字列です&quot;);  // はみ出す
+
+// OK: サイズチェック付き
+char buffer[10];
+strncpy(buffer, input, sizeof(buffer) - 1);
+buffer[sizeof(buffer) - 1] = '\0';
+</code></pre>
+
+<h3>NULLポインタアクセス</h3>
+<pre class="codehilite"><code class="language-cpp">// NG: NULLチェックなし
+Shape* shape = FindShape(id);
+double area = shape-&gt;GetArea();  // shapeがnullptrだとクラッシュ
+
+// OK: NULLチェックあり
+Shape* shape = FindShape(id);
+if (shape != nullptr)
+{
+    double area = shape-&gt;GetArea();
+}
+</code></pre>
+
+<h3>コンストラクタでのバリデーション</h3>
+<pre class="codehilite"><code class="language-cpp">// NG: 不正な値をそのまま格納
+Circle::Circle(double r) : radius(r) { }
+// radius = -5.0 でも作成できてしまう
+
+// OK: 値を検証
+Circle::Circle(double r)
+{
+    if (r &lt;= 0)
+    {
+        throw std::invalid_argument(&quot;半径は正の値である必要があります&quot;);
+    }
+    radius = r;
+}
+</code></pre>
+
+<hr />
+<h2>8. C++レビューの優先チェック項目</h2>
+<table>
+<thead>
+<tr>
+<th>優先度</th>
+<th>チェック項目</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最高</td>
+<td><code>new</code> に対応する <code>delete</code> があるか</td>
+<td>メモリリーク防止</td>
+</tr>
+<tr>
+<td>最高</td>
+<td>ポインタの <code>nullptr</code> チェック</td>
+<td>クラッシュ防止</td>
+</tr>
+<tr>
+<td>高</td>
+<td>配列の範囲外アクセスがないか</td>
+<td>バッファオーバーフロー防止</td>
+</tr>
+<tr>
+<td>高</td>
+<td>仮想デストラクタが定義されているか</td>
+<td>メモリリーク防止</td>
+</tr>
+<tr>
+<td>高</td>
+<td>計算式が仕様書通りか</td>
+<td>計算バグ防止</td>
+</tr>
+<tr>
+<td>中</td>
+<td>コンストラクタで入力値を検証しているか</td>
+<td>不正データ防止</td>
+</tr>
+<tr>
+<td>中</td>
+<td><code>#include</code> が適切か</td>
+<td>コンパイルエラー防止</td>
+</tr>
+<tr>
+<td>低</td>
+<td><code>override</code> キーワードが付いているか</td>
+<td>意図しないオーバーロード防止</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>05_CPP_Level1/</code> の練習問題に進んでください。<br />
+CADモジュールの図形計算コードを読み、設計仕様書と照らし合わせてバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

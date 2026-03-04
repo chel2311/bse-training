@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>受注管理データベース 設計仕様書 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 07_SQLServer_Level1 / 設計仕様書 / 受注管理DB仕様書
+</div>
+<div class="content">
+<h1>受注管理データベース 設計仕様書</h1>
+<h2>1. 概要</h2>
+<p>受注管理業務で使用するデータベース。顧客・商品・受注情報を管理する。</p>
+<h2>2. 開発環境</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RDBMS</td>
+<td>SQL Server 2019 以上</td>
+</tr>
+<tr>
+<td>管理ツール</td>
+<td>SQL Server Management Studio (SSMS)</td>
+</tr>
+<tr>
+<td>データベース名</td>
+<td>OrderManagementDB</td>
+</tr>
+<tr>
+<td>照合順序</td>
+<td>Japanese_CI_AS</td>
+</tr>
+</tbody>
+</table>
+<h2>3. テーブル設計</h2>
+<h3>3.1 Customers（顧客マスタ）</h3>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CustomerID</td>
+<td>INT</td>
+<td>PRIMARY KEY, IDENTITY(1,1)</td>
+<td>顧客ID（自動採番）</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>NVARCHAR(100)</td>
+<td>NOT NULL</td>
+<td>顧客名</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>NVARCHAR(20)</td>
+<td>NULL許可</td>
+<td>電話番号</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>NVARCHAR(200)</td>
+<td>NULL許可</td>
+<td>メールアドレス</td>
+</tr>
+<tr>
+<td>CreatedAt</td>
+<td>DATETIME</td>
+<td>NOT NULL, DEFAULT GETDATE()</td>
+<td>登録日時</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 Products（商品マスタ）</h3>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ProductID</td>
+<td>INT</td>
+<td>PRIMARY KEY, IDENTITY(1,1)</td>
+<td>商品ID（自動採番）</td>
+</tr>
+<tr>
+<td>ProductName</td>
+<td>NVARCHAR(200)</td>
+<td>NOT NULL</td>
+<td>商品名</td>
+</tr>
+<tr>
+<td>Category</td>
+<td>NVARCHAR(50)</td>
+<td>NOT NULL</td>
+<td>カテゴリ</td>
+</tr>
+<tr>
+<td>UnitPrice</td>
+<td>DECIMAL(10,2)</td>
+<td>NOT NULL</td>
+<td>単価</td>
+</tr>
+<tr>
+<td>StockQuantity</td>
+<td>INT</td>
+<td>NOT NULL, <strong>CHECK (StockQuantity &gt;= 0)</strong></td>
+<td>在庫数（0以上）</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 Orders（受注ヘッダ）</h3>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OrderID</td>
+<td>INT</td>
+<td>PRIMARY KEY, IDENTITY(1,1)</td>
+<td>受注ID（自動採番）</td>
+</tr>
+<tr>
+<td>CustomerID</td>
+<td>INT</td>
+<td>NOT NULL, <strong>FOREIGN KEY → Customers(CustomerID)</strong></td>
+<td>顧客ID</td>
+</tr>
+<tr>
+<td>OrderDate</td>
+<td>DATE</td>
+<td>NOT NULL, DEFAULT GETDATE()</td>
+<td>受注日</td>
+</tr>
+<tr>
+<td>TotalAmount</td>
+<td>DECIMAL(12,2)</td>
+<td>NOT NULL, DEFAULT 0</td>
+<td><strong>受注合計金額</strong></td>
+</tr>
+<tr>
+<td>Status</td>
+<td>NVARCHAR(20)</td>
+<td>NOT NULL, DEFAULT N'未処理'</td>
+<td>ステータス</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Status の取りうる値</strong>: 未処理 / 処理中 / 完了 / キャンセル</p>
+<h3>3.4 OrderDetails（受注明細）</h3>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DetailID</td>
+<td>INT</td>
+<td>PRIMARY KEY, IDENTITY(1,1)</td>
+<td>明細ID（自動採番）</td>
+</tr>
+<tr>
+<td>OrderID</td>
+<td>INT</td>
+<td>NOT NULL, <strong>FOREIGN KEY → Orders(OrderID)</strong></td>
+<td>受注ID</td>
+</tr>
+<tr>
+<td>ProductID</td>
+<td>INT</td>
+<td>NOT NULL, <strong>FOREIGN KEY → Products(ProductID)</strong></td>
+<td>商品ID</td>
+</tr>
+<tr>
+<td>Quantity</td>
+<td>INT</td>
+<td>NOT NULL, CHECK (Quantity &gt; 0)</td>
+<td>数量（1以上）</td>
+</tr>
+<tr>
+<td>UnitPrice</td>
+<td>DECIMAL(10,2)</td>
+<td>NOT NULL</td>
+<td>受注時単価</td>
+</tr>
+<tr>
+<td>Subtotal</td>
+<td><strong>DECIMAL(12,2)</strong></td>
+<td>NOT NULL</td>
+<td><strong>小計 = Quantity x UnitPrice</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>4. テーブル関連図</h2>
+<pre class="codehilite"><code>Customers (1) ──── (N) Orders (1) ──── (N) OrderDetails (N) ──── (1) Products
+   │                      │                      │                      │
+   PK: CustomerID         PK: OrderID            PK: DetailID           PK: ProductID
+                          FK: CustomerID         FK: OrderID
+                                                 FK: ProductID
+</code></pre>
+
+<h2>5. ビジネスルール</h2>
+<h3>BR-001: 受注合計金額の計算</h3>
+<p><strong>Orders.TotalAmount = 該当OrderIDのOrderDetails.Subtotalの合計（SUM）</strong></p>
+<p>受注明細が追加・変更・削除されるたびに、Ordersの TotalAmount を再計算して更新すること。</p>
+<h3>BR-002: 在庫の減算</h3>
+<p><strong>受注登録時に、Products.StockQuantity を注文数量（Quantity）分だけ減算する。</strong></p>
+<pre class="codehilite"><code>更新後StockQuantity = 更新前StockQuantity - Quantity
+</code></pre>
+
+<h3>BR-003: 在庫チェック</h3>
+<p><strong>受注登録時に在庫数が注文数量を下回る場合はエラーとする。</strong></p>
+<pre class="codehilite"><code>条件: Products.StockQuantity &gt;= OrderDetails.Quantity
+違反時: エラーを返し、受注登録を行わない
+</code></pre>
+
+<h3>BR-004: キャンセル時の在庫戻し</h3>
+<p>受注ステータスを「キャンセル」に変更する際、該当受注の明細に含まれる各商品の在庫数を元に戻す。</p>
+<pre class="codehilite"><code>更新後StockQuantity = 更新前StockQuantity + Quantity
+</code></pre>
+
+<h3>BR-005: 外部キー制約の必須設定</h3>
+<p><strong>CustomerID、ProductID、OrderIDの参照関係には、必ず外部キー制約（FOREIGN KEY）を設定すること。</strong></p>
+<p>外部キー制約により、以下を保証する:<br />
+- 存在しない顧客への受注を防止<br />
+- 存在しない商品への受注明細を防止<br />
+- 存在しない受注への明細追加を防止</p>
+<h2>6. ストアドプロシージャ仕様</h2>
+<h3>6.1 sp_CreateOrder（受注登録）</h3>
+<p><strong>パラメータ</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>パラメータ</th>
+<th>型</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@CustomerID</td>
+<td>INT</td>
+<td>顧客ID</td>
+</tr>
+<tr>
+<td>@ProductID</td>
+<td>INT</td>
+<td>商品ID</td>
+</tr>
+<tr>
+<td>@Quantity</td>
+<td>INT</td>
+<td>注文数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>処理フロー</strong>:<br />
+1. <strong>在庫チェック</strong>（BR-003）: StockQuantity &gt;= @Quantity を確認<br />
+2. Ordersテーブルに新規レコードを挿入<br />
+3. OrderDetailsテーブルに明細レコードを挿入（Subtotal = Quantity x UnitPrice）<br />
+4. <strong>在庫を減算</strong>（BR-002）<br />
+5. <strong>TotalAmountを更新</strong>（BR-001）<br />
+6. 上記の処理は<strong>すべてトランザクション内で実行</strong>すること</p>
+<p><strong>エラー処理</strong>:<br />
+- 在庫不足の場合: エラーメッセージを返し、処理を中断<br />
+- その他のエラー: ロールバックしてエラーメッセージを返す</p>
+<h2>7. 非機能要件</h2>
+<ul>
+<li>テーブルの主キーには自動採番（IDENTITY）を使用すること</li>
+<li>金額系カラムはすべてDECIMAL型を使用すること（INT不可）</li>
+<li>日本語文字列はNVARCHAR型を使用すること</li>
+<li>外部キーカラムにはインデックスを作成すること</li>
+</ul>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

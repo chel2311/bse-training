@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Server 基礎概念（BSE向け） - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../index.html">ポータル</a> / 00_基礎概念 / SQLServer基礎概念
+</div>
+<div class="content">
+<h1>SQL Server 基礎概念（BSE向け）</h1>
+<blockquote>
+<p>SQLを「書く」のではなく「読んでレビューできる」ことが目標</p>
+</blockquote>
+<hr />
+<h2>1. SQL Serverとは</h2>
+<p>SQL Serverは、マイクロソフトが開発したリレーショナルデータベース管理システム（RDBMS）。<br />
+データを「テーブル」という表形式で管理し、SQL言語を使って操作する。</p>
+<pre class="codehilite"><code>リレーショナルデータベースの構造:
+
+サーバー
+  └── データベース（例: OrderManagementDB）
+        ├── テーブル（例: Customers, Products, Orders）
+        ├── ビュー
+        ├── ストアドプロシージャ
+        └── インデックス
+</code></pre>
+
+<h3>BSEが知っておくべきこと</h3>
+<ul>
+<li>SQL Serverは.NETアプリとの組み合わせが多い（C#、VB.NET）</li>
+<li>開発環境では SQL Server Express（無料版）を使うことが多い</li>
+<li>管理ツールは SQL Server Management Studio（SSMS）</li>
+</ul>
+<hr />
+<h2>2. テーブル設計の基本</h2>
+<h3>主キー（Primary Key）</h3>
+<p>テーブル内のレコードを一意に識別するカラム。重複を許さない。</p>
+<pre class="codehilite"><code class="language-sql">CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY IDENTITY(1,1),  -- 自動採番の主キー
+    Name NVARCHAR(100) NOT NULL,
+    Phone NVARCHAR(20)
+);
+</code></pre>
+
+<h3>外部キー（Foreign Key）</h3>
+<p>他のテーブルの主キーを参照するカラム。テーブル間の関連を定義する。</p>
+<pre class="codehilite"><code class="language-sql">CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY IDENTITY(1,1),
+    CustomerID INT NOT NULL,
+    OrderDate DATE NOT NULL,
+    -- 外部キー制約: CustomersテーブルのCustomerIDを参照
+    CONSTRAINT FK_Orders_Customers
+        FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+</code></pre>
+
+<h3>正規化</h3>
+<p>データの重複を排除し、整合性を保つための設計手法。</p>
+<pre class="codehilite"><code>悪い設計（非正規化）:
+| 注文ID | 顧客名   | 商品名    | 単価  |
+|--------|---------|----------|-------|
+| 1      | 田中太郎 | ノートPC  | 98000 |
+| 2      | 田中太郎 | マウス    | 2500  |  ← 「田中太郎」が重複
+
+良い設計（正規化）:
+Customers: | CustomerID | Name     |
+           | 1          | 田中太郎 |
+
+Orders:    | OrderID | CustomerID |  ← IDで参照（重複なし）
+           | 1       | 1          |
+           | 2       | 1          |
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>すべてのテーブルに主キーが定義されているか？</li>
+<li>テーブル間の関連に外部キー制約が設定されているか？</li>
+<li>NOT NULL制約が必要なカラムに設定されているか？</li>
+<li>適切なデータ型が選択されているか？（特に金額はDECIMAL）</li>
+</ul>
+<hr />
+<h2>3. CRUD操作</h2>
+<p>データベースの基本操作4つ。</p>
+<h3>SELECT（読み取り）</h3>
+<pre class="codehilite"><code class="language-sql">-- 全件取得
+SELECT * FROM Customers;
+
+-- 条件付き取得
+SELECT CustomerID, Name, Phone
+FROM Customers
+WHERE Name LIKE N'%田中%';
+</code></pre>
+
+<h3>INSERT（追加）</h3>
+<pre class="codehilite"><code class="language-sql">-- 1件追加
+INSERT INTO Customers (Name, Phone, Email, CreatedAt)
+VALUES (N'田中太郎', '090-1234-5678', 'tanaka@example.com', GETDATE());
+</code></pre>
+
+<h3>UPDATE（更新）</h3>
+<pre class="codehilite"><code class="language-sql">-- 条件に一致するレコードを更新
+UPDATE Customers
+SET Phone = '080-9999-8888'
+WHERE CustomerID = 1;
+</code></pre>
+
+<h3>DELETE（削除）</h3>
+<pre class="codehilite"><code class="language-sql">-- 条件に一致するレコードを削除
+DELETE FROM Customers
+WHERE CustomerID = 5;
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>UPDATE/DELETEにWHERE句があるか？（WHERE句なし = 全件更新/削除）</li>
+<li>INSERT時にNOT NULLカラムに値が指定されているか？</li>
+<li>文字列にN（Unicode）プレフィックスが付いているか？（日本語データ）</li>
+</ul>
+<hr />
+<h2>4. JOIN（テーブル結合）</h2>
+<p>複数のテーブルを関連付けてデータを取得する。</p>
+<h3>INNER JOIN（内部結合）</h3>
+<p>両方のテーブルに一致するデータのみ取得。</p>
+<pre class="codehilite"><code class="language-sql">-- 注文と顧客名を結合（注文がある顧客のみ）
+SELECT o.OrderID, c.Name, o.OrderDate
+FROM Orders o
+INNER JOIN Customers c ON o.CustomerID = c.CustomerID;
+</code></pre>
+
+<h3>LEFT JOIN（左外部結合）</h3>
+<p>左テーブルのデータはすべて表示。右テーブルに一致がなければNULL。</p>
+<pre class="codehilite"><code class="language-sql">-- 全顧客と注文を結合（注文がない顧客も表示）
+SELECT c.Name, o.OrderID, o.OrderDate
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID;
+-- → 注文がない顧客は OrderID=NULL, OrderDate=NULL で表示される
+</code></pre>
+
+<h3>RIGHT JOIN（右外部結合）</h3>
+<p>右テーブルのデータはすべて表示。LEFT JOINの逆方向。</p>
+<pre class="codehilite"><code>INNER JOIN: 注文がある顧客のみ
+LEFT JOIN:  全顧客（注文なしも含む）
+RIGHT JOIN: 全注文（顧客なしは通常ない）
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>要件が「すべての○○を表示」ならLEFT JOINが必要ではないか？</li>
+<li>INNER JOINだと条件に一致しないレコードが消えることを理解しているか？</li>
+<li>JOINの結合条件（ON句）は正しいカラム同士か？</li>
+</ul>
+<hr />
+<h2>5. 集計関数</h2>
+<h3>基本的な集計関数</h3>
+<pre class="codehilite"><code class="language-sql">-- 件数
+SELECT COUNT(*) AS OrderCount FROM Orders;
+
+-- 合計
+SELECT SUM(TotalAmount) AS TotalSales FROM Orders;
+
+-- 平均
+SELECT AVG(UnitPrice) AS AvgPrice FROM Products;
+
+-- 最大・最小
+SELECT MAX(UnitPrice) AS MaxPrice, MIN(UnitPrice) AS MinPrice FROM Products;
+</code></pre>
+
+<h3>GROUP BY（グループ化）</h3>
+<pre class="codehilite"><code class="language-sql">-- カテゴリ別の商品数と平均単価
+SELECT Category, COUNT(*) AS ProductCount, AVG(UnitPrice) AS AvgPrice
+FROM Products
+GROUP BY Category;
+</code></pre>
+
+<h3>HAVING（グループへの条件）</h3>
+<pre class="codehilite"><code class="language-sql">-- 注文合計が10万円以上の顧客
+SELECT CustomerID, SUM(TotalAmount) AS Total
+FROM Orders
+GROUP BY CustomerID
+HAVING SUM(TotalAmount) &gt;= 100000;
+</code></pre>
+
+<h3>WHERE と HAVING の違い</h3>
+<pre class="codehilite"><code class="language-sql">-- WHERE: 集計前に行を絞り込む（個々の行に対する条件）
+-- HAVING: 集計後にグループを絞り込む（集計結果に対する条件）
+
+-- 正しい使い方
+SELECT CustomerID, SUM(TotalAmount) AS Total
+FROM Orders
+WHERE Status &lt;&gt; N'キャンセル'       -- 集計前: キャンセル注文を除外
+GROUP BY CustomerID
+HAVING SUM(TotalAmount) &gt;= 100000;  -- 集計後: 合計10万以上のみ
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>SELECT句に集計関数以外のカラムがある場合、GROUP BYに含まれているか？</li>
+<li>集計結果への条件がWHEREに書かれていないか？（HAVINGが正しい）</li>
+<li>COUNT(*)とCOUNT(カラム名)の違いを理解しているか？（NULLの扱い）</li>
+</ul>
+<hr />
+<h2>6. WHERE句と条件指定</h2>
+<pre class="codehilite"><code class="language-sql">-- 等値比較
+WHERE Status = N'完了'
+
+-- 範囲指定
+WHERE UnitPrice BETWEEN 1000 AND 50000
+
+-- 部分一致（LIKE）
+WHERE Name LIKE N'%田中%'
+
+-- 複数値（IN）
+WHERE Status IN (N'未処理', N'処理中')
+
+-- NULLチェック（= ではなく IS を使う）
+WHERE Phone IS NULL
+WHERE Phone IS NOT NULL
+
+-- 複合条件
+WHERE Status = N'完了' AND OrderDate &gt;= '2024-01-01'
+WHERE Status = N'キャンセル' OR TotalAmount = 0
+</code></pre>
+
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>NULLの比較に<code>=</code>を使っていないか？（<code>= NULL</code>は常にFALSE。<code>IS NULL</code>が正しい）</li>
+<li>LIKE検索で先頭に<code>%</code>があるとインデックスが効かないことを理解しているか？</li>
+<li>AND/ORの優先順位は正しいか？（括弧で明示すべき）</li>
+</ul>
+<hr />
+<h2>7. インデックスの基本概念</h2>
+<p>インデックスは「本の索引」のようなもの。検索を高速化するが、更新時はオーバーヘッドになる。</p>
+<pre class="codehilite"><code class="language-sql">-- インデックスの作成
+CREATE INDEX IX_Customers_Name ON Customers(Name);
+
+-- 複合インデックス
+CREATE INDEX IX_Orders_CustomerID_OrderDate ON Orders(CustomerID, OrderDate);
+</code></pre>
+
+<h3>インデックスが有効な場面</h3>
+<ul>
+<li>WHERE句で頻繁に検索するカラム</li>
+<li>JOIN条件に使うカラム（外部キー）</li>
+<li>ORDER BYで並び替えるカラム</li>
+</ul>
+<h3>インデックスが不要/逆効果な場面</h3>
+<ul>
+<li>レコード数が少ないテーブル</li>
+<li>INSERT/UPDATE/DELETEが頻繁なカラム</li>
+<li>値のバリエーションが少ないカラム（例: フラグ列 0/1）</li>
+</ul>
+<h3>レビューで見るポイント</h3>
+<ul>
+<li>外部キーカラムにインデックスがあるか？</li>
+<li>検索条件に使われるカラムにインデックスがあるか？</li>
+<li>不要なインデックスが大量に作成されていないか？</li>
+</ul>
+<hr />
+<h2>8. SQL Server Management Studio（SSMS）の使い方</h2>
+<h3>基本操作</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サーバー接続</td>
+<td>オブジェクトエクスプローラー → 接続 → サーバー名入力</td>
+</tr>
+<tr>
+<td>クエリ実行</td>
+<td>新しいクエリ → SQL入力 → F5（実行）</td>
+</tr>
+<tr>
+<td>テーブル確認</td>
+<td>データベース → テーブル → 右クリック → 上位1000行の選択</td>
+</tr>
+<tr>
+<td>テーブル設計確認</td>
+<td>テーブル → 右クリック → デザイン</td>
+</tr>
+<tr>
+<td>実行計画確認</td>
+<td>Ctrl+L（推定実行プラン） / Ctrl+M（実際の実行プラン）</td>
+</tr>
+</tbody>
+</table>
+<h3>SSMSでのデバッグ手順</h3>
+<ol>
+<li>対象のデータベースを選択</li>
+<li>新しいクエリウィンドウを開く</li>
+<li>問題のSQLを貼り付けて実行</li>
+<li>結果を確認し、期待と違う場合はクエリを分解して確認</li>
+<li>実行計画でパフォーマンス問題がないか確認</li>
+</ol>
+<hr />
+<h2>9. BSEがSQLレビューで見るポイント</h2>
+<h3>テーブル設計レビュー</h3>
+<ol>
+<li><strong>主キーが定義されているか</strong></li>
+<li><strong>外部キー制約が設定されているか</strong>（テーブル間の関連）</li>
+<li><strong>データ型は適切か</strong>（特に金額 → DECIMAL、日本語文字列 → NVARCHAR）</li>
+<li><strong>NOT NULL制約</strong>が必須カラムに設定されているか</li>
+<li><strong>CHECK制約</strong>で値の範囲が制限されているか（例: 在庫数 &gt;= 0）</li>
+<li><strong>デフォルト値</strong>が必要なカラムに設定されているか</li>
+</ol>
+<h3>クエリレビュー</h3>
+<ol>
+<li><strong>JOINの種類</strong>は要件に合っているか（INNER vs LEFT）</li>
+<li><strong>GROUP BY</strong>に必要なカラムがすべて含まれているか</li>
+<li><strong>WHERE vs HAVING</strong>の使い分けは正しいか</li>
+<li><strong>NULLの扱い</strong>は正しいか（IS NULL / IS NOT NULL）</li>
+<li>パフォーマンス上問題がないか（不要なSELECT *、LIKE '%xx%'等）</li>
+</ol>
+<h3>ストアドプロシージャレビュー</h3>
+<ol>
+<li><strong>トランザクション</strong>が適切に使われているか（BEGIN TRAN / COMMIT / ROLLBACK）</li>
+<li><strong>エラーハンドリング</strong>があるか（TRY-CATCH）</li>
+<li><strong>ビジネスルール</strong>が正しく実装されているか（在庫チェック等）</li>
+<li><strong>データ整合性</strong>が保たれるか（複数テーブルの更新が一貫しているか）</li>
+<li>パラメータの型と入力値チェックは適切か</li>
+</ol>
+<hr />
+<h2>次のステップ</h2>
+<p>この基礎概念を理解したら、<code>07_SQLServer_Level1/</code> の練習問題に進んでください。<br />
+設計仕様書と照らし合わせて、DDL・クエリ・ストアドプロシージャのバグを見つける訓練を行います。</p>
+<div class="nav-links">
+    <a href="../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>

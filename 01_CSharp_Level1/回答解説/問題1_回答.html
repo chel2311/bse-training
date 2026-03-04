@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>練習問題1 回答・解説 - BSE訓練教材</title>
+<style>
+:root {
+    --primary: #005BAB;
+    --primary-light: #e8f0fe;
+    --primary-dark: #004080;
+    --text: #1a1a1a;
+    --text-light: #555;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --border: #e0e0e0;
+    --code-bg: #f5f5f5;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.8;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.header a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+    font-size: 0.9rem;
+}
+
+.header a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.breadcrumb {
+    background: var(--card-bg);
+    padding: 10px 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+ul, ol {
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+tr:nth-child(even) {
+    background: var(--primary-light);
+}
+
+tr:hover {
+    background: #dbeafe;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88rem;
+    color: #c7254e;
+}
+
+pre {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+blockquote {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 12px 20px;
+    margin: 15px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+strong {
+    color: var(--primary-dark);
+}
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 30px 0;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--border);
+}
+
+.nav-links a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 15px;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    pre { padding: 12px; font-size: 0.8rem; }
+    table { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>BSE コードレビュー訓練教材</h1>
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+<div class="breadcrumb">
+    <a href="../../index.html">ポータル</a> / 01_CSharp_Level1 / 回答解説 / 問題1_回答
+</div>
+<div class="content">
+<h1>練習問題1 回答・解説</h1>
+<h2>バグ一覧（3件）</h2>
+<hr />
+<h3>バグ1: 年齢の範囲チェックがない</h3>
+<p><strong>該当仕様</strong>: FR-005 入力バリデーション</p>
+<blockquote>
+<p>年齢: 必須。<strong>0以上150以下の整数</strong>。範囲外はエラー「年齢は0～150の整数で入力してください」</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> 38行目付近</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+if (!int.TryParse(txtAge.Text, out int age))
+{
+    MessageBox.Show(&quot;年齢は整数で入力してください&quot;, &quot;入力エラー&quot;, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    return;
+}
+// → 整数かどうかのチェックだけ。-100や999も通ってしまう
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">if (!int.TryParse(txtAge.Text, out int age) || age &lt; 0 || age &gt; 150)
+{
+    MessageBox.Show(&quot;年齢は0～150の整数で入力してください&quot;, &quot;入力エラー&quot;, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    return;
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnAdd_Click メソッド内 年齢チェック処理
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-005 では年齢は「0以上150以下の整数」と定義されているが、
+        実装では整数型チェックのみで範囲チェックが行われていない。
+        マイナス値や150を超える値が登録可能な状態。
+【修正案】int.TryParse成功後に age &lt; 0 || age &gt; 150 の条件を追加し、
+        範囲外の場合は「年齢は0～150の整数で入力してください」のエラーメッセージを表示してください。
+</code></pre>
+
+<hr />
+<h3>バグ2: 追加後に入力欄がクリアされない</h3>
+<p><strong>該当仕様</strong>: FR-001 顧客追加</p>
+<blockquote>
+<p><strong>追加後、入力欄をクリアする</strong></p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> 50行目付近</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+customers.Add(customer);
+// ← ここに入力欄のクリア処理がない
+RefreshGrid(customers);
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">customers.Add(customer);
+
+// 入力欄をクリア
+txtName.Text = &quot;&quot;;
+txtPhone.Text = &quot;&quot;;
+txtAge.Text = &quot;&quot;;
+txtEmail.Text = &quot;&quot;;
+
+RefreshGrid(customers);
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnAdd_Click メソッド内 顧客追加後の処理
+【分類】仕様不一致
+【重要度】中
+【内容】設計仕様書 FR-001 では「追加後、入力欄をクリアする」と定義されているが、
+        実装では追加後の入力欄クリア処理が行われていない。
+        連続追加時に前の入力値が残り、誤って同じデータを複数登録してしまう危険がある。
+【修正案】customers.Add(customer) の後に、txtName, txtPhone, txtAge, txtEmail の
+        Text プロパティを空文字に設定するクリア処理を追加してください。
+</code></pre>
+
+<hr />
+<h3>バグ3: 削除時に確認ダイアログが表示されない</h3>
+<p><strong>該当仕様</strong>: FR-003 顧客削除</p>
+<blockquote>
+<p><strong>削除前に「○○を削除しますか？」と確認ダイアログを表示する</strong><br />
+「はい」で削除実行、「いいえ」でキャンセル</p>
+</blockquote>
+<p><strong>該当コード</strong>: <code>FormMain.cs</code> 82行目付近</p>
+<pre class="codehilite"><code class="language-csharp">// 現在の実装（バグ）
+if (customer != null)
+{
+    customers.Remove(customer);  // ← 確認なしで即削除
+    RefreshGrid(customers);
+}
+</code></pre>
+
+<p><strong>修正コード</strong>:</p>
+<pre class="codehilite"><code class="language-csharp">if (customer != null)
+{
+    var result = MessageBox.Show(
+        $&quot;{customer.Name}を削除しますか？&quot;,
+        &quot;削除確認&quot;,
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question);
+
+    if (result == DialogResult.Yes)
+    {
+        customers.Remove(customer);
+        RefreshGrid(customers);
+    }
+}
+</code></pre>
+
+<p><strong>レビュー指摘例</strong>:</p>
+<pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnDelete_Click メソッド内 削除処理
+【分類】仕様不一致
+【重要度】高
+【内容】設計仕様書 FR-003 では削除前に「○○を削除しますか？」と
+        確認ダイアログを表示すると定義されているが、
+        実装では確認なしで即座に削除が実行される。
+        ユーザーの誤操作によるデータ消失の危険がある。
+【修正案】customers.Remove の前に MessageBox.Show で確認ダイアログを表示し、
+        DialogResult.Yes の場合のみ削除を実行するよう修正してください。
+</code></pre>
+
+<hr />
+<h2>バグの見つけ方のコツ</h2>
+<ol>
+<li>
+<p><strong>仕様書の太字や強調部分は特に注意して確認する</strong><br />
+   - 今回のバグはすべて仕様書で太字になっていた箇所</p>
+</li>
+<li>
+<p><strong>実際に動かして確認する（デバッグ実行）</strong><br />
+   - バグ1: 年齢に「-10」や「200」を入力して追加ボタンを押してみる<br />
+   - バグ2: データを追加した後、入力欄が空になるか確認<br />
+   - バグ3: 削除ボタンを押して確認ダイアログが出るか確認</p>
+</li>
+<li>
+<p><strong>「ユーザーが間違った操作をしたらどうなるか」を考える</strong><br />
+   - バリデーションの不足はBSEレビューで最も多い指摘項目</p>
+</li>
+</ol>
+<h2>次の問題</h2>
+<p>この問題が解けたら <code>問題2</code> に進んでください。<br />
+次の問題ではバグなしのコードから仕様を読み取る逆方向の訓練を行います。</p>
+<div class="nav-links">
+    <a href="../../index.html">ポータルに戻る</a>
+</div>
+</div>
+</body>
+</html>
