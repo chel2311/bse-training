@@ -231,6 +231,255 @@ a:hover {
     background: var(--primary-dark);
 }
 
+/* === 図解用スタイル === */
+
+/* バグサマリーカード */
+.bug-summary {
+    display: flex;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+.bug-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    border-left: 5px solid;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.bug-card.high { border-color: var(--danger); }
+.bug-card.medium { border-color: #fd7e14; }
+.bug-card .bug-no {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+}
+.bug-card .bug-title {
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+.bug-card .bug-severity {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: bold;
+}
+.bug-card.high .bug-severity { background: var(--danger); }
+.bug-card.medium .bug-severity { background: #fd7e14; }
+
+/* フローチャート */
+.flow-chart {
+    text-align: center;
+    margin: 25px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.flow-step {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 6px;
+    margin: 4px 0;
+    font-size: 0.88rem;
+    max-width: 90%;
+}
+.flow-step.normal {
+    background: var(--primary);
+    color: #fff;
+}
+.flow-step.bug {
+    background: var(--danger);
+    color: #fff;
+    border: 3px dashed #fff;
+    box-shadow: 0 0 0 3px var(--danger);
+}
+.flow-step.check {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border: 2px solid var(--primary);
+}
+.flow-step.success {
+    background: var(--success);
+    color: #fff;
+}
+.flow-step.missing {
+    background: #fff;
+    color: var(--danger);
+    border: 2px dashed var(--danger);
+}
+.flow-arrow {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin: 2px 0;
+    line-height: 1;
+}
+
+/* Before/After比較 */
+.comparison {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+.comparison > div {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+.comparison .ng {
+    background: #fff5f5;
+    border: 2px solid var(--danger);
+}
+.comparison .ok {
+    background: #f0fff4;
+    border: 2px solid var(--success);
+}
+.comparison .label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.comparison .ng .label { color: var(--danger); }
+.comparison .ok .label { color: var(--success); }
+.comparison code {
+    display: block;
+    white-space: pre;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* 概念図ボックス */
+.concept-box {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+}
+.concept-title {
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+/* 計算可視化 */
+.calc-visual {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+.calc-box {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-align: center;
+}
+.calc-box.value { background: var(--primary-light); color: var(--primary-dark); }
+.calc-box.op { background: transparent; color: var(--text-light); font-size: 1.1rem; }
+.calc-box.result-ng { background: #fff5f5; color: var(--danger); border: 2px solid var(--danger); }
+.calc-box.result-ok { background: #f0fff4; color: var(--success); border: 2px solid var(--success); }
+
+/* ステップ図（ガイド用） */
+.step-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0;
+    justify-content: center;
+    align-items: center;
+}
+.step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.step-label {
+    font-size: 0.88rem;
+    color: var(--text);
+    padding: 6px 12px;
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+.step-connector {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* インラインSVG調整 */
+.content svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+}
+
+/* 影響度インジケーター */
+.impact-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+.impact-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.impact-dot.high { background: var(--danger); }
+.impact-dot.medium { background: #fd7e14; }
+
+/* データフロー図 */
+.data-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.data-node {
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.88rem;
+}
+.data-node.source { background: var(--primary-light); border: 2px solid var(--primary); color: var(--primary-dark); }
+.data-node.process { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+.data-node.result { background: #d4edda; border: 2px solid var(--success); color: #155724; }
+.data-node.error { background: #f8d7da; border: 2px solid var(--danger); color: #721c24; }
+.data-arrow {
+    font-size: 1.3rem;
+    color: var(--primary);
+}
+
 @media (max-width: 768px) {
     .content {
         margin: 15px;
@@ -240,6 +489,11 @@ a:hover {
     h2 { font-size: 1.2rem; }
     pre { padding: 12px; font-size: 0.8rem; }
     table { font-size: 0.82rem; }
+    .comparison { flex-direction: column; }
+    .bug-summary { flex-direction: column; }
+    .calc-visual { flex-direction: column; }
+    .data-flow { flex-direction: column; }
+    .step-visual { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -253,6 +507,24 @@ a:hover {
 </div>
 <div class="content">
 <h1>練習問題3 回答・解説</h1>
+<div class="bug-summary">
+<div class="bug-card high">
+<div class="bug-no">Bug #1</div>
+<div class="bug-title">税率が常に8%で計算される</div>
+<div class="bug-severity">重要度: 高</div>
+</div>
+<div class="bug-card high">
+<div class="bug-no">Bug #2</div>
+<div class="bug-title">合計が最後の注文の小計のみ</div>
+<div class="bug-severity">重要度: 高</div>
+</div>
+<div class="bug-card medium">
+<div class="bug-no">Bug #3</div>
+<div class="bug-title">数量0でも注文可能</div>
+<div class="bug-severity">重要度: 中</div>
+</div>
+</div>
+
 <h2>バグ一覧（3件）</h2>
 <hr />
 <h3>バグ1: 税率の適用ミス（常に8%で計算される）</h3>
@@ -295,6 +567,24 @@ private decimal GetSelectedTaxRate()
     }
 }
 </code></pre>
+
+<div class="concept-box">
+<div class="concept-title">GetSelectedTaxRate の分岐（バグと修正）</div>
+<div class="comparison">
+<div class="ng">
+<div class="label">[NG] どちらも0.08を返す</div>
+<code>SelectedIndex == 0 → return 0.08m
+SelectedIndex != 0 → return 0.08m
+  → 常に8%</code>
+</div>
+<div class="ok">
+<div class="label">[OK] 正しく分岐</div>
+<code>SelectedIndex == 0 → return 0.10m
+SelectedIndex != 0 → return 0.08m
+  → 10%と8%を正しく返す</code>
+</div>
+</div>
+</div>
 
 <p><strong>レビュー指摘例</strong>:</p>
 <pre class="codehilite"><code>【指摘箇所】FormMain.cs: GetSelectedTaxRate メソッド内 税率返却処理
@@ -343,6 +633,30 @@ private void UpdateTotal()
 }
 </code></pre>
 
+<div class="concept-box">
+<div class="concept-title">ループ内の = と += の動作の違い</div>
+<div style="display:flex;gap:15px;flex-wrap:wrap;">
+<div style="flex:1;min-width:200px;">
+<div style="font-weight:bold;color:#dc3545;margin-bottom:8px;">[NG] total = orders[i].Subtotal</div>
+<div style="font-family:monospace;font-size:0.85rem;line-height:1.8;">
+1回目: total = 1,100 (上書き)<br>
+2回目: total = 2,200 (上書き)<br>
+3回目: total = 3,300 (上書き)<br>
+結果: <strong style="color:#dc3545;">3,300円</strong>（最後だけ）
+</div>
+</div>
+<div style="flex:1;min-width:200px;">
+<div style="font-weight:bold;color:#28a745;margin-bottom:8px;">[OK] total += orders[i].Subtotal</div>
+<div style="font-family:monospace;font-size:0.85rem;line-height:1.8;">
+1回目: total = 0 + 1,100 = 1,100<br>
+2回目: total = 1,100 + 2,200 = 3,300<br>
+3回目: total = 3,300 + 3,300 = 6,600<br>
+結果: <strong style="color:#28a745;">6,600円</strong>（全件の合計）
+</div>
+</div>
+</div>
+</div>
+
 <p><strong>レビュー指摘例</strong>:</p>
 <pre class="codehilite"><code>【指摘箇所】FormMain.cs: UpdateTotal メソッド内 合計金額計算処理
 【分類】バグ
@@ -381,6 +695,19 @@ if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity &lt; 0 || quan
     return;
 }
 </code></pre>
+
+<div class="comparison">
+<div class="ng">
+<div class="label">[NG] quantity &lt; 0（0が通る）</div>
+<code>入力"0" → 0 &lt; 0 は false → 通過
+  → 小計0円のゴミデータが追加</code>
+</div>
+<div class="ok">
+<div class="label">[OK] quantity &lt; 1（0をブロック）</div>
+<code>入力"0" → 0 &lt; 1 は true → エラー
+  → 「数量は1～100の整数で...」表示</code>
+</div>
+</div>
 
 <p><strong>レビュー指摘例</strong>:</p>
 <pre class="codehilite"><code>【指摘箇所】FormMain.cs: btnAdd_Click メソッド内 数量バリデーション処理

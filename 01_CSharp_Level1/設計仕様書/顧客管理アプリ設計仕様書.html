@@ -231,6 +231,255 @@ a:hover {
     background: var(--primary-dark);
 }
 
+/* === 図解用スタイル === */
+
+/* バグサマリーカード */
+.bug-summary {
+    display: flex;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+.bug-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    border-left: 5px solid;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.bug-card.high { border-color: var(--danger); }
+.bug-card.medium { border-color: #fd7e14; }
+.bug-card .bug-no {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+}
+.bug-card .bug-title {
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+.bug-card .bug-severity {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: bold;
+}
+.bug-card.high .bug-severity { background: var(--danger); }
+.bug-card.medium .bug-severity { background: #fd7e14; }
+
+/* フローチャート */
+.flow-chart {
+    text-align: center;
+    margin: 25px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.flow-step {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 6px;
+    margin: 4px 0;
+    font-size: 0.88rem;
+    max-width: 90%;
+}
+.flow-step.normal {
+    background: var(--primary);
+    color: #fff;
+}
+.flow-step.bug {
+    background: var(--danger);
+    color: #fff;
+    border: 3px dashed #fff;
+    box-shadow: 0 0 0 3px var(--danger);
+}
+.flow-step.check {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border: 2px solid var(--primary);
+}
+.flow-step.success {
+    background: var(--success);
+    color: #fff;
+}
+.flow-step.missing {
+    background: #fff;
+    color: var(--danger);
+    border: 2px dashed var(--danger);
+}
+.flow-arrow {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin: 2px 0;
+    line-height: 1;
+}
+
+/* Before/After比較 */
+.comparison {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+.comparison > div {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+.comparison .ng {
+    background: #fff5f5;
+    border: 2px solid var(--danger);
+}
+.comparison .ok {
+    background: #f0fff4;
+    border: 2px solid var(--success);
+}
+.comparison .label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.comparison .ng .label { color: var(--danger); }
+.comparison .ok .label { color: var(--success); }
+.comparison code {
+    display: block;
+    white-space: pre;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* 概念図ボックス */
+.concept-box {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+}
+.concept-title {
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+/* 計算可視化 */
+.calc-visual {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+.calc-box {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-align: center;
+}
+.calc-box.value { background: var(--primary-light); color: var(--primary-dark); }
+.calc-box.op { background: transparent; color: var(--text-light); font-size: 1.1rem; }
+.calc-box.result-ng { background: #fff5f5; color: var(--danger); border: 2px solid var(--danger); }
+.calc-box.result-ok { background: #f0fff4; color: var(--success); border: 2px solid var(--success); }
+
+/* ステップ図（ガイド用） */
+.step-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0;
+    justify-content: center;
+    align-items: center;
+}
+.step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.step-label {
+    font-size: 0.88rem;
+    color: var(--text);
+    padding: 6px 12px;
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+.step-connector {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* インラインSVG調整 */
+.content svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+}
+
+/* 影響度インジケーター */
+.impact-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+.impact-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.impact-dot.high { background: var(--danger); }
+.impact-dot.medium { background: #fd7e14; }
+
+/* データフロー図 */
+.data-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.data-node {
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.88rem;
+}
+.data-node.source { background: var(--primary-light); border: 2px solid var(--primary); color: var(--primary-dark); }
+.data-node.process { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+.data-node.result { background: #d4edda; border: 2px solid var(--success); color: #155724; }
+.data-node.error { background: #f8d7da; border: 2px solid var(--danger); color: #721c24; }
+.data-arrow {
+    font-size: 1.3rem;
+    color: var(--primary);
+}
+
 @media (max-width: 768px) {
     .content {
         margin: 15px;
@@ -240,6 +489,11 @@ a:hover {
     h2 { font-size: 1.2rem; }
     pre { padding: 12px; font-size: 0.8rem; }
     table { font-size: 0.82rem; }
+    .comparison { flex-direction: column; }
+    .bug-summary { flex-direction: column; }
+    .calc-visual { flex-direction: column; }
+    .data-flow { flex-direction: column; }
+    .step-visual { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
