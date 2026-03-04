@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSE コードレビュー訓練ポータル</title>
+<style>
+  :root {
+    --primary: #005BAB;
+    --primary-dark: #004080;
+    --primary-light: #e8f0f8;
+    --primary-hover: #0073d4;
+    --accent: #00a86b;
+    --accent-light: #e6f7f0;
+    --text: #1a1a2e;
+    --text-secondary: #555;
+    --bg: #f5f7fa;
+    --card-bg: #ffffff;
+    --border: #dde3ea;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 6px 20px rgba(0, 91, 171, 0.15);
+    --radius: 8px;
+    --transition: 0.25s ease;
+    --star-active: #f59e0b;
+    --star-inactive: #d1d5db;
+    --completed-bg: #f0fdf4;
+    --completed-border: #86efac;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ===== ヘッダー ===== */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+
+  /* ===== コンテナ ===== */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ===== セクション共通 ===== */
+  .section {
+    margin: 2rem 0;
+  }
+
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+  }
+
+  /* ===== ダッシュボード ===== */
+  .dashboard {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.1rem;
+    color: var(--primary);
+  }
+
+  .progress-percent {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .progress-bar-wrapper {
+    background: var(--primary-light);
+    border-radius: 10px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    min-width: 0;
+  }
+
+  .lang-progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .lang-progress-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lang-progress-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    min-width: 80px;
+    white-space: nowrap;
+  }
+
+  .lang-progress-bar {
+    flex: 1;
+    background: var(--primary-light);
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .lang-progress-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  .lang-progress-count {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* ===== クイックスタート ===== */
+  .quick-start-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .quick-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .quick-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+    border-color: var(--primary);
+  }
+
+  .quick-card-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .quick-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .quick-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  /* ===== タブ ===== */
+  .tabs-wrapper {
+    margin: 2rem 0;
+  }
+
+  .tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    padding: 0.6rem 1.1rem;
+    border: none;
+    background: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    color: var(--primary);
+  }
+
+  .tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* ===== 推奨学習順序 ===== */
+  .learning-order {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+  }
+
+  .learning-order h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+
+  .order-list {
+    list-style: none;
+    counter-reset: order-counter;
+  }
+
+  .order-list li {
+    counter-increment: order-counter;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--bg);
+    font-size: 0.9rem;
+  }
+
+  .order-list li:last-child {
+    border-bottom: none;
+  }
+
+  .order-list li::before {
+    content: counter(order-counter);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .order-list a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition);
+  }
+
+  .order-list a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+  }
+
+  /* ===== カードグリッド ===== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+    transition: box-shadow var(--transition), transform var(--transition), background-color var(--transition), border-color var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .card.completed {
+    background: var(--completed-bg);
+    border-color: var(--completed-border);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .difficulty {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .star-active {
+    color: var(--star-active);
+  }
+
+  .star-inactive {
+    color: var(--star-inactive);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .badge-git {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .btn-secondary:hover {
+    background: #d0e2f2;
+    transform: translateY(-1px);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--bg);
+    user-select: none;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  /* ===== フッター ===== */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 768px) {
+    .header h1 {
+      font-size: 1.35rem;
+    }
+
+    .header p {
+      font-size: 0.85rem;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.8rem;
+    }
+
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-start-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lang-progress-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header class="header">
+  <div class="container">
+    <h1>BSE コードレビュー訓練ポータル</h1>
+    <p>ブリッジSEのためのコードレビュースキル習得教材</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ===== ダッシュボード ===== -->
+  <section class="dashboard" id="dashboard">
+    <div class="dashboard-header">
+      <h2>学習進捗ダッシュボード</h2>
+      <span class="progress-percent" id="total-percent">0%</span>
+    </div>
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-fill" id="total-bar" style="width: 0%"></div>
+    </div>
+    <div class="lang-progress-grid" id="lang-progress">
+      <!-- JSで動的生成 -->
+    </div>
+  </section>
+
+  <!-- ===== クイックスタート ===== -->
+  <section class="section">
+    <h2 class="section-title">クイックスタート</h2>
+    <div class="quick-start-grid">
+      <a href="00_基礎概念/取り組み方ガイド.md" class="quick-card">
+        <div class="quick-card-icon">G</div>
+        <h3>はじめての方へ</h3>
+        <p>教材の取り組み方と学習の進め方を確認できます</p>
+      </a>
+      <a href="00_基礎概念/VS設定ガイド.md" class="quick-card">
+        <div class="quick-card-icon">V</div>
+        <h3>VS設定ガイド</h3>
+        <p>Visual Studioの推奨設定と環境構築手順</p>
+      </a>
+      <a href="00_基礎概念/デバッグガイド.md" class="quick-card">
+        <div class="quick-card-icon">D</div>
+        <h3>デバッグの基礎</h3>
+        <p>ブレークポイントやステップ実行などの基本操作</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 教材ナビゲーション ===== -->
+  <section class="tabs-wrapper">
+    <h2 class="section-title">教材ナビゲーション</h2>
+    <div class="tab-list" role="tablist">
+      <button class="tab-btn active" role="tab" data-tab="all">全体</button>
+      <button class="tab-btn" role="tab" data-tab="csharp">C#</button>
+      <button class="tab-btn" role="tab" data-tab="vbnet">VB.NET</button>
+      <button class="tab-btn" role="tab" data-tab="vba">VBA</button>
+      <button class="tab-btn" role="tab" data-tab="vb6">VB6</button>
+      <button class="tab-btn" role="tab" data-tab="cpp">C++</button>
+      <button class="tab-btn" role="tab" data-tab="git">Git</button>
+      <button class="tab-btn" role="tab" data-tab="sql">SQL Server</button>
+    </div>
+
+    <!-- [全体]タブ -->
+    <div class="tab-panel active" id="panel-all" role="tabpanel">
+      <div class="learning-order">
+        <h3>推奨学習順序</h3>
+        <ol class="order-list">
+          <li>
+            基礎概念を読む
+            (<a href="00_基礎概念/CSharp基礎概念.md">C#</a>
+            / <a href="00_基礎概念/VBNET基礎概念.md">VB.NET</a>
+            / <a href="00_基礎概念/VBA基礎概念.md">VBA</a>
+            / <a href="00_基礎概念/VB6基礎概念.md">VB6</a>
+            / <a href="00_基礎概念/CPP基礎概念.md">C++</a>
+            / <a href="00_基礎概念/Git基礎概念.md">Git</a>
+            / <a href="00_基礎概念/SQLServer基礎概念.md">SQL Server</a>)
+          </li>
+          <li>
+            <a href="01_CSharp_Level1/練習問題/問題1_顧客追加バグ/問題説明.md">C# Level 1 問題1</a> ~
+            <a href="01_CSharp_Level1/練習問題/問題4_DB接続バグ/問題説明.md">問題4</a>
+          </li>
+          <li><a href="02_VBNET_Level1/練習問題/問題1_在庫管理バグ/問題説明.md">VB.NET Level 1</a></li>
+          <li><a href="03_VBA_Level1/練習問題/問題1_帳票バグ/問題説明.md">VBA Level 1</a></li>
+          <li><a href="07_SQLServer_Level1/練習問題/問題1_テーブル設計バグ/問題説明.md">SQL Server Level 1</a></li>
+          <li><a href="06_Git/演習/演習1_基本操作/手順書.md">Git 演習</a></li>
+          <li><a href="04_VB6_Level1/練習問題/問題1_社員名簿バグ/問題説明.md">VB6 Level 1</a></li>
+          <li><a href="05_CPP_Level1/練習問題/問題1_図形計算バグ/問題説明.md">C++ Level 1</a></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- [C#]タブ -->
+    <div class="tab-panel" id="panel-csharp" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="cs-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: 顧客追加バグ</h3>
+          <p class="card-desc">バリデーション不足、入力欄クリア漏れ、削除確認なし</p>
+          <div class="card-actions">
+            <a href="01_CSharp_Level1/練習問題/問題1_顧客追加バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="01_CSharp_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="cs-q1"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="cs-q2">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題2: 検索表示バグ</h3>
+          <p class="card-desc">検索ロジック誤り、表示フォーマット不備、フィルタ不具合</p>
+          <div class="card-actions">
+            <a href="01_CSharp_Level1/練習問題/問題2_検索表示バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="01_CSharp_Level1/回答解説/問題2_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="cs-q2"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="cs-q3">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題3: 計算ロジックバグ</h3>
+          <p class="card-desc">注文管理の計算処理に潜むバグ（合計・税・割引）</p>
+          <div class="card-actions">
+            <a href="01_CSharp_Level1/練習問題/問題3_計算ロジックバグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="01_CSharp_Level1/回答解説/問題3_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="cs-q3"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="cs-q4">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題4: DB接続バグ</h3>
+          <p class="card-desc">SQLインジェクション、接続リーク、トランザクション不備</p>
+          <div class="card-actions">
+            <a href="01_CSharp_Level1/練習問題/問題4_DB接続バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="01_CSharp_Level1/回答解説/問題4_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="cs-q4"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [VB.NET]タブ -->
+    <div class="tab-panel" id="panel-vbnet" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="vbnet-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: 在庫管理バグ</h3>
+          <p class="card-desc">在庫数計算の不備、入出庫処理の境界値エラー</p>
+          <div class="card-actions">
+            <a href="02_VBNET_Level1/練習問題/問題1_在庫管理バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="02_VBNET_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="vbnet-q1"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [VBA]タブ -->
+    <div class="tab-panel" id="panel-vba" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="vba-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: 帳票バグ</h3>
+          <p class="card-desc">月次売上帳票の集計処理・書式設定の不具合</p>
+          <div class="card-actions">
+            <a href="03_VBA_Level1/練習問題/問題1_帳票バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="03_VBA_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="vba-q1"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [VB6]タブ -->
+    <div class="tab-panel" id="panel-vb6" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="vb6-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: 社員名簿バグ</h3>
+          <p class="card-desc">社員名簿管理のデータ登録・検索処理の不備</p>
+          <div class="card-actions">
+            <a href="04_VB6_Level1/練習問題/問題1_社員名簿バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="04_VB6_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="vb6-q1"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [C++]タブ -->
+    <div class="tab-panel" id="panel-cpp" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="cpp-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: 図形計算バグ</h3>
+          <p class="card-desc">図形描画ツールの面積・周長計算に潜むバグ</p>
+          <div class="card-actions">
+            <a href="05_CPP_Level1/練習問題/問題1_図形計算バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="05_CPP_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="cpp-q1"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [Git]タブ -->
+    <div class="tab-panel" id="panel-git" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="git-ex1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge badge-git">演習</span>
+          </div>
+          <h3>演習1: 基本操作</h3>
+          <p class="card-desc">init, add, commit, status, log の基本コマンド</p>
+          <div class="card-actions">
+            <a href="06_Git/演習/演習1_基本操作/手順書.md" class="btn-primary">手順書を開く</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="git-ex1"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="git-ex2">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge badge-git">演習</span>
+          </div>
+          <h3>演習2: ブランチとマージ</h3>
+          <p class="card-desc">branch, checkout, merge の操作と理解</p>
+          <div class="card-actions">
+            <a href="06_Git/演習/演習2_ブランチとマージ/手順書.md" class="btn-primary">手順書を開く</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="git-ex2"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="git-ex3">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge badge-git">演習</span>
+          </div>
+          <h3>演習3: コンフリクト解消</h3>
+          <p class="card-desc">マージコンフリクトの検出と解消手順</p>
+          <div class="card-actions">
+            <a href="06_Git/演習/演習3_コンフリクト解消/手順書.md" class="btn-primary">手順書を開く</a>
+            <a href="06_Git/演習/演習3_コンフリクト解消/回答解説.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="git-ex3"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="git-ex4">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge badge-git">演習</span>
+          </div>
+          <h3>演習4: PRレビュー</h3>
+          <p class="card-desc">Pull Requestの作成・レビュー・指摘の実践</p>
+          <div class="card-actions">
+            <a href="06_Git/演習/演習4_PRレビュー/手順書.md" class="btn-primary">手順書を開く</a>
+            <a href="06_Git/演習/演習4_PRレビュー/レビュー指摘例.md" class="btn-secondary">指摘例を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="git-ex4"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- [SQL Server]タブ -->
+    <div class="tab-panel" id="panel-sql" role="tabpanel">
+      <div class="card-grid">
+
+        <div class="card" data-id="sql-q1">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;</span><span class="star-inactive">&#9733;&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題1: テーブル設計バグ</h3>
+          <p class="card-desc">主キー設定、制約不足、データ型の不適切な選択</p>
+          <div class="card-actions">
+            <a href="07_SQLServer_Level1/練習問題/問題1_テーブル設計バグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="07_SQLServer_Level1/回答解説/問題1_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="sql-q1"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="sql-q2">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題2: クエリバグ</h3>
+          <p class="card-desc">JOIN条件の誤り、集計関数の不適切な使用</p>
+          <div class="card-actions">
+            <a href="07_SQLServer_Level1/練習問題/問題2_クエリバグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="07_SQLServer_Level1/回答解説/問題2_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="sql-q2"> 完了
+          </label>
+        </div>
+
+        <div class="card" data-id="sql-q3">
+          <div class="card-header">
+            <span class="difficulty"><span class="star-active">&#9733;&#9733;</span><span class="star-inactive">&#9733;</span></span>
+            <span class="badge">バグ x3</span>
+          </div>
+          <h3>問題3: ストアドプロシージャバグ</h3>
+          <p class="card-desc">パラメータ処理、エラーハンドリング、トランザクション制御</p>
+          <div class="card-actions">
+            <a href="07_SQLServer_Level1/練習問題/問題3_ストアドプロシージャバグ/問題説明.md" class="btn-primary">問題を開く</a>
+            <a href="07_SQLServer_Level1/回答解説/問題3_回答.md" class="btn-secondary">回答を見る</a>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" data-id="sql-q3"> 完了
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="footer">
+  <div class="container">
+    <p>このポータルはGitHubリポジトリのファイルへの相対リンクです。ローカルにcloneして使用してください。</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== 定数 =====
+  var STORAGE_KEY = 'bse-training-progress';
+
+  // 全タスクIDと所属カテゴリ
+  var TASKS = {
+    'cs-q1':    { lang: 'csharp', label: 'C# 問題1' },
+    'cs-q2':    { lang: 'csharp', label: 'C# 問題2' },
+    'cs-q3':    { lang: 'csharp', label: 'C# 問題3' },
+    'cs-q4':    { lang: 'csharp', label: 'C# 問題4' },
+    'vbnet-q1': { lang: 'vbnet',  label: 'VB.NET 問題1' },
+    'vba-q1':   { lang: 'vba',    label: 'VBA 問題1' },
+    'vb6-q1':   { lang: 'vb6',    label: 'VB6 問題1' },
+    'cpp-q1':   { lang: 'cpp',    label: 'C++ 問題1' },
+    'git-ex1':  { lang: 'git',    label: 'Git 演習1' },
+    'git-ex2':  { lang: 'git',    label: 'Git 演習2' },
+    'git-ex3':  { lang: 'git',    label: 'Git 演習3' },
+    'git-ex4':  { lang: 'git',    label: 'Git 演習4' },
+    'sql-q1':   { lang: 'sql',    label: 'SQL 問題1' },
+    'sql-q2':   { lang: 'sql',    label: 'SQL 問題2' },
+    'sql-q3':   { lang: 'sql',    label: 'SQL 問題3' }
+  };
+
+  var LANGUAGES = [
+    { id: 'csharp', label: 'C#' },
+    { id: 'vbnet',  label: 'VB.NET' },
+    { id: 'vba',    label: 'VBA' },
+    { id: 'vb6',    label: 'VB6' },
+    { id: 'cpp',    label: 'C++' },
+    { id: 'git',    label: 'Git' },
+    { id: 'sql',    label: 'SQL Server' }
+  ];
+
+  // ===== 進捗管理 =====
+  function loadProgress() {
+    try {
+      var data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveProgress(progress) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    } catch (e) {
+      // localStorageが使えない場合は無視
+    }
+  }
+
+  function getTasksByLang(langId) {
+    var result = [];
+    for (var id in TASKS) {
+      if (TASKS[id].lang === langId) {
+        result.push(id);
+      }
+    }
+    return result;
+  }
+
+  // ===== ダッシュボード更新 =====
+  function updateDashboard(progress) {
+    var totalTasks = Object.keys(TASKS).length;
+    var completedTotal = 0;
+
+    for (var id in TASKS) {
+      if (progress[id]) completedTotal++;
+    }
+
+    var percent = totalTasks > 0 ? Math.round((completedTotal / totalTasks) * 100) : 0;
+
+    document.getElementById('total-percent').textContent = percent + '%';
+    document.getElementById('total-bar').style.width = percent + '%';
+
+    // 言語別進捗
+    var langGrid = document.getElementById('lang-progress');
+    langGrid.innerHTML = '';
+
+    LANGUAGES.forEach(function(lang) {
+      var tasks = getTasksByLang(lang.id);
+      var completed = 0;
+      tasks.forEach(function(taskId) {
+        if (progress[taskId]) completed++;
+      });
+      var langPercent = tasks.length > 0 ? Math.round((completed / tasks.length) * 100) : 0;
+
+      var item = document.createElement('div');
+      item.className = 'lang-progress-item';
+      item.innerHTML =
+        '<span class="lang-progress-label">' + lang.label + '</span>' +
+        '<div class="lang-progress-bar"><div class="lang-progress-bar-fill" style="width:' + langPercent + '%"></div></div>' +
+        '<span class="lang-progress-count">' + completed + '/' + tasks.length + '</span>';
+      langGrid.appendChild(item);
+    });
+  }
+
+  // ===== カード完了状態 =====
+  function updateCardState(cardEl, isCompleted) {
+    if (isCompleted) {
+      cardEl.classList.add('completed');
+    } else {
+      cardEl.classList.remove('completed');
+    }
+  }
+
+  // ===== 初期化 =====
+  function init() {
+    var progress = loadProgress();
+
+    // チェックボックスの状態を復元
+    var checkboxes = document.querySelectorAll('input[type="checkbox"][data-id]');
+    checkboxes.forEach(function(cb) {
+      var id = cb.getAttribute('data-id');
+      if (progress[id]) {
+        cb.checked = true;
+        var card = cb.closest('.card');
+        if (card) updateCardState(card, true);
+      }
+
+      // イベントリスナー
+      cb.addEventListener('change', function() {
+        var taskId = this.getAttribute('data-id');
+        var currentProgress = loadProgress();
+
+        if (this.checked) {
+          currentProgress[taskId] = true;
+        } else {
+          delete currentProgress[taskId];
+        }
+
+        saveProgress(currentProgress);
+
+        var parentCard = this.closest('.card');
+        if (parentCard) updateCardState(parentCard, this.checked);
+
+        updateDashboard(currentProgress);
+      });
+    });
+
+    // ダッシュボード初期表示
+    updateDashboard(progress);
+
+    // タブ切り替え
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tabId = this.getAttribute('data-tab');
+
+        // ボタンのアクティブ状態
+        tabBtns.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+
+        // パネルの表示切り替え
+        var panels = document.querySelectorAll('.tab-panel');
+        panels.forEach(function(p) { p.classList.remove('active'); });
+
+        var target = document.getElementById('panel-' + tabId);
+        if (target) target.classList.add('active');
+      });
+    });
+  }
+
+  // DOM読み込み完了時に初期化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
