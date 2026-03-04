@@ -1,0 +1,177 @@
+namespace CustomerManager
+{
+    public partial class FormMain : Form
+    {
+        private List<Customer> customers = new List<Customer>();
+        private int nextId = 1;
+
+        public FormMain()
+        {
+            InitializeComponent();
+        }
+
+        // フォーム読み込み時にサンプルデータを追加
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            // サンプルデータ
+            customers.Add(new Customer(nextId++, "田中太郎", "090-1234-5678", 35, "tanaka@example.com"));
+            customers.Add(new Customer(nextId++, "鈴木花子", "080-9876-5432", 28, "suzuki@example.com"));
+            customers.Add(new Customer(nextId++, "佐藤次郎", "070-1111-2222", 42, "sato@example.com"));
+
+            RefreshGrid(customers);
+        }
+
+        // 追加ボタン
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            // バリデーション
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("氏名を入力してください", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 年齢チェック
+            if (!int.TryParse(txtAge.Text, out int age))
+            {
+                MessageBox.Show("年齢は整数で入力してください", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // ★★★ バグ1: 年齢の範囲チェックがない ★★★
+            // 仕様: 0以上150以下の整数。範囲外はエラー「年齢は0～150の整数で入力してください」
+            // 実装: 整数かどうかのチェックだけで、範囲チェックがない
+            // → マイナスや999などの不正な値が登録できてしまう
+
+            var customer = new Customer(nextId++, txtName.Text, txtPhone.Text, age, txtEmail.Text);
+            customers.Add(customer);
+
+            // ★★★ バグ2: 追加後に入力欄をクリアしていない ★★★
+            // 仕様: 追加後、入力欄をクリアする
+            // 実装: クリア処理が抜けている
+            // → 同じ内容で連続追加してしまうミスの原因になる
+
+            RefreshGrid(customers);
+        }
+
+        // 編集ボタン
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomers.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("顧客を選択してください", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedId = (int)dgvCustomers.SelectedRows[0].Cells["Id"].Value;
+            var customer = customers.Find(c => c.Id == selectedId);
+
+            if (customer != null)
+            {
+                customer.Name = txtName.Text;
+                customer.Phone = txtPhone.Text;
+                customer.Email = txtEmail.Text;
+
+                if (int.TryParse(txtAge.Text, out int age))
+                {
+                    customer.Age = age;
+                }
+
+                RefreshGrid(customers);
+            }
+        }
+
+        // 削除ボタン
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomers.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("顧客を選択してください", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedId = (int)dgvCustomers.SelectedRows[0].Cells["Id"].Value;
+            var customer = customers.Find(c => c.Id == selectedId);
+
+            // ★★★ バグ3: 削除確認ダイアログがない ★★★
+            // 仕様: 削除前に「○○を削除しますか？」と確認ダイアログを表示する
+            // 実装: 確認なしで即削除している
+            // → 誤操作でデータが消える危険がある
+
+            if (customer != null)
+            {
+                customers.Remove(customer);
+                RefreshGrid(customers);
+            }
+        }
+
+        // 検索ボタン
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text;
+
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                RefreshGrid(customers);
+                return;
+            }
+
+            var results = customers.FindAll(c =>
+                c.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
+                c.Email.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+
+            if (results.Count == 0)
+            {
+                MessageBox.Show("該当する顧客はありません", "検索結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            RefreshGrid(results);
+        }
+
+        // 全件表示ボタン
+        private void btnShowAll_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            RefreshGrid(customers);
+        }
+
+        // DataGridView選択変更時に入力欄に値をセット
+        private void dgvCustomers_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvCustomers.SelectedRows.Count > 0)
+            {
+                var row = dgvCustomers.SelectedRows[0];
+                txtName.Text = row.Cells["Name"].Value?.ToString() ?? "";
+                txtPhone.Text = row.Cells["Phone"].Value?.ToString() ?? "";
+                txtAge.Text = row.Cells["Age"].Value?.ToString() ?? "";
+                txtEmail.Text = row.Cells["Email"].Value?.ToString() ?? "";
+            }
+        }
+
+        // 一覧を更新
+        private void RefreshGrid(List<Customer> displayList)
+        {
+            dgvCustomers.DataSource = null;
+            dgvCustomers.DataSource = displayList.Select(c => new
+            {
+                c.Id,
+                c.Name,
+                c.Phone,
+                c.Age,
+                c.Email
+            }).ToList();
+
+            UpdateStatus(displayList);
+        }
+
+        // ステータスバー更新
+        private void UpdateStatus(List<Customer> displayList)
+        {
+            int count = displayList.Count;
+            int totalAge = displayList.Sum(c => c.Age);
+            double avgAge = count > 0 ? (double)totalAge / count : 0;
+
+            lblStatus.Text = $"件数: {count}件  合計年齢: {totalAge}  平均年齢: {avgAge:F1}";
+        }
+    }
+}
